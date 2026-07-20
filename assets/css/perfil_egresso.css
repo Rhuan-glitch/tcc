@@ -1,0 +1,447 @@
+/*========================================================
+                PERFIL - BANNER
+========================================================*/
+
+.perfil-banner{
+	padding:120px 0 70px;
+}
+
+/*========================================================
+                PERFIL HEADER
+========================================================*/
+
+.perfil-header{
+	background:#fff;
+	border-radius:15px;
+	padding:40px;
+	box-shadow:0 10px 30px rgba(0,0,0,.08);
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	flex-wrap:wrap;
+	gap:30px;
+}
+
+.perfil-foto img{
+	width:170px;
+	height:170px;
+	border-radius:50%;
+	object-fit:cover;
+	border:5px solid #f3f3f3;
+}
+
+.perfil-info{
+	flex:1;
+}
+
+.perfil-info h2{
+	font-size:32px;
+	font-weight:700;
+	color:#232323;
+	margin-bottom:8px;
+}
+
+.perfil-tipo{
+	display:inline-block;
+	background:#164863;
+	color:#fff;
+	padding:6px 18px;
+	border-radius:30px;
+	font-size:14px;
+	margin-bottom:20px;
+}
+
+.perfil-info p{
+	color:#777;
+	margin-bottom:25px;
+	font-size:15px;
+	line-height:28px;
+}
+
+.btn-editar-perfil{
+	background:#164863;
+	color:#fff;
+	border:none;
+	padding:12px 28px;
+	border-radius:6px;
+	font-weight:600;
+	transition:.3s;
+}
+
+.btn-editar-perfil:hover{
+	background:#12384d;
+}
+
+/*========================================================
+                RESUMO
+========================================================*/
+
+.perfil-resumo{
+	display:flex;
+	gap:20px;
+	flex-wrap:wrap;
+}
+
+.resumo-card{
+	width:170px;
+	background:#f8f9fa;
+	border-radius:12px;
+	padding:20px;
+	text-align:center;
+}
+
+.resumo-card h3{
+	font-size:28px;
+	font-weight:700;
+	color:#164863;
+	margin-bottom:8px;
+}
+
+.resumo-card span{
+	font-size:14px;
+	color:#666;
+	line-height:22px;
+	display:block;
+}
+
+/*========================================================
+                CARDS
+========================================================*/
+
+.perfil-card{
+	background:#fff;
+	padding:35px;
+	border-radius:15px;
+	box-shadow:0 10px 30px rgba(0,0,0,.08);
+	height:100%;
+}
+
+.perfil-card h3{
+	font-size:24px;
+	font-weight:700;
+	margin-bottom:30px;
+	color:#232323;
+}
+
+/*========================================================
+                DADOS PESSOAIS
+========================================================*/
+
+.perfil-item{
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	padding:14px 0;
+	border-bottom:1px solid #ececec;
+}
+
+.perfil-item:last-child{
+	border-bottom:none;
+}
+
+.perfil-item strong{
+	color:#222;
+	font-weight:600;
+}
+
+.perfil-item span{
+	color:#666;
+	text-align:right;
+}
+
+.btn-atualizar{
+	background:#164863;
+	color:#fff;
+	border:none;
+	padding:12px 28px;
+	border-radius:6px;
+	font-weight:600;
+	transition:.3s;
+}
+
+.btn-atualizar:hover{
+	background:#12384d;
+}
+
+/*========================================================
+                ÁREA DE INTERESSE
+========================================================*/
+
+.interesse-card{
+	background:#f8f9fa;
+	border:2px solid transparent;
+	border-radius:12px;
+	padding:25px 15px;
+	text-align:center;
+	cursor:pointer;
+	margin-bottom:20px;
+	transition:.3s;
+}
+
+.interesse-card:hover{
+	border-color:#164863;
+	transform:translateY(-4px);
+}
+
+.interesse-card.active{
+	background:#164863;
+	color:#fff;
+	border-color:#164863;
+}
+
+.interesse-card i{
+	font-size:32px;
+	margin-bottom:15px;
+}
+
+.interesse-card h5{
+	font-size:17px;
+	font-weight:600;
+	margin:0;
+}
+/*========================================================
+                TRILHA DE APRENDIZAGEM
+========================================================*/
+
+.progresso-texto{
+	font-size:16px;
+	font-weight:600;
+	color:#164863;
+}
+
+.barra-progresso{
+	width:100%;
+	height:14px;
+	background:#e9ecef;
+	border-radius:30px;
+	margin-top:20px;
+	overflow:hidden;
+}
+
+.barra-preenchida{
+	height:100%;
+	background:#164863;
+	border-radius:30px;
+	transition:.5s;
+}
+
+.curso-card{
+	background:#f8f9fa;
+	border-radius:12px;
+	padding:20px;
+	display:flex;
+	align-items:center;
+	gap:18px;
+	border:2px solid transparent;
+	transition:.3s;
+	height:100%;
+}
+
+.curso-card:hover{
+	transform:translateY(-4px);
+	border-color:#164863;
+}
+
+.curso-card.concluido{
+	border-color:#28a745;
+	background:#f4fff7;
+}
+
+.curso-icon{
+	width:55px;
+	height:55px;
+	background:#164863;
+	color:#fff;
+	border-radius:50%;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	font-size:24px;
+	flex-shrink:0;
+}
+
+.curso-card.concluido .curso-icon{
+	background:#28a745;
+}
+
+.curso-info h5{
+	font-size:18px;
+	font-weight:600;
+	margin-bottom:5px;
+	color:#232323;
+}
+
+.curso-info span{
+	font-size:14px;
+	color:#666;
+}
+
+/*========================================================
+                CURRÍCULO
+========================================================*/
+
+.curriculo-box{
+	background:#f8f9fa;
+	border-radius:12px;
+	padding:25px;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	flex-wrap:wrap;
+	gap:25px;
+}
+
+.curriculo-info h4{
+	font-size:22px;
+	font-weight:600;
+	margin-bottom:8px;
+	color:#232323;
+}
+
+.curriculo-info span{
+	color:#777;
+	font-size:15px;
+}
+
+.curriculo-acoes{
+	display:flex;
+	flex-wrap:wrap;
+	gap:15px;
+}
+
+.btn-curriculo{
+	background:#164863;
+	color:#fff;
+	border:none;
+	padding:12px 22px;
+	border-radius:6px;
+	font-weight:600;
+	transition:.3s;
+}
+
+.btn-curriculo:hover{
+	background:#12384d;
+}
+/*========================================================
+                TRILHA DE APRENDIZAGEM
+========================================================*/
+
+.progresso-texto{
+	font-size:16px;
+	font-weight:600;
+	color:#164863;
+}
+
+.barra-progresso{
+	width:100%;
+	height:14px;
+	background:#e9ecef;
+	border-radius:30px;
+	margin-top:20px;
+	overflow:hidden;
+}
+
+.barra-preenchida{
+	height:100%;
+	background:#164863;
+	border-radius:30px;
+	transition:.5s;
+}
+
+.curso-card{
+	background:#f8f9fa;
+	border-radius:12px;
+	padding:20px;
+	display:flex;
+	align-items:center;
+	gap:18px;
+	border:2px solid transparent;
+	transition:.3s;
+	height:100%;
+}
+
+.curso-card:hover{
+	transform:translateY(-4px);
+	border-color:#164863;
+}
+
+.curso-card.concluido{
+	border-color:#28a745;
+	background:#f4fff7;
+}
+
+.curso-icon{
+	width:55px;
+	height:55px;
+	background:#164863;
+	color:#fff;
+	border-radius:50%;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	font-size:24px;
+	flex-shrink:0;
+}
+
+.curso-card.concluido .curso-icon{
+	background:#28a745;
+}
+
+.curso-info h5{
+	font-size:18px;
+	font-weight:600;
+	margin-bottom:5px;
+	color:#232323;
+}
+
+.curso-info span{
+	font-size:14px;
+	color:#666;
+}
+
+/*========================================================
+                CURRÍCULO
+========================================================*/
+
+.curriculo-box{
+	background:#f8f9fa;
+	border-radius:12px;
+	padding:25px;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	flex-wrap:wrap;
+	gap:25px;
+}
+
+.curriculo-info h4{
+	font-size:22px;
+	font-weight:600;
+	margin-bottom:8px;
+	color:#232323;
+}
+
+.curriculo-info span{
+	color:#777;
+	font-size:15px;
+}
+
+.curriculo-acoes{
+	display:flex;
+	flex-wrap:wrap;
+	gap:15px;
+}
+
+.btn-curriculo{
+	background:#164863;
+	color:#fff;
+	border:none;
+	padding:12px 22px;
+	border-radius:6px;
+	font-weight:600;
+	transition:.3s;
+}
+
+.btn-curriculo:hover{
+	background:#12384d;
+}

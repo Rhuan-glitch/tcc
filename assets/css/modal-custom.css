@@ -1,0 +1,320 @@
+/* ===========================
+   FORMAÇÃO 3R
+=========================== */
+
+.formacao-banner h1{
+    color:#181717;
+    font-weight:700;
+}
+
+.formacao-banner p{
+    color:#000;
+}
+
+
+.formacoes-area{
+    padding-top:70px;
+}
+
+
+/* FILTROS */
+
+.filtro-btn{
+    border:2px solid #333;
+    background:white;
+    padding:10px 20px;
+    margin:5px;
+    border-radius:30px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+
+.filtro-btn:hover,
+.filtro-btn.ativo{
+    background:#f3cc4c;
+    border-color:#f3cc4c;
+}
+
+
+
+/* CARDS */
+
+.formacao-card{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    margin-bottom:30px;
+    box-shadow:0 5px 15px rgba(0,0,0,.10);
+    transition:.3s;
+}
+
+
+.formacao-card:hover{
+    transform:translateY(-5px);
+}
+
+
+.formacao-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+
+.formacao-content{
+    padding:25px;
+}
+
+
+.categoria{
+    display:inline-block;
+    font-size:13px;
+    color:#666;
+    border:1px solid #ddd;
+    padding:5px 12px;
+    border-radius:20px;
+    margin-bottom:15px;
+}
+
+
+.formacao-content h2{
+    font-size:22px;
+    font-weight:700;
+}
+
+
+.formacao-content p{
+    color:#555;
+    line-height:1.6;
+}
+
+
+.formacao-info{
+    margin:20px 0;
+    color:#555;
+}
+
+
+.formacao-btn{
+    width:100%;
+    background:white;
+    border:2px solid #333;
+    padding:12px;
+    border-radius:30px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+
+
+.formacao-btn:hover{
+    background:#f3cc4c;
+    border-color:#f3cc4c;
+}
+
+
+
+/* ===========================
+   MODAL CURSO
+=========================== */
+
+
+.modal-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.65);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+
+.modal-content{
+    background:white;
+    width:90%;
+    max-width:550px;
+    padding:30px;
+    border-radius:20px;
+    max-height:90vh;
+    overflow-y:auto;
+    animation:abrirModal .3s ease;
+}
+
+
+@keyframes abrirModal{
+
+from{
+    transform:scale(.8);
+    opacity:0;
+}
+
+to{
+    transform:scale(1);
+    opacity:1;
+}
+
+}
+
+
+
+.logo-modal{
+    width:90px;
+    display:block;
+    margin:auto;
+}
+
+
+.modal-content h2{
+    text-align:center;
+    font-weight:700;
+    margin:15px 0;
+}
+
+
+.curso-dados{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+
+.curso-certificado{
+    background:#e8f5e9;
+    color:#28a745;
+    padding:5px 12px;
+    border-radius:20px;
+}
+
+
+.modal-content h5{
+    font-weight:700;
+    margin-top:20px;
+}
+
+
+.btn-inscricao-3r{
+    display:block;
+    text-align:center;
+    background:#f3cc4c;
+    color:#222;
+    padding:12px;
+    border-radius:30px;
+    font-weight:700;
+    text-decoration:none;
+    margin-top:25px;
+}
+
+
+.btn-fechar{
+    width:100%;
+    margin-top:15px;
+    padding:10px;
+    border-radius:30px;
+    border:none;
+    background:#333;
+    color:white;
+    cursor:pointer;
+}
+
+
+
+/* ===========================
+   ÁREA ADMINISTRADOR
+=========================== */
+
+
+.area-admin{
+
+    margin-top:60px;
+    padding:30px;
+    text-align:center;
+    background:#e8f5e9;
+    border-radius:20px;
+
+}
+
+
+.area-admin h3{
+    font-weight:700;
+}
+
+
+
+.btn-admin,
+.btn-publicar{
+
+    background:#f3cc4c;
+    border:none;
+    padding:12px 30px;
+    border-radius:30px;
+    font-weight:700;
+    cursor:pointer;
+
+}
+
+
+
+.modal-admin label{
+
+    display:block;
+    margin-top:15px;
+    margin-bottom:5px;
+    font-weight:700;
+
+}
+
+
+.form-admin input,
+.form-admin select,
+.form-admin textarea{
+
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #ddd;
+
+}
+
+
+.form-admin textarea{
+
+    min-height:100px;
+    resize:none;
+
+}
+
+
+.btn-publicar{
+
+    width:100%;
+    margin-top:25px;
+
+}
+
+
+
+/* RESPONSIVO */
+
+@media(max-width:768px){
+
+.filtro-btn{
+    width:90%;
+}
+
+.curso-dados{
+    flex-direction:column;
+    align-items:center;
+}
+
+.modal-content{
+    padding:20px;
+}
+
+}

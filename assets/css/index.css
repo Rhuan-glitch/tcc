@@ -1,0 +1,416 @@
+/* ==========================================================================
+   CSS EXCLUSIVO DA PÁGINA INICIAL (INDEX) 
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CONFIGURAÇÃO GLOBAL
+   -------------------------------------------------------------------------- */
+body {
+    background-color: #f9fafb !important; /* Off-white fosco e confortável */
+}
+
+/* --------------------------------------------------------------------------
+   2. SEÇÃO: DIREITOS DOS EGRESSOS (CARD LAYOUT)
+   -------------------------------------------------------------------------- */
+.feature_area .single_feature {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    margin-bottom: 30px;
+    height: calc(100% - 30px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature_area .single_feature:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.single_feature h6 {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.single_feature h4 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #1b2032;
+}
+
+.single_feature p.artigo.Card {
+    font-size: 13px;
+    font-weight: bold;
+    color: #f39c12;
+    margin-top: 15px;
+}
+
+/* Bordas temáticas dos cards de Direitos */
+.single_feature.Card1 { border-top: 4px solid #fbbc05; } /* Amarelo */
+.single_feature.Card2 { border-top: 4px solid #34a853; } /* Verde */
+.single_feature.Card3 { border-top: 4px solid #4285f4; } /* Azul */
+.single_feature.Card4 { border-top: 4px solid #fa7b17; } /* Laranja */
+
+/* --------------------------------------------------------------------------
+   3. SEÇÃO: O QUE SIGNIFICA 3R? (LAYOUT ASSIMÉTRICO)
+   -------------------------------------------------------------------------- */
+.secao-3r-custom {
+    padding: 100px 0 80px 0;
+    background-color: transparent;
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+/* Garante o espaçamento correto para a seção seguinte */
+.secao-3r-custom + .feature_area {
+    margin-top: 80px !important;
+    position: relative;
+}
+
+.caixinha-texto-3r {
+    background-color: #fffdf6; 
+    border: 1px solid #fde48d; 
+    border-left: 6px solid #fa7b17; 
+    border-radius: 16px;
+    padding: 40px 35px;
+    box-shadow: 0 10px 30px rgba(243, 170, 59, 0.06);
+}
+
+.caixinha-texto-3r h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1b2032;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.divisor-linha {
+    width: 50px;
+    height: 4px;
+    background-color: #fbbc05;
+    margin: 0 auto 25px auto;
+    border-radius: 2px;
+}
+
+.caixinha-texto-3r .p-principal {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #333333;
+    margin-bottom: 20px;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.caixinha-texto-3r .p-secundario {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #666666;
+    font-style: italic;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-bottom: 0;
+    border-top: 1px dashed #e9ecef;
+    padding-top: 15px;
+}
+
+/* Pilares da Direita */
+.pilar-3r-item {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-left: 5px solid #e9ecef;
+}
+
+.pilar-3r-item:hover {
+    transform: translateX(8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+.pilar-amarelo { border-left-color: #fbbc05; }
+.pilar-laranja { border-left-color: #fa7b17; }
+.pilar-azul { border-left-color: #4285f4; }
+
+.pilar-number {
+    font-size: 46px;
+    font-weight: 800;
+    font-family: 'Oswald', sans-serif;
+    line-height: 1;
+    margin-right: 30px;
+    min-width: 60px;
+    user-select: none;
+}
+
+.pilar-amarelo .pilar-number { color: #fbbc05; opacity: 0.8; }
+.pilar-laranja .pilar-number { color: #fa7b17; opacity: 0.8; }
+.pilar-azul .pilar-number { color: #4285f4; opacity: 0.8; }
+
+.pilar-text h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1b2032;
+    margin-bottom: 6px;
+}
+
+.pilar-text p {
+    margin-bottom: 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   4. SEÇÃO: PERFIL DA POPULAÇÃO (DASHBOARD PREMIUM)
+   -------------------------------------------------------------------------- */
+.skills_area {
+    background: transparent !important;
+    padding: 90px 0;
+}
+
+.badge-dados {
+    background-color: #eef0f2;
+    color: #555555;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.estatisticas-premium-conteudo h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1b2032 !important;
+    line-height: 1.3;
+    margin-bottom: 15px;
+}
+
+.estatisticas-premium-conteudo p {
+    font-size: 15px;
+    color: #555555 !important;
+    line-height: 1.7;
+}
+
+.painel-barras-premium {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.info-barra-premium {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.label-barra {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1b2032 !important;
+}
+
+.porcentagem-barra {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.p-amarela { color: #fbbc05; }
+.p-laranja { color: #fa7b17; }
+.p-azul { color: #4285f4; }
+
+.track-barra-premium {
+    width: 100%;
+    height: 6px;
+    background-color: #e2e8f0; 
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.fill-barra-premium {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 1.5s ease-in-out;
+}
+
+.bg-amarelo { background-color: #fbbc05; }
+.bg-laranja { background-color: #fa7b17; }
+.bg-azul { background-color: #4285f4; }
+
+.logo-spotlight-wrapper {
+    background: none !important;
+    padding: 0;
+}
+
+.logo-premium-img {
+    max-width: 180px;
+    height: auto;
+    filter: none !important;
+}
+/* --------------------------------------------------------------------------
+   5. SEÇÃO: FALE CONOSCO 
+   -------------------------------------------------------------------------- */
+.contact_area {
+    background: transparent !important;
+    padding: 100px 0 130px 0; /* Dá espaço para respirar antes do rodapé */
+}
+
+/* O Grande Card que une os dois lados */
+.contact-premium-wrapper {
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden; /* Garante que os cantos fiquem arredondados perfeitamente */
+    box-shadow: 0 20px 50px rgba(27, 32, 50, 0.06); /* Sombra elegante de profundidade */
+    border: 1px solid #eef0f2;
+    max-width: 1050px;
+    margin: 0 auto;
+}
+
+/* --- PAINEL DA ESQUERDA (ESCURO) --- */
+.painel-info-contato {
+    background-color: #18181b; /* Um preto fosco elegante (estilo Apple/Tailwind) */
+    padding: 60px 45px;
+    display: flex;
+    align-items: center;
+}
+.info-contato-content .tag-contato {
+    color: #fa7b17; /* Laranja em destaque */
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.info-contato-content .titulo-contato {
+    color: #ffffff !important;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 20px;
+}
+
+.info-contato-content .texto-contato {
+    color: #b0b7c3 !important; /* Cinza claro suave para leitura confortável */
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    text-align: justify;
+}
+
+.linha-decorativa-contato {
+    width: 40px;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.15);
+    margin-bottom: 25px;
+}
+
+.info-contato-content .subtexto-contato {
+    color: #8a94a6 !important;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.6;
+}
+
+/* --- PAINEL DA DIREITA (FORMULÁRIO CLEAN) --- */
+.painel-form-contato {
+    padding: 60px 50px;
+    background-color: #ffffff;
+}
+
+/* Etiquetas flutuantes discretas em cima dos campos */
+.label-custom {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* Inputs minimalistas com cantos levemente arredondados */
+.form-control-custom {
+    width: 100%;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #1b2032;
+    transition: all 0.25s ease;
+}
+
+.form-control-custom::placeholder {
+    color: #94a3b8;
+}
+
+/* Efeito ao focar no campo */
+.form-control-custom:focus {
+    background-color: #ffffff;
+    border-color: #fa7b17;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(250, 123, 23, 0.1);
+}
+
+/* Textarea sem resize feio */
+textarea.form-control-custom {
+    resize: none;
+}
+
+/* Botão de envio moderno e alinhado */
+.btn-custom-3r {
+    background-color: #fa7b17; /* Laranja enérgico */
+    color: #ffffff !important;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 35px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(250, 123, 23, 0.2);
+}
+
+.btn-custom-3r:hover {
+    background-color: #18181b; /* Inverte para o preto fosco ao passar o mouse */
+    box-shadow: 0 6px 20px rgba(24, 24, 27, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Responsividade para telas de celulares */
+@media (max-width: 991px) {
+    .painel-info-contato, .painel-form-contato {
+        padding: 40px 30px;
+    }
+}
+
+
+
+/* --------------------------------------------------------------------------
+   6. RESPONSIVIDADE CELULAR
+   -------------------------------------------------------------------------- */
+@media (max-width: 576px) {
+    .pilar-3r-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+    .pilar-number {
+        margin-bottom: 15px;
+    }
+    .contact form {
+        padding: 25px 20px;
+    }
+}
