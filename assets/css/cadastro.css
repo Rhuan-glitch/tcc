@@ -137,10 +137,11 @@
     background-color: #FFFDF5;
 }
 
-/* Inputs */
+/* Inputs - AQUI FOI ADICIONADO O INPUT DATE */
 .container-cadastro input[type="text"],
 .container-cadastro input[type="email"],
 .container-cadastro input[type="password"],
+.container-cadastro input[type="date"],
 .container-cadastro select {
     width: 100%;
     padding: 12px;
@@ -150,6 +151,7 @@
     color: #333;
     transition: border-color 0.3s ease;
     background-color: #FFF;
+    font-family: 'Roboto', sans-serif; /* Mantém a fonte igual até no calendário */
 }
 
 .container-cadastro input:focus, 
@@ -181,7 +183,7 @@
 
 .container-cadastro .footer-form {
     text-align: center;
-    margin-top: 20px;
+    margin-bottom: 20px;
     font-size: 13px;
     color: #666;
 }
