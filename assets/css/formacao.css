@@ -1,0 +1,440 @@
+/* ==========================================================================
+   1. CABEÇALHO / BANNER DA PÁGINA (FAIXA LARANJA/AMARELA)
+   ========================================================================== */
+.formacao-banner {
+    background-color: #f3cc4c; /* Cor amarela/laranja de fundo */
+    padding: 100px 0 120px 0; /* Altura ideal para dar espaço ao efeito flutuante */
+    text-align: center;
+    position: relative;
+}
+
+/* ==========================================================================
+   1.5 INTRODUÇÃO / CARD FLUTUANTE
+   ========================================================================== */
+.formacao-intro {
+    max-width: 900px;
+    margin: -80px auto 50px auto; /* O -80px puxa o card exatamente para o meio do banner */
+    padding: 40px 45px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid #f3cc4c;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+}
+
+.formacao-intro h3 {
+    color: #181717;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.formacao-intro p {
+    color: #555555;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ==========================================================================
+   2. DIFERENCIAIS DA FORMAÇÃO (GRID 2x2)
+   ========================================================================== */
+.formacao-diferenciais {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    max-width: 1140px;
+    margin: 0 auto 60px auto;
+    padding: 0 15px;
+}
+
+.dif-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #f3cc4c;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dif-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.dif-numero {
+    font-size: 38px;
+    font-weight: 800;
+    color: #f3cc4c;
+    line-height: 1;
+    opacity: 0.9;
+}
+
+.dif-conteudo {
+    flex: 1;
+}
+
+.dif-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888888;
+    margin-bottom: 5px;
+}
+
+.dif-conteudo h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #181717;
+    margin-bottom: 10px;
+}
+
+.dif-conteudo p {
+    font-size: 14px;
+    color: #666666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.dif-artigo {
+    display: inline-block;
+    background: #181717;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+/* ==========================================================================
+   3. FILTROS E LISTA DE CURSOS
+   ========================================================================== */
+.formacoes-area {
+    padding-top: 20px;
+}
+
+.filtro-btn {
+    background: #f4f4f4;
+    color: #333333;
+    border: 1px solid #ddd;
+    padding: 8px 18px;
+    margin: 5px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filtro-btn:hover,
+.filtro-btn.ativo {
+    background: #f3cc4c;
+    color: #181717;
+    border-color: #f3cc4c;
+}
+
+.formacao-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    margin-bottom: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.formacao-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.formacao-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.formacao-content {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.formacao-content .categoria {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #f3cc4c;
+    margin-bottom: 8px;
+}
+
+.formacao-content h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #181717;
+    margin-bottom: 12px;
+}
+
+.formacao-content p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.formacao-info {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.formacao-btn {
+    width: 100%;
+    background: #181717;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.formacao-btn:hover {
+    background: #f3cc4c;
+    color: #181717;
+}
+
+/* ==========================================================================
+   4. ÁREA ADMINISTRATIVA
+   ========================================================================== */
+.area-admin {
+    background: #f9f9f9;
+    border: 2px dashed #cccccc;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.area-admin h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #181717;
+    margin-bottom: 8px;
+}
+
+.area-admin p {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 20px;
+}
+
+.btn-admin {
+    background: #f3cc4c;
+    color: #181717;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-admin:hover {
+    background: #181717;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   5. MODAIS
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+.modal-content {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 35px;
+    max-width: 550px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.logo-modal {
+    max-width: 100px;
+    margin-bottom: 15px;
+}
+
+.modal-content h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #181717;
+    margin-bottom: 15px;
+}
+
+.curso-dados {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+}
+
+.curso-certificado {
+    color: #28a745;
+}
+
+.modal-content h5 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #181717;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+.modal-content p, .modal-content ul {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.modal-content ul {
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-inscricao-3r {
+    display: block;
+    width: 100%;
+    background: #f3cc4c;
+    color: #181717;
+    text-align: center;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: background 0.3s ease;
+}
+
+.btn-inscricao-3r:hover {
+    background: #181717;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.btn-fechar {
+    width: 100%;
+    background: #eee;
+    color: #333;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-fechar:hover {
+    background: #ddd;
+}
+
+/* Estilos do formulário admin no modal */
+.form-admin label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    text-align: left;
+}
+
+.form-admin input,
+.form-admin select,
+.form-admin textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.btn-publicar {
+    width: 100%;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.btn-publicar:hover {
+    background: #218838;
+}
+
+/* ==========================================================================
+   6. RESPONSIVIDADE (TELAS MENORES / CELULAR)
+   ========================================================================== */
+@media (max-width: 992px) {
+    .formacao-diferenciais {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .formacao-banner {
+        padding: 60px 0 80px 0;
+    }
+
+    .formacao-intro {
+        padding: 25px 20px;
+        margin: -50px 15px 30px 15px;
+    }
+    
+    .formacao-intro h3 {
+        font-size: 20px;
+    }
+
+    .dif-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
