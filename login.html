@@ -101,18 +101,18 @@
             <p>Continue sua jornada de recomeço e reconstrução com a Família 3R.</p>
         </div>
 
-        <form id="loginForm">
+        <form action="php/validar_login.php" method="POST"></form>
             <!-- Campo de E-mail -->
             <div class="form-group">
                 <label>E-mail</label>
-                <input type="email" id="inputEmailLogin" placeholder="seu@email.com" required>
+                <input type="email" id="inputEmailLogin" name="email"placeholder="seu@email.com" required>
             </div>
 
             <!-- Campo de Senha -->
             <div class="form-group">
                 <label>Senha</label>
                 <div class="password-container">
-                    <input type="password" id="inputSenhaLogin" placeholder="Digite sua senha" required>
+                    <input type="password" id="inputSenhaLogin" name="senha" placeholder="Digite sua senha" required>
                     <span class="toggle-password" onclick="mostrarSenha('inputSenhaLogin', this)">Mostrar</span>
                 </div>
                 

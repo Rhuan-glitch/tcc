@@ -9,22 +9,3 @@ function mostrarSenha(inputId, spanElement) {
         spanElement.innerText = "Mostrar";
     }
 }
-
-// Lógica de envio do Login
-const formLogin = document.getElementById("loginForm");
-
-if (formLogin) {
-    formLogin.addEventListener("submit", function(e) {
-        e.preventDefault(); // Impede a página de recarregar
-        
-        const email = document.getElementById("inputEmailLogin").value.trim();
-        const senha = document.getElementById("inputSenhaLogin").value;
-
-        // Aqui vai entrar a lógica futura de enviar para o Back-end
-        // Por enquanto, vamos simular que deu certo e redirecionar:
-        if(email !== "" && senha !== "") {
-            console.log("Login feito com sucesso!");
-            // window.location.href = "painel_usuario.html"; // Redireciona o usuário
-        }
-    });
-}
