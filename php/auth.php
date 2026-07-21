@@ -1,6 +1,6 @@
 <?php
 
-require_once "php/config/config.php";
+require_once "../config/config.php";
 
 if (!isset($_SESSION["usuario"])) {
 
