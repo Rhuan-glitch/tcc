@@ -1,300 +1,390 @@
 /* ==========================================================================
-   ESTILOS EXCLUSIVOS - PÁGINA TRABALHISTA (VAGAS)
+   ESTILOS PREMIUM - REFINAMENTO REAL (SEM CORES INVENTADAS)
+   Página Trabalhista (Vagas & Informativos)
    ========================================================================== */
 
-/* --- FILTRO DE VAGAS --- */
-.filtro-box {
-    background: #fdfdfd;
-    border: 1px solid #e0e0e0;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+/* --------------------------------------------------------------------------
+   1. CARDS INFORMATIVOS (Reabilitação, etc.)
+   Refinamento: Mais espaço (padding), sombra ultra suave, efeito de flutuação
+   -------------------------------------------------------------------------- */
+.single_feature {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 40px 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
+
+.single_feature:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.07);
+}
+
+.single_feature h6 {
+    font-size: 11px;
+    font-weight: 800;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.single_feature h4 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.single_feature p {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   2. ÁREA ADMINISTRATIVA (Empresas)
+   Refinamento: Layout mais limpo, CTA (Call to Action) mais chamativo e moderno
+   -------------------------------------------------------------------------- */
+.area-admin {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 35px 40px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.area-admin .textos-admin {
+    max-width: 70%;
+}
+
+.area-admin .titulo-area-admin {
+    color: #1a1a1a;
+    font-weight: 800;
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.area-admin .subtitulo-area-admin {
+    color: #666;
+    font-size: 15px;
+    margin-bottom: 0;
+}
+
+.btn-admin-vaga {
+    background-color: #f3cc4c; /* Seu amarelo */
+    color: #111;
+    border: none;
+    padding: 14px 32px;
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(243, 204, 76, 0.4);
+}
+
+.btn-admin-vaga:hover {
+    background-color: #dfb738;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(243, 204, 76, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   3. CAIXA DE FILTROS DE VAGAS
+   Refinamento: Design mais minimalista
+   -------------------------------------------------------------------------- */
+.filtro-box {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
 .filtro-box h4 {
-    color: #222;
+    color: #1a1a1a;
     font-weight: 700;
     margin-bottom: 20px;
-    font-family: 'Poppins', sans-serif;
-}
-.filtro-box label {
-    font-size: 13px;
-    font-weight: 700;
-    color: #333;
-    font-family: 'Poppins', sans-serif;
-}
-.filtro-box select {
-    border-radius: 15px;
-    border: 1px solid #ccc;
-    height: 45px;
-    font-family: 'Poppins', sans-serif;
-    color: #555;
+    font-size: 18px;
 }
 
-/* --- CARDS HORIZONTAIS DE VAGAS --- */
-.vaga-card {
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 15px;
-    padding: 25px;
-    margin-bottom: 30px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-}
-.vaga-card:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    transform: translateY(-3px);
-}
-.vaga-card h3 {
-    color: #222;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 5px;
-    font-family: 'Poppins', sans-serif;
-}
-.vaga-card .empresa-nome {
-    font-weight: 600;
-    color: #555;
-    font-size: 15px;
-    margin-bottom: 15px;
-}
-.vaga-card .vaga-info p {
-    margin-bottom: 5px;
+.filtro-box select.form-control {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    height: 48px;
     color: #444;
     font-size: 14px;
-    font-family: 'Poppins', sans-serif;
-}
-.vaga-card .vaga-desc {
-    color: #777;
-    font-size: 14px;
-    margin-top: 15px;
-    line-height: 1.6;
-}
-.vaga-card hr {
-    margin: 20px 0;
-    border-top: 1px solid #eee;
+    background-color: #fcfcfc;
+    transition: 0.3s;
 }
 
-/* Estilo para a Logo da Empresa no Card */
-.logo-vaga {
-    width: 65px;
-    height: 65px;
-    object-fit: contain;
-    border-radius: 8px;
-    border: 1px solid #eee;
-    background: #fff;
-    padding: 2px;
+.filtro-box select.form-control:focus {
+    border-color: #f3cc4c;
+    box-shadow: 0 0 0 3px rgba(243, 204, 76, 0.2);
+    outline: none;
 }
-.logo-vaga-modal {
-    width: 90px;
-    height: 90px;
-    object-fit: contain;
-    border-radius: 8px;
-    border: 1px solid #eee;
-    background: #fff;
-    padding: 5px;
+
+/* --------------------------------------------------------------------------
+   4. CARDS DE VAGAS (Onde a mágica acontece - Sem listras, apenas elegância)
+   -------------------------------------------------------------------------- */
+.vaga-card {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    position: relative;
+}
+
+.vaga-card:hover {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+    border-color: #e0e0e0;
+}
+
+.vaga-card h3.vaga-titulo {
+    color: #1a1a1a;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.vaga-card .empresa-nome {
+    font-weight: 600;
+    color: #888;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     margin-bottom: 15px;
 }
 
-/* --- BOTÕES E AÇÕES DOS CARDS --- */
+.vaga-card .vaga-desc {
+    color: #555;
+    font-size: 15px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.logo-vaga {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid #f0f0f0;
+    padding: 4px;
+    background: #fff;
+}
+
+/* Botão "Ver Detalhes" */
 .btn-detalhes {
-    border: 2px solid #333;
-    border-radius: 30px;
-    padding: 8px 24px;
-    color: #333;
+    border: 2px solid #222;
+    border-radius: 8px;
+    padding: 10px 24px;
+    color: #222;
     background: transparent;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    transition: 0.3s ease;
+    font-weight: 700;
+    font-size: 13px;
+    transition: all 0.3s;
     cursor: pointer;
 }
+
 .btn-detalhes:hover {
+    background: #222;
+    color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   5. BOTÕES DE EDITAR / EXCLUIR (Discretos e modernos)
+   -------------------------------------------------------------------------- */
+.vaga-acoes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.vaga-acoes .btn-acao {
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.text-edit {
+    color: #444; 
+    background: #f0f0f0;
+}
+.text-edit:hover {
     background: #333;
     color: #fff;
 }
-.vaga-acoes .btn-acao {
-    font-size: 13px;
-    font-weight: 700;
-    margin-left: 20px;
-    font-family: 'Poppins', sans-serif;
-    transition: 0.2s;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
-.text-edit { color: #555; }
-.text-edit:hover { color: #000; text-decoration: underline; }
-.text-delete { color: #d9534f; }
-.text-delete:hover { color: #c9302c; text-decoration: underline; }
 
-/* Botão Admin */
-.btn-admin-vaga {
-    background-color: #f3cc4c;
-    color: #333;
-    border: none;
-    padding: 12px 30px;
-    font-weight: 700;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.3s;
+.text-delete {
+    color: #c9302c; 
+    background: #fdf0f0;
 }
-.btn-admin-vaga:hover {
-    background-color: #e5be3a;
+.text-delete:hover {
+    background: #c9302c;
+    color: #fff;
 }
 
-/* --- MODAIS --- */
+/* --------------------------------------------------------------------------
+   6. MODAL DE DETALHES (Estilo vidro/limpo)
+   -------------------------------------------------------------------------- */
 .modal-overlay {
-    display: none; 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: rgba(0,0,0,0.7); 
-    z-index: 99999; 
-    justify-content: center; 
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7); 
+    backdrop-filter: blur(5px);
+    z-index: 99999;
+    justify-content: center;
     align-items: center;
 }
+
 .modal-vaga-content {
-    background: #fff;
+    background: #ffffff;
     padding: 40px;
     border-radius: 12px;
     width: 90%;
     max-width: 550px;
     position: relative;
-    text-align: left;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    font-family: 'Poppins', sans-serif;
-    max-height: 90vh;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    max-height: 85vh;
     overflow-y: auto;
 }
+
 .btn-close-modal {
     position: absolute;
     right: 20px;
     top: 20px;
     border: none;
-    background: transparent;
-    font-size: 28px;
-    color: #999;
+    background: #f5f5f5;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #555;
     cursor: pointer;
     transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .btn-close-modal:hover {
-    color: #333;
-}
-.modal-vaga-content h2 {
-    text-align: center;
-    color: #222;
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 5px;
-}
-.modal-vaga-content .empresa-sub {
-    text-align: center;
-    color: #777;
-    margin-bottom: 25px;
-    font-size: 15px;
+    background: #222;
+    color: #fff;
 }
 
-/* Badges (Pílulas) no Modal */
+/* Badges neutros (Foca no conteúdo, sem parecer um carnaval) */
 .badges-container {
     display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 30px;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-bottom: 20px;
     flex-wrap: wrap;
 }
-.badge-custom {
-    padding: 6px 15px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    border: 1px solid #ddd;
-}
-.badge-cidade { background: #f9f9f9; color: #333; }
-.badge-regime { background: #e8f5e9; color: #2e7d32; border-color: #c8e6c9; }
-.badge-salario { background: #fffde7; color: #f57f17; border-color: #fff59d; }
 
-/* Textos e Listas do Modal */
-.modal-vaga-content h5 {
-    color: #333;
-    font-size: 17px;
+.badge-custom {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
     font-weight: 700;
-    border-bottom: 2px solid #f5f5f5;
-    padding-bottom: 8px;
+    background: #f5f5f5;
+    color: #444;
+    border: 1px solid #eaeaea;
+}
+
+.modal-vaga-content h5 {
+    color: #1a1a1a;
+    font-size: 17px;
+    font-weight: 800;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 12px;
     margin-top: 25px;
     margin-bottom: 15px;
 }
-.modal-vaga-content p {
-    color: #666;
-    font-size: 14px;
-    line-height: 1.6;
-}
+
 .modal-vaga-content ul {
-    padding-left: 20px;
-    list-style-type: none;
-    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
 }
+
 .modal-vaga-content ul li {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 8px;
-}
-.modal-vaga-content ul li::before {
-    content: "•";
-    color: #f3cc4c;
-    font-weight: bold;
-    display: inline-block; 
-    width: 1em;
-    margin-left: -1em;
-    font-size: 18px;
-}
-
-/* Formulário de Publicar Vaga */
-#formVaga label {
-    font-weight: 600;
-    color: #444;
-    font-size: 13px;
-}
-#formVaga .form-control {
-    border-radius: 8px;
-    font-size: 14px;
+    color: #555;
+    font-size: 15px;
     margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
 }
 
-/* Botões do Modal */
+.modal-vaga-content ul li::before {
+    content: "■"; /* Quadrado pequeno ao invés de bolinha, mais moderno */
+    color: #f3cc4c; 
+    position: absolute;
+    left: 0;
+    top: 0px;
+    font-size: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   7. BOTÕES DENTRO DO MODAL
+   -------------------------------------------------------------------------- */
 .btn-candidatar {
     background: #f3cc4c;
-    color: #222;
-    font-weight: 700;
-    font-family: 'Poppins', sans-serif;
+    color: #111;
+    font-weight: 800;
     font-size: 15px;
     width: 100%;
-    border-radius: 30px;
-    padding: 14px;
+    border-radius: 8px;
+    padding: 16px;
     border: none;
-    margin-top: 20px;
+    margin-top: 25px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
+
 .btn-candidatar:hover {
-    background: #e5be3a;
+    background: #dfb738;
 }
+
 .btn-fechar-dark {
-    background: #333;
-    color: #fff;
+    background: #f5f5f5;
+    color: #444;
     font-weight: 700;
-    font-family: 'Poppins', sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     width: 100%;
-    border-radius: 30px;
+    border-radius: 8px;
     padding: 14px;
-    border: none;
-    margin-top: 12px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
     cursor: pointer;
     transition: 0.3s;
 }
+
 .btn-fechar-dark:hover {
-    background: #111;
+    background: #e0e0e0;
+    color: #111;
 }
