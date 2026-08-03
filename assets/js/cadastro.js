@@ -248,7 +248,7 @@ function mostrarSenha(inputId, spanElement) {
 // =========================================================
 if(formCadastro){
     formCadastro.addEventListener("submit", function(e){
-        e.preventDefault();
+        
 
         const tipo = document.querySelector('input[name="tipoUsuario"]:checked').value;
         const nome = campoNome ? campoNome.value.trim() : "";
@@ -351,7 +351,7 @@ if(formCadastro){
             return;
         }
 
-        // Tudo OK -> Exibe o Modal
+       // // Tudo OK -> Exibe o Modal
         if(tipo === "egresso"){
             textoMensagem.innerText = "Seja bem-vindo ao Projeto 3R! Estamos felizes em ter você aqui para recomeçar e conquistar novas oportunidades.";
         } else {
@@ -370,7 +370,7 @@ if(formCadastro){
 if(btnFecharModal){
     btnFecharModal.addEventListener("click", function(){
         modalMensagem.style.display = "none";
-        window.location.href = "login.html"; 
+        formCadastro.submit(); 
     });
 }
 

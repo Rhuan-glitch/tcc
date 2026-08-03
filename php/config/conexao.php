@@ -3,7 +3,7 @@
 $host = "localhost";
 $usuario = "root";
 $senha = "";
-$banco = "nedh_db";
+$banco = "projeto_3r";
 
 $conn = new mysqli($host, $usuario, $senha, $banco);
 

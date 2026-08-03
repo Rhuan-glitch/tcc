@@ -91,7 +91,7 @@
             </p>
         </div>
 
-       <form id="cadastroForm">
+       <form id="cadastroForm" method="POST" action="php/cadastrar_usuario.php">
             <div class="form-group">
                 <label>Tipo de Usuário *</label>
                 <div class="user-types">
@@ -116,34 +116,34 @@
             <!-- Dados Principais -->
             <div class="form-group">
                 <label id="labelNome">Nome Completo *</label>
-                <input type="text" id="inputNome" placeholder="Digite seu nome completo" required>
+                <input type="text" id="inputNome" name="nome" placeholder="Digite seu nome completo" required>
             </div>
 
             <div class="form-group">
                 <label id="labelDocumento">CPF *</label>
-                <input type="text" id="inputDocumento" placeholder="000.000.000-00" required>
+                <input type="text" id="inputDocumento" name="documento" placeholder="000.000.000-00" required>
             </div>
 
             <!-- EXCLUSIVO EGRESSO: Data de Nascimento -->
             <div class="form-group" id="grupoDataNascimento">
                 <label>Data de Nascimento *</label>
-                <input type="date" id="inputDataNascimento">
+                <input type="date" id="inputDataNascimento" name="data_nascimento">
             </div>
 
             <div class="form-group">
                 <label>E-mail *</label>
-                <input type="email" id="inputEmail" placeholder="seu@email.com" required>
+                <input type="email" id="inputEmail" name="email" placeholder="seu@email.com" required>
             </div>
 
             <div class="form-group">
                 <label>Telefone *</label>
-                <input type="text" id="inputTelefone" placeholder="(00) 00000-0000" required>
+                <input type="text" id="inputTelefone" name="telefone" placeholder="(00) 00000-0000" required>
             </div>
 
             <!-- EXCLUSIVO EGRESSO: Cidade / Estado Simples -->
             <div class="form-group" id="grupoCidadeEgresso">
                 <label>Cidade / Estado *</label>
-                <input type="text" id="inputCidadeEgresso" placeholder="Ex: Curitiba - PR">
+                <input type="text" id="inputCidadeEgresso" name="cidade_egresso" placeholder="Ex: Curitiba - PR">
             </div>
 
             <!-- EXCLUSIVO EMPRESA: Bloco de Endereço Completo -->
@@ -153,32 +153,32 @@
 
                 <div class="form-group">
                     <label>CEP *</label>
-                    <input type="text" id="inputCep" placeholder="00000-000">
+                    <input type="text" id="inputCep" name="cep" placeholder="00000-000">
                 </div>
 
                 <div class="form-group">
                     <label>Rua / Logradouro *</label>
-                    <input type="text" id="inputRua" placeholder="Preenchido pelo CEP ou digite aqui">
+                    <input type="text" id="inputRua" name="rua" placeholder="Preenchido pelo CEP ou digite aqui">
                 </div>
 
                 <div class="form-group">
                     <label>Bairro *</label>
-                    <input type="text" id="inputBairro" placeholder="Preenchido pelo CEP ou digite aqui">
+                    <input type="text" id="inputBairro" name="bairro" placeholder="Preenchido pelo CEP ou digite aqui">
                 </div>
 
                 <div class="form-group">
                     <label>Cidade / Estado *</label>
-                    <input type="text" id="inputCidade" placeholder="Preenchido pelo CEP ou digite aqui">
+                    <input type="text" id="inputCidade" name="cidade_empresa" placeholder="Preenchido pelo CEP ou digite aqui">
                 </div>
 
                 <div class="form-group">
                     <label>Número *</label>
-                    <input type="text" id="inputNumero" placeholder="Ex: 123">
+                    <input type="text" id="inputNumero" name="numero" placeholder="Ex: 123">
                 </div>
 
                 <div class="form-group">
                     <label>Complemento *</label>
-                    <input type="text" id="inputComplemento" placeholder="Apto, Sala, Galpão, Bloco">
+                    <input type="text" id="inputComplemento" name="complemento" placeholder="Apto, Sala, Galpão, Bloco">
                 </div>
                 <hr style="margin: 20px 0;">
             </div>
@@ -187,7 +187,7 @@
             <div class="form-group">
                 <label>Senha *</label>
                 <div class="password-container">
-                    <input type="password" id="inputSenha" placeholder="Crie uma senha segura" required>
+                    <input type="password" id="inputSenha" name="senha" placeholder="Crie uma senha segura" required>
                     <span class="toggle-password" onclick="mostrarSenha('inputSenha', this)">Mostrar</span>
                 </div>
             </div>
@@ -195,7 +195,7 @@
             <div class="form-group">
                 <label>Confirmar Senha *</label>
                 <div class="password-container">
-                    <input type="password" id="inputConfirmarSenha" placeholder="Digite a senha novamente" required>
+                    <input type="password" id="inputConfirmarSenha" name="confirmar_senha" placeholder="Digite a senha novamente" required>
                     <span class="toggle-password" onclick="mostrarSenha('inputConfirmarSenha', this)">Mostrar</span>
                 </div>
                 
