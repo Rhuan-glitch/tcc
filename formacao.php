@@ -1,3 +1,12 @@
+<?php
+
+require_once "php/config/config.php";
+
+$sql = "SELECT * FROM curso";
+
+$resultado = $conn->query($sql);
+
+?> 
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
@@ -45,7 +54,7 @@
                   <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                     <li class="nav-link"> <a href="index.html" class="nav-link">Home</a></li>   
                     <li><a class="nav-link" href="trabalhista.html">Trabalhista</a></li>                
-                    <li><a class="nav-link" href="formacao.html">Formação</a></li>                                
+                    <li><a class="nav-link" href="formacao.php">Formação</a></li>                                
                     <li><a href="login.html" class="nav-link">Login</a></li>
                   </ul>   
                 </nav>
@@ -139,6 +148,77 @@
 
                     <div class="row" id="listaCursos">
                         <!-- CURSO 1 -->
+                         <?php
+
+$sql = "SELECT * FROM curso";
+
+$resultado = $conn->query($sql);
+
+while ($curso = $resultado->fetch_assoc()) {
+
+?>
+
+<div class="col-lg-4 col-md-6 curso-item" data-categoria="<?= $curso['area'] ?>">
+
+    <div class="formacao-card">
+
+        <img 
+        src="/tcc-1/php/uploads/<?= $curso['img_curso'] ?>" 
+        class="img-fluid" 
+        alt="<?= $curso['nome_curso'] ?>"
+        >
+        <div class="formacao-content">
+
+            <span class="categoria">
+                <?= ucfirst($curso['area']) ?>
+            </span>
+
+            <h2>
+                <?= $curso['nome_curso'] ?>
+            </h2>
+
+            <p>
+                <?= $curso['descricao'] ?>
+            </p>
+
+            <div class="formacao-info">
+                <i class="fa fa-clock-o"></i>
+                <?= $curso['carga_horaria'] ?> horas
+            </div>
+
+            <button 
+            class="formacao-btn"
+            onclick="abrirModalCurso(
+                '<?= $curso['nome_curso'] ?>',
+                '<?= $curso['carga_horaria'] ?> horas',
+                '<?= $curso['descricao'] ?>',
+                '<?= $curso['url_curso'] ?>'
+            )">
+
+                Acessar Formação
+
+            </button>
+            <a href="php/admin/editar_curso.php?id=<?= $curso['id_curso'] ?>"class="btn btn-warning">Editar</a>
+            <form action="php/admin/excluir_curso.php" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este curso?');" style="display:inline;">
+    
+    <input type="hidden" name="id" value="<?= $curso['id_curso'] ?>">
+
+    <button type="submit">
+        Excluir
+    </button>
+
+</form>
+        </div>
+
+    </div>
+
+</div>
+
+<?php
+
+}
+
+?>
                         <div class="col-lg-4 col-md-6 curso-item" data-categoria="tecnologia">
                             <div class="formacao-card">
                                 <img src="assets/img/blog/1.jpg" class="img-fluid" alt="Informática Básica">
@@ -317,12 +397,12 @@
                 <h2>
                     <i class="fa fa-plus-circle"></i> Cadastrar Nova Formação
                 </h2>
-                <form id="formAdminCurso" class="form-admin" enctype="multipart/form-data">
+                <form id="formAdminCurso" class="form-admin" action="php/admin/create_curso.php" method="POST" enctype= 'multipart/form-data'>
                     <label>Foto da Capa do Curso</label>
-                    <input type="file" id="imagemCurso" name="imagemCurso" accept="image/png, image/jpeg, image/webp" required>
+                    <input type="file" id="imagemCurso" name="img_curso" accept="image/png, image/jpeg, image/webp" required>
                     
                     <label>Categoria da Formação</label>
-                    <select id="categoriaCurso">
+                    <select id="categoriaCurso" name='area'>
                         <option value="tecnologia">Tecnologia</option>
                         <option value="comercial">Comercial</option>
                         <option value="administrativo">Administrativo</option>
@@ -333,29 +413,30 @@
                     </select>
                     
                     <label>Nome da Formação</label>
-                    <input type="text" id="nomeCurso" placeholder="Ex: Inglês Básico para o Trabalho" required>
+                    <input type="text" id="nomeCurso" name='nome_curso' placeholder="Ex: Inglês Básico para o Trabalho" required>
                     
                     <label>Carga Horária</label>
-                    <input type="text" id="cargaCurso" placeholder="Ex: 80 horas" required>
+                    <input type="text" id="cargaCurso" name="carga_horaria" placeholder="Ex: 80 horas" required>
                     
                     <label>Possui Certificado?</label>
-                    <select id="certificadoCurso">
-                        <option value="sim">Sim</option>
-                        <option value="nao">Não</option>
+                    <select id="certificadoCurso" name="certificado">
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
                     </select>
                     
                     <label>Sobre a Formação</label>
-                    <textarea id="descricaoCurso" placeholder="Digite a descrição da formação" required></textarea>
+                    <textarea id="descricaoCurso" name="descricao" placeholder="Digite a descrição da formação" required></textarea>
                     
                     <label>Conteúdo Programático</label>
-                    <textarea id="conteudoCurso" placeholder="Ex: Vocabulário profissional..." required></textarea>
+                    <textarea id="conteudoCurso" name="conteudo_programatico" placeholder="Ex: Vocabulário profissional..." required></textarea>
                     
                     <label>Link da Formação</label>
-                    <input type="url" id="linkCurso" placeholder="https://..." required>
+                    <input type="url" id="linkCurso" name="url_curso" placeholder="https://..." required>
                     
-                    <button type="button" class="btn-publicar" onclick="publicarCurso()">
+                    <button type="submit" class="btn-publicar">
                         Publicar Curso
                     </button>
+                    <a href="../php/admin/listar_curso.php"> Gerenciar Cursos </a>
                 </form>
                 <button onclick="fecharModalCadastro()" class="btn-fechar">
                     Cancelar

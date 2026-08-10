@@ -137,113 +137,6 @@ window.fecharModalCadastro = function(){
 
 
 
-/* ===========================
-   PUBLICAR CURSO
-=========================== */
-
-
-window.publicarCurso = function(){
-
-
-    let nome =
-    document.getElementById("nomeCurso").value;
-
-
-    let categoria =
-    document.getElementById("categoriaCurso").value;
-
-
-    let carga =
-    document.getElementById("cargaCurso").value;
-
-
-    let descricao =
-    document.getElementById("descricaoCurso").value;
-
-
-
-    if(nome === "" || carga === "" || descricao === ""){
-
-        alert("Preencha todos os campos obrigatórios.");
-
-        return;
-
-    }
-
-
-
-    let colunaCategoria =
-    document.querySelector(
-    '[data-categoria="' + categoria + '"]'
-    );
-
-
-
-    let novoCurso = document.createElement("div");
-
-    novoCurso.className =
-    "col-lg-4 col-md-6 curso-item";
-
-
-    novoCurso.setAttribute(
-    "data-categoria",
-    categoria
-    );
-
-
-
-    novoCurso.innerHTML = `
-
-    <div class="formacao-card">
-
-        <img src="assets/img/blog/1.jpg" class="img-fluid">
-
-        <div class="formacao-content">
-
-            <span class="categoria">
-                ${categoria}
-            </span>
-
-            <h2>
-                ${nome}
-            </h2>
-
-            <p>
-                ${descricao}
-            </p>
-
-            <div class="formacao-info">
-                <i class="fa fa-clock-o"></i>
-                ${carga}
-            </div>
-
-
-            <button class="formacao-btn"
-            onclick="abrirModalCurso(
-            '${nome}',
-            '${carga}',
-            '${descricao}',
-            '#'
-            )">
-
-            Acessar Formação
-
-            </button>
-
-
-        </div>
-
-    </div>
-
-    `;
-
-
-
-    document
-    .getElementById("listaCursos")
-    .appendChild(novoCurso);
-
-
 
     document.getElementById("modalCadastro").style.display="none";
 
@@ -261,4 +154,4 @@ window.publicarCurso = function(){
 }
 
 
-});
+);
