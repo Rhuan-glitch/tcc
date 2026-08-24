@@ -1,3 +1,17 @@
+<?php
+require_once "php/config/config.php";
+
+$sql = "SELECT 
+            vaga.*,
+            empresa.razao_social
+        FROM vaga
+        INNER JOIN empresa 
+            ON vaga.cnpj_empresa = empresa.cnpj";
+
+
+$resultado = $conn->query($sql);
+
+?> 
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -66,8 +80,8 @@
                 <nav class="site-navigation position-relative text-right" role="navigation">
                   <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                     <li class="nav-link"> <a href="index.html" class="nav-link">Home</a></li>   
-                    <li><a class="nav-link" href="trabalhista.html">Trabalhista</a></li>                
-                    <li><a class="nav-link" href="formacao.html">Formação</a></li>                                
+                    <li><a class="nav-link" href="trabalhista.php">Trabalhista</a></li>                
+                    <li><a class="nav-link" href="formacao.php">Formação</a></li>                                
                     <li><a href="login.html" class="nav-link">Login</a></li>
                   </ul>
                 </nav>
@@ -139,7 +153,7 @@
                 </div>              
             </div>
         </section>      
-
+        
         <section class="blog_area section-padding">
             <div class="container">
 
@@ -186,70 +200,107 @@
                 </div>
 
                 <div class="row" id="listaOportunidades">
+                    <?php while ($vaga = $resultado->fetch_assoc()): ?>
 
-                    <div class="col-lg-6 col-md-12 vaga-item" data-cidade="Curitiba" data-salario="R$ 1.500 a R$ 2.500" data-funcao="Administrativo">
-                        <div class="vaga-card">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h3 class="vaga-titulo">Auxiliar Administrativo</h3>
-                                    <p class="empresa-nome">Tech Solutions Ltda</p>
-                                </div>
-                                <img src="https://via.placeholder.com/80?text=Logo" alt="Logo Empresa" class="logo-vaga">
-                            </div>
-                            
-                            <div class="vaga-info mt-3">
-                                <p>Local: <span class="vaga-cidade">Curitiba</span></p>
-                                <p>Regime: <span class="vaga-regime">CLT - Tempo Integral</span></p>
-                                <p>Salário: <strong class="vaga-valor">R$ 2.200,00</strong></p>
-                            </div>
+        <div class="col-lg-6 col-md-12 vaga-item"
+             data-cidade="<?= htmlspecialchars($vaga['cidade']) ?>"
+             data-salario="<?= htmlspecialchars($vaga['faixa_salarial']) ?>"
+             data-funcao="<?= htmlspecialchars($vaga['area']) ?>">
 
-                            <p class="vaga-desc">Buscamos profissional organizado para atuar em rotinas administrativas, atendimento e suporte à equipe.</p>
-                            
-                            <div class="d-none requisitos-hidden">Ensino médio completo, Conhecimento básico em informática, Boa comunicação</div>
-                            <div class="d-none beneficios-hidden">Vale transporte, Vale refeição, Plano odontológico</div>
-                            
-                            <hr>
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <button class="btn-detalhes" onclick="abrirModalDetalhes(this)">Ver Detalhes</button>
-                                <div class="vaga-acoes">
-                                    <button class="text-edit btn-acao" onclick="editarVaga(this)">EDITAR</button>
-                                    <button class="text-delete btn-acao" onclick="excluirVaga(this)">EXCLUIR</button>
-                                </div>
-                            </div>
-                        </div>
+            <div class="vaga-card">
+
+                <div class="d-flex justify-content-between align-items-start">
+
+                    <div>
+                        <h3 class="vaga-titulo">
+                            <?= htmlspecialchars($vaga['titulo_vaga']) ?>
+                        </h3>
+
+                        <p class="empresa-nome">
+                            <?= htmlspecialchars($vaga['razao_social']) ?>
+                        </p>
                     </div>
 
-                    <div class="col-lg-6 col-md-12 vaga-item" data-cidade="Pinhais" data-salario="R$ 1.500 a R$ 2.500" data-funcao="Atendimento">
-                        <div class="vaga-card">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h3 class="vaga-titulo">Atendente de Loja</h3>
-                                    <p class="empresa-nome">Varejo Mais</p>
-                                </div>
-                                <img src="https://via.placeholder.com/80?text=Logo" alt="Logo Empresa" class="logo-vaga">
-                            </div>
-                            
-                            <div class="vaga-info mt-3">
-                                <p>Local: <span class="vaga-cidade">Pinhais</span></p>
-                                <p>Regime: <span class="vaga-regime">CLT - Tempo Integral</span></p>
-                                <p>Salário: <strong class="vaga-valor">R$ 1.800,00</strong></p>
-                            </div>
+                    <img src="https://via.placeholder.com/80?text=Logo"
+                         alt="Logo Empresa"
+                         class="logo-vaga">
+                </div>
 
-                            <p class="vaga-desc">Procuramos atendente para trabalhar em loja de roupas, com foco em vendas e atendimento ao cliente.</p>
-                            
-                            <div class="d-none requisitos-hidden">Experiência com vendas, Ensino médio completo, Gostar de lidar com público</div>
-                            <div class="d-none beneficios-hidden">Vale transporte, Comissão de vendas</div>
-                            
-                            <hr>
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <button class="btn-detalhes" onclick="abrirModalDetalhes(this)">Ver Detalhes</button>
-                                <div class="vaga-acoes">
-                                    <button class="text-edit btn-acao" onclick="editarVaga(this)">EDITAR</button>
-                                    <button class="text-delete btn-acao" onclick="excluirVaga(this)">EXCLUIR</button>
-                                </div>
-                            </div>
-                        </div>
+
+                <div class="vaga-info mt-3">
+
+                    <p>
+                        Local:
+                        <span class="vaga-cidade">
+                            <?= htmlspecialchars($vaga['cidade']) ?>
+                        </span>
+                    </p>
+
+                    <p>
+                        Regime:
+                        <span class="vaga-regime">
+                            <?= htmlspecialchars($vaga['tipo_contrato']) ?>
+                        </span>
+                    </p>
+
+                    <p>
+                        Salário:
+                        <strong class="vaga-valor">
+                            <?= htmlspecialchars($vaga['faixa_salarial']) ?>
+                        </strong>
+                    </p>
+
+                </div>
+
+
+                <p class="vaga-desc">
+                    <?= htmlspecialchars($vaga['descricao']) ?>
+                </p>
+
+
+                <div class="d-none requisitos-hidden">
+                    <?= htmlspecialchars($vaga['requisitos']) ?>
+                </div>
+
+                <div class="d-none beneficios-hidden">
+                    <?= htmlspecialchars($vaga['beneficios']) ?>
+                </div>
+
+
+                <hr>
+
+
+                <div class="d-flex justify-content-between align-items-center mt-3">
+
+                    <button class="btn-detalhes"
+                            onclick="abrirModalDetalhes(this)">
+                        Ver Detalhes
+                    </button>
+
+                    <div class="vaga-acoes">
+
+                        <button class="text-edit btn-acao"
+                                onclick="editarVaga(this)">
+                            EDITAR
+                        </button>
+
+                        <button class="text-delete btn-acao"
+                                onclick="excluirVaga(this)">
+                            EXCLUIR
+                        </button>
+
                     </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    <?php endwhile; ?>
+
+</div>
+                    
 
                 </div>
             </div>
@@ -293,16 +344,16 @@
                 <button onclick="fecharModalPublicar()" class="btn-close-modal">&times;</button>
                 <h2 id="tituloModalForm">Publicar Nova Vaga</h2>
                 
-                <form id="formVaga" class="mt-4">
+                <form id="formVaga" class="mt-4" action='php/empresa/create_vaga.php' method='POST' enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="formLogo">Logo da Empresa (Opcional)</label>
-                        <input type="file" class="form-control" id="formLogo" accept="image/*">
+                        <input type="file" class="form-control" id="formLogo" name='img_vaga' accept="image/*">
                         <small class="form-text text-muted">*Selecione uma imagem para aparecer no anúncio da vaga.</small>
                     </div>
 
                     <div class="form-group mt-3">
                         <label for="formTitulo">Título da Vaga *</label>
-                        <input type="text" class="form-control" id="formTitulo" required placeholder="Ex: Auxiliar Administrativo">
+                        <input type="text" class="form-control" id="formTitulo" name='titulo_vaga' required placeholder="Ex: Auxiliar Administrativo">
                     </div>
                     <div class="form-group">
                         <label for="formEmpresa">Nome da Empresa *</label>
@@ -312,7 +363,7 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="formCategoria">Função (Categoria) *</label>
-                            <select class="form-control" id="formCategoria" required>
+                            <select class="form-control" id="formCategoria" name='area' required>
                                 <option value="Administrativo">Administrativo</option>
                                 <option value="Atendimento">Atendimento</option>
                                 <option value="Operacional">Operacional</option>
@@ -320,7 +371,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="formCidade">Cidade *</label>
-                            <select class="form-control" id="formCidade" required>
+                            <select class="form-control" id="formCidade" name='cidade'required>
                                 <option value="Curitiba">Curitiba</option>
                                 <option value="Pinhais">Pinhais</option>
                                 <option value="Piraquara">Piraquara</option>
@@ -332,7 +383,11 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="formRegime">Contrato / Regime *</label>
-                            <input type="text" class="form-control" id="formRegime" required placeholder="Ex: CLT, PJ, Estágio">
+                            <input type="text" class="form-control" id="formRegime" name='tipo_contrato' required placeholder="Ex: CLT, PJ, Estágio">
+                        </div>
+                        <div class="form-group col-md-6">
+                        <label for="formCargaHoraria">Carga Horária *</label>
+                        <input type="number"class="form-control"id="formCargaHoraria"name="carga_horaria"min="1" required placeholder="Ex: 40">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="formSalarioValor">Valor do Salário *</label>
@@ -342,7 +397,7 @@
 
                     <div class="form-group">
                         <label for="formSalarioFiltro">Faixa Salarial (Para o Filtro) *</label>
-                        <select class="form-control" id="formSalarioFiltro" required>
+                        <select class="form-control" id="formSalarioFiltro" name='faixa_salarial' required>
                             <option value="Até R$ 1.500">Até R$ 1.500</option>
                             <option value="R$ 1.500 a R$ 2.500">R$ 1.500 a R$ 2.500</option>
                             <option value="Acima de R$ 2.500">Acima de R$ 2.500</option>
@@ -351,20 +406,22 @@
 
                     <div class="form-group">
                         <label for="formDescricao">Sobre a Oportunidade *</label>
-                        <textarea class="form-control" id="formDescricao" rows="3" required></textarea>
+                        <textarea class="form-control" id="formDescricao" name='descricao' rows="3" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="formRequisitos">Requisitos (Separe por vírgula) *</label>
-                        <textarea class="form-control" id="formRequisitos" rows="2" required placeholder="Ex: Ensino médio, Excel básico"></textarea>
+                        <textarea class="form-control" id="formRequisitos" name='requisitos' rows="2" required placeholder="Ex: Ensino médio, Excel básico"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="formBeneficios">Benefícios (Separe por vírgula) *</label>
-                        <textarea class="form-control" id="formBeneficios" rows="2" required placeholder="Ex: Vale transporte, VR"></textarea>
+                        <textarea class="form-control" id="formBeneficios" name='beneficios' rows="2" required placeholder="Ex: Vale transporte, VR"></textarea>
                     </div>
 
-                    <button type="submit" class="btn-candidatar" id="btnSalvarVaga">Salvar Vaga</button>
+                    <button type="submit" class="btn-candidatar" id="btnSalvarVaga">Publicar Vaga</button>
+                    <a href="php/empresa/listar_vagas.php" class="btn">Gerenciar vagas</a>
                     <button type="button" onclick="fecharModalPublicar()" class="btn-fechar-dark">Cancelar</button>
                 </form>
+
             </div>
         </div>
 

@@ -46,7 +46,7 @@ if ($resultado->num_rows == 1) {
         $_SESSION["usuario"] = $admin["usuario"];
         $_SESSION["tipo"]    = "administrador";
 
-        header("Location: ../admin/dashboard.php");
+        header("Location: ../php/admin/dashboard.php");
         exit();
     }
 }

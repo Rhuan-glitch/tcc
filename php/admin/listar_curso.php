@@ -30,7 +30,7 @@ $resultado = $conn->query($sql);
 
 <meta charset="UTF-8">
 
-<title>Gerenciar Cursos - 3R</title>
+<title>Painel Administrativo - 3R</title>
 
 <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
 

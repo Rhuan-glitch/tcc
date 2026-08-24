@@ -1,5 +1,4 @@
 <?php
-
 require_once "php/config/config.php";
 
 $sql = "SELECT * FROM curso";
@@ -344,7 +343,7 @@ while ($curso = $resultado->fetch_assoc()) {
                             </div>
                         </div>
                     </div>
-
+                    <?php if (isset($_SESSION["tipo"]) && $_SESSION["tipo"] === "administrador"): ?>
                     <!-- ÁREA ADMINISTRADOR -->
                     <div class="area-admin">
                         <h3>Área Administrativa</h3>
@@ -352,8 +351,11 @@ while ($curso = $resultado->fetch_assoc()) {
                         <button class="btn-admin" onclick="abrirModalCadastro()">
                             <i class="fa fa-plus"></i> Publicar Formação
                         </button>
+                        <a href="php/admin/listar_curso.php" class="btn">
+                        Gerenciar cursos
+                        </a>
                     </div>
-
+                    <?php endif; ?>
                 </div>
             </section>
         </main>
@@ -436,7 +438,7 @@ while ($curso = $resultado->fetch_assoc()) {
                     <button type="submit" class="btn-publicar">
                         Publicar Curso
                     </button>
-                    <a href="../php/admin/listar_curso.php"> Gerenciar Cursos </a>
+                    
                 </form>
                 <button onclick="fecharModalCadastro()" class="btn-fechar">
                     Cancelar
