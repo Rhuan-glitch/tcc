@@ -98,6 +98,8 @@ function abrirModalPublicar() {
     document.getElementById('tituloModalForm').innerText = "Publicar Nova Vaga";
     document.getElementById('btnSalvarVaga').innerText = "Publicar Vaga";
     document.getElementById('formVaga').reset(); // Limpa form
+    document.getElementById('formVaga').action = 'php/empresa/create_vaga.php';
+    document.getElementById('formIdVaga').value = '';
     document.getElementById('modalPublicar').style.display = 'flex';
 }
 
@@ -108,6 +110,51 @@ function fecharModalPublicar() {
 
 
 /* --- EDITAR VAGA --- */
+function editarVaga(btn) {
+    const card = btn.closest('.vaga-item');
+
+    // Pega o ID da vaga
+    const idVaga = card.getAttribute('data-id');
+
+    // Guarda o ID no formulário
+    document.getElementById('formIdVaga').value = idVaga;
+
+    // Muda o título e o botão do modal
+    document.getElementById('tituloModalForm').innerText = "Editar Vaga";
+    document.getElementById('btnSalvarVaga').innerText = "Salvar Alterações";
+
+    // Preenche o formulário com os dados da vaga
+    document.getElementById('formTitulo').value =
+        card.querySelector('.vaga-titulo').innerText;
+
+    document.getElementById('formEmpresa').value =
+        card.querySelector('.empresa-nome').innerText;
+
+    document.getElementById('formCategoria').value =
+        card.getAttribute('data-funcao');
+
+    document.getElementById('formCidade').value =
+        card.getAttribute('data-cidade');
+
+    document.getElementById('formRegime').value =
+        card.querySelector('.vaga-regime').innerText;
+
+    document.getElementById('formSalarioFiltro').value =
+        card.getAttribute('data-salario');
+
+    document.getElementById('formDescricao').value =
+        card.querySelector('.vaga-desc').innerText;
+
+    document.getElementById('formRequisitos').value =
+        card.querySelector('.requisitos-hidden').innerText;
+
+    document.getElementById('formBeneficios').value =
+        card.querySelector('.beneficios-hidden').innerText;
+
+    document.getElementById('formVaga').action = 'php/empresa/editar_vaga.php';
+    // Abre o modal
+    document.getElementById('modalPublicar').style.display = 'flex';
+}
 
 /* --- PROCESSA A IMAGEM ANTES DE SALVAR --- */
 

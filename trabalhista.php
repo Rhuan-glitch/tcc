@@ -203,6 +203,7 @@ $resultado = $conn->query($sql);
                     <?php while ($vaga = $resultado->fetch_assoc()): ?>
 
         <div class="col-lg-6 col-md-12 vaga-item"
+             data-id="<?= htmlspecialchars($vaga['id_vaga']) ?>"
              data-cidade="<?= htmlspecialchars($vaga['cidade']) ?>"
              data-salario="<?= htmlspecialchars($vaga['faixa_salarial']) ?>"
              data-funcao="<?= htmlspecialchars($vaga['area']) ?>">
@@ -345,6 +346,7 @@ $resultado = $conn->query($sql);
                 <h2 id="tituloModalForm">Publicar Nova Vaga</h2>
                 
                 <form id="formVaga" class="mt-4" action='php/empresa/create_vaga.php' method='POST' enctype="multipart/form-data">
+                    <input type="hidden" id="formIdVaga" name="id_vaga">
                     <div class="form-group">
                         <label for="formLogo">Logo da Empresa (Opcional)</label>
                         <input type="file" class="form-control" id="formLogo" name='img_vaga' accept="image/*">
