@@ -155,7 +155,46 @@ function editarVaga(btn) {
     // Abre o modal
     document.getElementById('modalPublicar').style.display = 'flex';
 }
+/* --- EXCLUIR VAGA --- */
+function excluirVaga(btn) {
 
+    const card = btn.closest('.vaga-item');
+
+    // Pega o ID da vaga
+    const idVaga = card.getAttribute('data-id');
+
+    if (!idVaga) {
+        alert("Não foi possível identificar a vaga.");
+        return;
+    }
+
+    // Confirmação antes de excluir
+    const confirmar = confirm(
+        "Tem certeza que deseja excluir esta vaga?"
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    // Cria um formulário para enviar o ID via POST
+    const form = document.createElement('form');
+
+    form.method = 'POST';
+    form.action = 'php/empresa/excluir_vaga.php';
+
+    const input = document.createElement('input');
+
+    input.type = 'hidden';
+    input.name = 'id_vaga';
+    input.value = idVaga;
+
+    form.appendChild(input);
+
+    document.body.appendChild(form);
+
+    form.submit();
+}
 /* --- PROCESSA A IMAGEM ANTES DE SALVAR --- */
 
 
