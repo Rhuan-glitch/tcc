@@ -1,6 +1,4 @@
 <?php
-// 1. OBRIGATÓRIO: Inicia a sessão para conseguir gravar $_SESSION
-session_start();
 
 require_once __DIR__ . "/config/config.php";
 
@@ -46,7 +44,7 @@ if ($resultado->num_rows == 1) {
         $_SESSION["usuario"] = $admin["usuario"];
         $_SESSION["tipo"]    = "administrador";
 
-        header("Location: ../php/admin/dashboard.php");
+        header("Location: ../index.php");
         exit();
     }
 }
@@ -70,7 +68,7 @@ if ($resultado->num_rows == 1) {
         $_SESSION["tipo"]    = "empresa";
         $_SESSION["cnpj"]    = $empresa["cnpj"];
 
-        header("Location: ../empresa/dashboard.php");
+        header("Location: ../index.php");
         exit();
     }
 }
@@ -94,7 +92,7 @@ if ($resultado->num_rows == 1) {
         $_SESSION["tipo"]    = "egresso";
         $_SESSION["cpf"]     = $egresso["cpf"];
 
-        header("Location: ../egresso/dashboard.php");
+        header("Location: ../index.php");
         exit();
     }
 }

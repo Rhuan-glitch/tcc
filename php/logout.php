@@ -3,5 +3,5 @@ session_start();
 session_unset();
 session_destroy();
 
-header("Location: /tcc-1/login.html");
+header("Location: /tcc-1/index.php");
 exit;

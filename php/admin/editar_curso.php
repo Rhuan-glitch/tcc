@@ -1,18 +1,18 @@
 <?php
 
 require_once __DIR__ . "/../config/config.php";
-
+exigirPerfil('administrador');
 
 /* ==========================================================
    VERIFICA LOGIN
 ========================================================== */
 
-if (!isset($_SESSION["usuario"]) || $_SESSION["tipo"] != "administrador") {
+// if (!isset($_SESSION["usuario"]) || $_SESSION["tipo"] != "administrador") {
 
-    header("Location: ../../login.html");
-    exit();
+//     header("Location: ../../login.html");
+//     exit();
 
-}
+// }
 
 
 /* ==========================================================
@@ -221,7 +221,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                             __DIR__ .
 
-                            "/../../uploads/" .
+                            "/../uploads/" .
 
                             $curso["img_curso"]
 
@@ -234,7 +234,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                             __DIR__ .
 
-                            "/../../uploads/" .
+                            "/../uploads/" .
 
                             $curso["img_curso"]
 
@@ -635,7 +635,7 @@ Imagem Atual:
 
         __DIR__ .
 
-        "/../../uploads/" .
+        "/../uploads/" .
 
         $curso["img_curso"]
 
@@ -646,7 +646,7 @@ Imagem Atual:
 
 <img
 
-src="../../uploads/<?= htmlspecialchars($curso["img_curso"]) ?>"
+src="../uploads/<?= htmlspecialchars($curso["img_curso"]) ?>"
 
 width="180"
 

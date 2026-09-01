@@ -1,22 +1,21 @@
 <?php
 
-session_start();
-
 require_once __DIR__ . "/../config/config.php";
+exigirPerfis(["empresa", "administrador"]);
 
 /* ==========================================================
    1. PEGAR O CNPJ DA EMPRESA LOGADA
 ========================================================== */
 
-$cnpj_empresa = $_SESSION["cnpj"] ?? '';
+// $cnpj_empresa = $_SESSION["cnpj"] ?? '';
 
-if (empty($cnpj_empresa)) {
-    echo "<script>
-            alert('Não foi possível identificar a empresa.');
-            window.location.href = '../../login.html';
-          </script>";
-    exit();
-}
+// if (empty($cnpj_empresa)) {
+//     echo "<script>
+//             alert('Não foi possível identificar a empresa.');
+//             window.location.href = '../../login.html';
+//           </script>";
+//     exit();
+// }
 
 /* ==========================================================
    2. VERIFICAR SE O FORMULÁRIO FOI ENVIADO
@@ -64,6 +63,7 @@ if (
 /* ==========================================================
    5. ATUALIZAR A VAGA
 ========================================================== */
+if ($_SESSION["tipo"] === "administrador") {
 
 $sql = "UPDATE vaga SET
             titulo_vaga = ?,
@@ -75,8 +75,7 @@ $sql = "UPDATE vaga SET
             carga_horaria = ?,
             faixa_salarial = ?,
             tipo_contrato = ?
-        WHERE id_vaga = ?
-        AND cnpj_empresa = ?";
+        WHERE id_vaga = ?";
 
 $stmt = $conn->prepare($sql);
 
@@ -89,7 +88,7 @@ if (!$stmt) {
 ========================================================== */
 
 $stmt->bind_param(
-    "ssssssissis",
+    "ssssssissi",
     $titulo_vaga,
     $area,
     $cidade,
@@ -99,9 +98,52 @@ $stmt->bind_param(
     $carga_horaria,
     $faixa_salarial,
     $tipo_contrato,
-    $id_vaga,
-    $cnpj_empresa
+    $id_vaga
 );
+} else {
+
+    // EMPRESA SÓ PODE EDITAR SUAS PRÓPRIAS VAGAS
+
+    $cnpj_empresa = $_SESSION["cnpj"] ?? '';
+
+    if (empty($cnpj_empresa)) {
+        die("Erro: não foi possível identificar a empresa.");
+    }
+
+    $sql = "UPDATE vaga SET
+                titulo_vaga = ?,
+                area = ?,
+                cidade = ?,
+                descricao = ?,
+                requisitos = ?,
+                beneficios = ?,
+                carga_horaria = ?,
+                faixa_salarial = ?,
+                tipo_contrato = ?
+            WHERE id_vaga = ?
+            AND cnpj_empresa = ?";
+
+    $stmt = $conn->prepare($sql);
+
+    if (!$stmt) {
+        die("Erro ao preparar atualização: " . $conn->error);
+    }
+
+    $stmt->bind_param(
+        "ssssssissis",
+        $titulo_vaga,
+        $area,
+        $cidade,
+        $descricao,
+        $requisitos,
+        $beneficios,
+        $carga_horaria,
+        $faixa_salarial,
+        $tipo_contrato,
+        $id_vaga,
+        $cnpj_empresa
+    );
+}
 
 /* ==========================================================
    7. EXECUTAR
@@ -109,8 +151,16 @@ $stmt->bind_param(
 
 if ($stmt->execute()) {
 
-    header("Location: ../../trabalhista.php");
-    exit();
+    // Verifica se alguma vaga realmente foi alterada
+    if ($stmt->affected_rows > 0) {
+
+        header("Location: ../../trabalhista.php");
+        exit();
+
+    } else {
+
+        die("Erro: a vaga não existe ou você não tem permissão para editá-la.");
+    }
 
 } else {
 

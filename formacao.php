@@ -1,5 +1,6 @@
 <?php
 require_once "php/config/config.php";
+exigirLogin();
 
 $sql = "SELECT * FROM curso";
 
@@ -52,7 +53,7 @@ $resultado = $conn->query($sql);
                 <nav class="site-navigation position-relative text-right" role="navigation">
                   <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                     <li class="nav-link"> <a href="index.html" class="nav-link">Home</a></li>   
-                    <li><a class="nav-link" href="trabalhista.html">Trabalhista</a></li>                
+                    <li><a class="nav-link" href="trabalhista.php">Trabalhista</a></li>                
                     <li><a class="nav-link" href="formacao.php">Formação</a></li>                                
                     <li><a href="login.html" class="nav-link">Login</a></li>
                   </ul>   
@@ -187,16 +188,17 @@ while ($curso = $resultado->fetch_assoc()) {
 
             <button 
             class="formacao-btn"
-            onclick="abrirModalCurso(
-                '<?= $curso['nome_curso'] ?>',
-                '<?= $curso['carga_horaria'] ?> horas',
-                '<?= $curso['descricao'] ?>',
-                '<?= $curso['url_curso'] ?>'
-            )">
-
-                Acessar Formação
-
+            onclick='abrirModalCurso(
+                <?= json_encode($curso["nome_curso"]) ?>,
+                <?= json_encode($curso["carga_horaria"] . " horas") ?>,
+                <?= json_encode($curso["descricao"]) ?>,
+                <?= json_encode($curso["url_curso"]) ?>,
+                <?= json_encode($curso["certificado"]) ?>,
+                <?= json_encode($curso["conteudo_programatico"]) ?>
+            )'>
+            Acessar Formação
             </button>
+            <?php if ($_SESSION["tipo"] === "administrador"): ?>
             <a href="php/admin/editar_curso.php?id=<?= $curso['id_curso'] ?>"class="btn btn-warning">Editar</a>
             <form action="php/admin/excluir_curso.php" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este curso?');" style="display:inline;">
     
@@ -207,6 +209,7 @@ while ($curso = $resultado->fetch_assoc()) {
     </button>
 
 </form>
+<?php endif;?>
         </div>
 
     </div>
@@ -218,131 +221,7 @@ while ($curso = $resultado->fetch_assoc()) {
 }
 
 ?>
-                        <div class="col-lg-4 col-md-6 curso-item" data-categoria="tecnologia">
-                            <div class="formacao-card">
-                                <img src="assets/img/blog/1.jpg" class="img-fluid" alt="Informática Básica">
-                                <div class="formacao-content">
-                                    <span class="categoria">Tecnologia</span>
-                                    <h2>Informática Básica</h2>
-                                    <p>Aprenda conceitos essenciais de computadores, internet e ferramentas digitais.</p>
-                                    <div class="formacao-info">
-                                        <i class="fa fa-clock-o"></i> 40 horas
-                                    </div>
-                                    <button class="formacao-btn" onclick="abrirModalCurso('Informática Básica','40 horas','Curso completo para iniciantes em informática, apresentando conceitos básicos de computador, internet e ferramentas digitais.','https://www.curso.com.br')">
-                                        Acessar Formação
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CURSO 2 -->
-                        <div class="col-lg-4 col-md-6 curso-item" data-categoria="idiomas">
-                            <div class="formacao-card">
-                                <img src="assets/img/blog/2.jpg" class="img-fluid" alt="Inglês Básico">
-                                <div class="formacao-content">
-                                    <span class="categoria">Idiomas</span>
-                                    <h2>Inglês Básico para o Trabalho</h2>
-                                    <p>Vocabulário e situações profissionais para auxiliar no mercado de trabalho.</p>
-                                    <div class="formacao-info">
-                                        <i class="fa fa-clock-o"></i> 80 horas
-                                    </div>
-                                    <button class="formacao-btn" onclick="abrirModalCurso('Inglês Básico para o Trabalho','80 horas','Curso focado em vocabulário profissional, e-mails, documentos, conversação básica e apresentações.','https://www.curso.com.br')">
-                                        Acessar Formação
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CURSO 3 -->
-                        <div class="col-lg-4 col-md-6 curso-item" data-categoria="comercial">
-                            <div class="formacao-card">
-                                <img src="assets/img/blog/3.jpg" class="img-fluid" alt="Atendimento ao Cliente">
-                                <div class="formacao-content">
-                                    <span class="categoria">Comercial</span>
-                                    <h2>Atendimento ao Cliente</h2>
-                                    <p>Desenvolva comunicação e relacionamento com clientes.</p>
-                                    <div class="formacao-info">
-                                        <i class="fa fa-clock-o"></i> 30 horas
-                                    </div>
-                                    <button class="formacao-btn" onclick="abrirModalCurso('Atendimento ao Cliente','30 horas','Formação voltada para comunicação, postura profissional e atendimento de qualidade.','https://www.curso.com.br')">
-                                        Acessar Formação
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CURSO 4 -->
-                        <div class="col-lg-4 col-md-6 curso-item" data-categoria="administrativo">
-                            <div class="formacao-card">
-                                <img src="assets/img/blog/4.jpg" class="img-fluid" alt="Excel para Escritórios">
-                                <div class="formacao-content">
-                                    <span class="categoria">Administrativo</span>
-                                    <h2>Excel para Escritórios</h2>
-                                    <p>Aprenda ferramentas essenciais para organização e produtividade administrativa.</p>
-                                    <div class="formacao-info">
-                                        <i class="fa fa-clock-o"></i> 60 horas
-                                    </div>
-                                    <button class="formacao-btn" onclick="abrirModalCurso('Excel para Escritórios','60 horas','Curso de planilhas, organização de dados e ferramentas utilizadas no ambiente administrativo.','https://www.curso.com.br')">
-                                        Acessar Formação
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CURSO 5 -->
-                        <div class="col-lg-4 col-md-6 curso-item" data-categoria="negocios">
-                            <div class="formacao-card">
-                                <img src="assets/img/blog/5.jpg" class="img-fluid" alt="Empreendedorismo">
-                                <div class="formacao-content">
-                                    <span class="categoria">Negócios</span>
-                                    <h2>Empreendedorismo</h2>
-                                    <p>Aprenda conceitos para iniciar um negócio e desenvolver ideias.</p>
-                                    <div class="formacao-info">
-                                        <i class="fa fa-clock-o"></i> 40 horas
-                                    </div>
-                                    <button class="formacao-btn" onclick="abrirModalCurso('Empreendedorismo','40 horas','Formação sobre planejamento, organização e desenvolvimento de negócios.','https://www.curso.com.br')">
-                                        Acessar Formação
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CURSO 6 -->
-                        <div class="col-lg-4 col-md-6 curso-item" data-categoria="desenvolvimento">
-                            <div class="formacao-card">
-                                <img src="assets/img/blog/6.jpg" class="img-fluid" alt="Comunicação Profissional">
-                                <div class="formacao-content">
-                                    <span class="categoria">Desenvolvimento Pessoal</span>
-                                    <h2>Comunicação Profissional</h2>
-                                    <p>Melhore sua comunicação e postura no ambiente profissional.</p>
-                                    <div class="formacao-info">
-                                        <i class="fa fa-clock-o"></i> 20 horas
-                                    </div>
-                                    <button class="formacao-btn" onclick="abrirModalCurso('Comunicação Profissional','20 horas','Curso voltado ao desenvolvimento da comunicação, confiança e relacionamento profissional.','https://www.curso.com.br')">
-                                        Acessar Formação
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CURSO 7 -->
-                        <div class="col-lg-4 col-md-6 curso-item" data-categoria="operacional">
-                            <div class="formacao-card">
-                                <img src="assets/img/blog/7.jpg" class="img-fluid" alt="Segurança no Trabalho">
-                                <div class="formacao-content">
-                                    <span class="categoria">Operacional</span>
-                                    <h2>Segurança no Trabalho</h2>
-                                    <p>Conhecimentos básicos sobre prevenção e ambiente profissional seguro.</p>
-                                    <div class="formacao-info">
-                                        <i class="fa fa-clock-o"></i> 40 horas
-                                    </div>
-                                    <button class="formacao-btn" onclick="abrirModalCurso('Segurança no Trabalho','40 horas','Formação com conceitos básicos de segurança, prevenção de riscos e comportamento profissional.','https://www.curso.com.br')">
-                                        Acessar Formação
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                       
                     <?php if (isset($_SESSION["tipo"]) && $_SESSION["tipo"] === "administrador"): ?>
                     <!-- ÁREA ADMINISTRADOR -->
                     <div class="area-admin">
@@ -378,9 +257,6 @@ while ($curso = $resultado->fetch_assoc()) {
                 
                 <h5>Conteúdo Programático</h5>
                 <ul id="cursoConteudo">
-                    <li>Conteúdo da formação</li>
-                    <li>Desenvolvimento profissional</li>
-                    <li>Preparação para o mercado</li>
                 </ul>
                 
                 <a id="cursoLink" href="#" target="_blank" class="btn-inscricao-3r">

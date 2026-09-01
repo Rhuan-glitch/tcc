@@ -1,15 +1,15 @@
 <?php
 
 require_once __DIR__ . "/../config/config.php";
-
+exigirPerfil('administrador');
 /* ==========================================
    VERIFICA SE É ADMINISTRADOR
 ========================================== */
 
-if (!isset($_SESSION["usuario"]) || $_SESSION["tipo"] != "administrador") {
-    header("Location: ../login.html");
-    exit();
-}
+// if (!isset($_SESSION["usuario"]) || $_SESSION["tipo"] != "administrador") {
+//     header("Location: ../login.html");
+//     exit();
+// }
 
 /* ==========================================
    VERIFICA SE O FORMULÁRIO FOI ENVIADO

@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/php/config/config.php';
+?> 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,41 +49,7 @@
     </head>
     
     <body>
-        <!-- START NAVBAR -->
-        <div class="site-mobile-menu site-navbar-target">
-          <div class="site-mobile-menu-header">
-            <div class="site-mobile-menu-close mt-3">
-              <span class="icon-close2 js-menu-toggle"></span>
-            </div>
-          </div>
-          <div class="site-mobile-menu-body"></div>
-        </div>
-       
-        <header class="site-navbar js-sticky-header site-navbar-target" role="banner">
-          <div class="container">
-            <div class="row align-items-center">       
-              <div class="col-6 col-xl-2">
-                <h1 class="mb-0 site-logo"><a href="index.html"><img src="assets/img/Logo 3R .png" alt="Logo 3R"></a></h1>
-              </div>
-              <div class="col-12 col-md-10 d-none d-xl-block">
-                <nav class="site-navigation position-relative text-right" role="navigation">
-                  <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                    <li class="nav-link"><a href="index.html" class="nav-link">Home</a></li>    
-                    <li><a class="nav-link" href="trabalhista.html">Trabalhista</a></li>                 
-                     <li><a class="nav-link" href="formacao.php">Formação</a></li>                                 
-                        <li><a href="login.html" class="nav-link">Login</a></li>
-                    </li>   
-                  </ul>
-                </nav>
-              </div>
-               <div class="col-6 d-inline-block d-xl-none ml-md-0 py-3" style="position: relative; top: 3px;">
-               <a href="#" class="site-menu-toggle js-menu-toggle float-right"><span class="icon-menu h3"></span></a>
-               </div>
-            </div>
-          </div>
-        </header>
-        <!-- END NAVBAR-->       
-    
+       <?php include 'nav-bar.php'; ?>
         <!-- START PRELOADER -->
         <div class="preloader">
             <div class="spinner">
@@ -126,7 +95,7 @@
                         <h1>Encontre Oportunidades</h1>
                         <h3>Acesse vagas exclusivas de empresas parceiras comprometidas com a reinserção social...</h3>
                         <div class="hero-buttons-container">
-                            <a href="trabalhista.html" class="btn-hero-dark">Ver Vagas</a>
+                            <a href="trabalhista.php" class="btn-hero-dark">Ver Vagas</a>
                         </div>
                     </div>
                 </div>
@@ -138,7 +107,7 @@
                         <h1>Qualifique-se</h1>
                         <h3>Acesse cursos gratuitos e certificados que vão ampliar suas competências...</h3>
                         <div class="hero-buttons-container">
-                            <a href="formacao.html" class="btn-hero-dark">Ver Cursos</a>
+                            <a href="formacao.php" class="btn-hero-dark">Ver Cursos</a>
                         </div>
                     </div>
                 </div>

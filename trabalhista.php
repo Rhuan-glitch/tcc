@@ -1,5 +1,6 @@
 <?php
 require_once "php/config/config.php";
+exigirLogin();
 
 $sql = "SELECT 
             vaga.*,
@@ -156,7 +157,7 @@ $resultado = $conn->query($sql);
         
         <section class="blog_area section-padding">
             <div class="container">
-
+                <?php if ($_SESSION["tipo"] === "empresa" ||  $_SESSION["tipo"] === "administrador"):?>
                 <div class="area-admin mb-5 p-4 text-center">
                     <h4 class="titulo-area-admin">Área para Empresas</h4>
                     <p class="subtitulo-area-admin">Publique novas oportunidades na plataforma e encontre o talento ideal.</p>
@@ -164,7 +165,7 @@ $resultado = $conn->query($sql);
                         <i class="fa fa-plus"></i> Publicar Vaga
                     </button>
                 </div>
-
+                <?php endif;?>
                 <div class="filtro-box mb-5">
                     <h4>Filtrar Oportunidades</h4>
                     <div class="row">
@@ -279,7 +280,7 @@ $resultado = $conn->query($sql);
                     </button>
 
                     <div class="vaga-acoes">
-
+                         <?php if ($_SESSION["tipo"] === "administrador" || ($_SESSION["tipo"] === "empresa" && $_SESSION["cnpj"] === $vaga["cnpj_empresa"])): ?>
                         <button class="text-edit btn-acao"
                                 onclick="editarVaga(this)">
                             EDITAR
@@ -289,7 +290,7 @@ $resultado = $conn->query($sql);
                                 onclick="excluirVaga(this)">
                             EXCLUIR
                         </button>
-
+                        <?php endif; ?>
                     </div>
 
                 </div>
@@ -418,8 +419,9 @@ $resultado = $conn->query($sql);
                         <label for="formBeneficios">Benefícios (Separe por vírgula) *</label>
                         <textarea class="form-control" id="formBeneficios" name='beneficios' rows="2" required placeholder="Ex: Vale transporte, VR"></textarea>
                     </div>
-
+                    
                     <button type="submit" class="btn-candidatar" id="btnSalvarVaga">Publicar Vaga</button>
+                    
                     <a href="php/empresa/listar_vagas.php" class="btn">Gerenciar vagas</a>
                     <button type="button" onclick="fecharModalPublicar()" class="btn-fechar-dark">Cancelar</button>
                 </form>

@@ -3,15 +3,7 @@
 session_start();
 
 require_once __DIR__ . "/../config/config.php";
-
-//  /* ==========================================================
-//     1. VERIFICAR SE É UMA EMPRESA LOGADA
-//  ========================================================== */
-
-//  if (!isset($_SESSION["tipo"]) || $_SESSION["tipo"] !== "empresa") {
-//      header("Location: ../../login.html");
-//      exit();
-//  }
+exigirPerfis(['empresa','administrador']);
 
  /* ==========================================================
     2. PEGAR O CNPJ DA EMPRESA LOGADA

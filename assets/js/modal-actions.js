@@ -51,9 +51,9 @@ botoesFiltro.forEach(function(botao){
    MODAL CURSO
 =========================== */
 
-window.abrirModalCurso = function(nome, horas, descricao, link){
+window.abrirModalCurso = function(nome, horas, descricao, link, certificado, conteudo){
 
-
+    
     document.getElementById("cursoTitulo").innerHTML = nome;
 
     document.getElementById("cursoHoras").innerHTML =
@@ -66,7 +66,11 @@ window.abrirModalCurso = function(nome, horas, descricao, link){
 
     document.getElementById("cursoLink").href =
     link;
+    document.querySelector(".curso-certificado").innerHTML =
+'<i class="fa fa-certificate"></i> ' + certificado;
 
+document.getElementById("cursoConteudo").innerHTML =
+conteudo;
 
     document.getElementById("modalCurso").style.display = "flex";
 
@@ -142,7 +146,7 @@ window.fecharModalCadastro = function(){
 
 
 
-    alert("Curso publicado com sucesso!");
+    //alert("Curso publicado com sucesso!");
 
 
 
