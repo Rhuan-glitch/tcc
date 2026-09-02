@@ -1,447 +1,1134 @@
-/*========================================================
-                PERFIL - BANNER
-========================================================*/
+/* ==========================================================================
+   PERFIL EGRESSO - PLATAFORMA 3R
+   Identidade visual da Plataforma 3R
+   ========================================================================== */
 
-.perfil-banner{
-	padding:120px 0 70px;
+
+/* ==========================================================================
+   CORES DA PLATAFORMA
+   ========================================================================== */
+
+:root {
+    --3r-yellow: #fbe06f;
+    --3r-gold: #f4c45f;
+    --3r-orange: #edb75f;
+
+    --3r-gradient: linear-gradient(
+        110deg,
+        #fbe06f 0%,
+        #f7d369 45%,
+        #efb25e 100%
+    );
+
+    --3r-dark: #171717;
+    --3r-dark-soft: #242424;
+
+    --3r-text: #3f3f3f;
+    --3r-text-light: #6b7280;
+
+    --3r-bg: #ffffff;
+    --3r-card: #ffffff;
+
+    --3r-border: #e5e7eb;
+    --3r-border-light: #f1f1f1;
+
+    --3r-success: #22a447;
+    --3r-success-light: #e4f7e9;
+
+    --3r-warning: #d28a11;
+    --3r-warning-light: #fff4d6;
+
+    --3r-danger: #dc2626;
 }
 
-/*========================================================
-                PERFIL HEADER
-========================================================*/
 
-.perfil-header{
-	background:#fff;
-	border-radius:15px;
-	padding:40px;
-	box-shadow:0 10px 30px rgba(0,0,0,.08);
-	display:flex;
-	align-items:center;
-	justify-content:space-between;
-	flex-wrap:wrap;
-	gap:30px;
+/* ==========================================================================
+   ESTILOS GLOBAIS
+   ========================================================================== */
+
+html {
+    scroll-behavior: smooth;
 }
 
-.perfil-foto img{
-	width:170px;
-	height:170px;
-	border-radius:50%;
-	object-fit:cover;
-	border:5px solid #f3f3f3;
+body {
+    background-color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    color: var(--3r-text);
+    margin: 0;
+    padding: 0;
 }
 
-.perfil-info{
-	flex:1;
+
+/* ==========================================================================
+   NAVBAR
+   Gradiente original da identidade visual
+   ========================================================================== */
+
+/*
+   A navbar permanece com o gradiente tanto parada quanto durante o scroll.
+   Não usamos position: fixed !important porque isso pode entrar em conflito
+   com o sistema sticky da template.
+*/
+
+.site-navbar {
+    width: 100%;
+    z-index: 1000;
+    background: var(--3r-gradient) !important;
+    box-shadow: none !important;
+    transition: none !important;
 }
 
-.perfil-info h2{
-	font-size:32px;
-	font-weight:700;
-	color:#232323;
-	margin-bottom:8px;
+/*
+   Estados usados pelo sticky.js / template.
+   Todos mantêm EXATAMENTE a mesma aparência visual.
+*/
+
+.site-navbar.is-sticky,
+.site-navbar.scrolled,
+.site-navbar.header-scrolled,
+.site-navbar.sticky,
+.site-navbar.site-navbar-target {
+    background: var(--3r-gradient) !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
 }
 
-.perfil-tipo{
-	display:inline-block;
-	background:#164863;
-	color:#fff;
-	padding:6px 18px;
-	border-radius:30px;
-	font-size:14px;
-	margin-bottom:20px;
+/*
+   Remove possíveis efeitos de transparência ou transição
+   vindos do CSS original da template.
+*/
+
+.site-navbar,
+.site-navbar *,
+.site-navbar.is-sticky,
+.site-navbar.scrolled,
+.site-navbar.header-scrolled {
+    backface-visibility: hidden;
 }
 
-.perfil-info p{
-	color:#777;
-	margin-bottom:25px;
-	font-size:15px;
-	line-height:28px;
+/*
+   Links
+*/
+
+.site-navbar .site-menu > li > a {
+    color: #171717 !important;
+    transition: opacity 0.2s ease;
 }
 
-.btn-editar-perfil{
-	background:#164863;
-	color:#fff;
-	border:none;
-	padding:12px 28px;
-	border-radius:6px;
-	font-weight:600;
-	transition:.3s;
+.site-navbar .site-menu > li > a:hover,
+.site-navbar .site-menu > li.active > a {
+    color: #171717 !important;
+    opacity: 0.68;
 }
 
-.btn-editar-perfil:hover{
-	background:#12384d;
+/*
+   Logo
+*/
+
+.site-navbar .site-logo img {
+    max-height: 54px;
+    width: auto;
 }
 
-/*========================================================
-                RESUMO
-========================================================*/
+/* ==========================================================================
+   ESPAÇAMENTO DO CONTEÚDO
+   ========================================================================== */
 
-.perfil-resumo{
-	display:flex;
-	gap:20px;
-	flex-wrap:wrap;
+.perfil-main-wrapper {
+    padding-top: 110px;
+    padding-bottom: 60px;
+    background: #ffffff;
 }
 
-.resumo-card{
-	width:170px;
-	background:#f8f9fa;
-	border-radius:12px;
-	padding:20px;
-	text-align:center;
+
+/* ==========================================================================
+   HERO / PERFIL
+   ========================================================================== */
+
+.perfil-hero-card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 7px 24px rgba(23, 23, 23, 0.06);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 30px;
+    border: 1px solid var(--3r-border);
+    overflow: hidden;
 }
 
-.resumo-card h3{
-	font-size:28px;
-	font-weight:700;
-	color:#164863;
-	margin-bottom:8px;
+/*
+   Pequeno detalhe amarelo/laranja na lateral para trazer
+   a identidade da capa para dentro da página.
+*/
+
+.perfil-hero-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--3r-gradient);
 }
 
-.resumo-card span{
-	font-size:14px;
-	color:#666;
-	line-height:22px;
-	display:block;
+.hero-avatar-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 4px solid #fff4c7;
+    box-shadow: 0 5px 16px rgba(239, 183, 95, 0.18);
 }
 
-/*========================================================
-                CARDS
-========================================================*/
-
-.perfil-card{
-	background:#fff;
-	padding:35px;
-	border-radius:15px;
-	box-shadow:0 10px 30px rgba(0,0,0,.08);
-	height:100%;
+.hero-avatar-img,
+.seletor-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.perfil-card h3{
-	font-size:24px;
-	font-weight:700;
-	margin-bottom:30px;
-	color:#232323;
+.hero-info {
+    position: relative;
+    z-index: 1;
 }
 
-/*========================================================
-                DADOS PESSOAIS
-========================================================*/
-
-.perfil-item{
-	display:flex;
-	justify-content:space-between;
-	align-items:center;
-	padding:14px 0;
-	border-bottom:1px solid #ececec;
+.badge-boas-vindas {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 8px;
+    background: #fff4bf;
+    color: #a96a00;
 }
 
-.perfil-item:last-child{
-	border-bottom:none;
+.hero-nome {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--3r-dark);
+    margin-bottom: 8px;
 }
 
-.perfil-item strong{
-	color:#222;
-	font-weight:600;
+.hero-bio {
+    color: var(--3r-text-light);
+    font-size: 0.93rem;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    max-width: 800px;
 }
 
-.perfil-item span{
-	color:#666;
-	text-align:right;
+
+/* ==========================================================================
+   BOTÕES 3R
+   ========================================================================== */
+
+.btn-3r-primary,
+.btn-3r-secondary,
+.btn-3r-outline,
+.btn-3r-dark,
+.btn-3r-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border-radius: 9px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    padding: 10px 16px;
+
+    text-decoration: none !important;
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
 }
 
-.btn-atualizar{
-	background:#164863;
-	color:#fff;
-	border:none;
-	padding:12px 28px;
-	border-radius:6px;
-	font-weight:600;
-	transition:.3s;
+/*
+   Principal: gradiente da Plataforma
+*/
+
+.btn-3r-primary {
+    border: none;
+    background: var(--3r-gradient);
+    color: #171717 !important;
+    box-shadow: 0 4px 10px rgba(239, 183, 95, 0.15);
 }
 
-.btn-atualizar:hover{
-	background:#12384d;
+.btn-3r-primary:hover {
+    color: #171717 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 7px 16px rgba(239, 183, 95, 0.25);
 }
 
-/*========================================================
-                ÁREA DE INTERESSE
-========================================================*/
+/*
+   Secundário
+*/
 
-.interesse-card{
-	background:#f8f9fa;
-	border:2px solid transparent;
-	border-radius:12px;
-	padding:25px 15px;
-	text-align:center;
-	cursor:pointer;
-	margin-bottom:20px;
-	transition:.3s;
+.btn-3r-secondary {
+    border: 1px solid #262626;
+    background: #202020;
+    color: #ffffff !important;
 }
 
-.interesse-card:hover{
-	border-color:#164863;
-	transform:translateY(-4px);
+.btn-3r-secondary:hover {
+    background: #111111;
+    border-color: #111111;
+    color: #ffffff !important;
+    transform: translateY(-1px);
 }
 
-.interesse-card.active{
-	background:#164863;
-	color:#fff;
-	border-color:#164863;
+/*
+   Outline
+*/
+
+.btn-3r-outline {
+    border: 1px solid #e2ae4e;
+    background: transparent;
+    color: #ad720c !important;
 }
 
-.interesse-card i{
-	font-size:32px;
-	margin-bottom:15px;
+.btn-3r-outline:hover {
+    background: #fff7d7;
+    border-color: #e2ae4e;
+    color: #9b6509 !important;
 }
 
-.interesse-card h5{
-	font-size:17px;
-	font-weight:600;
-	margin:0;
-}
-/*========================================================
-                TRILHA DE APRENDIZAGEM
-========================================================*/
+/*
+   Dark
+*/
 
-.progresso-texto{
-	font-size:16px;
-	font-weight:600;
-	color:#164863;
+.btn-3r-dark {
+    border: 1px solid #202020;
+    background: #202020;
+    color: #ffffff !important;
 }
 
-.barra-progresso{
-	width:100%;
-	height:14px;
-	background:#e9ecef;
-	border-radius:30px;
-	margin-top:20px;
-	overflow:hidden;
+.btn-3r-dark:hover {
+    background: #111111;
+    color: #ffffff !important;
 }
 
-.barra-preenchida{
-	height:100%;
-	background:#164863;
-	border-radius:30px;
-	transition:.5s;
+/*
+   Ghost
+*/
+
+.btn-3r-ghost {
+    border: 1px solid transparent;
+    background: transparent;
+    color: #555555 !important;
 }
 
-.curso-card{
-	background:#f8f9fa;
-	border-radius:12px;
-	padding:20px;
-	display:flex;
-	align-items:center;
-	gap:18px;
-	border:2px solid transparent;
-	transition:.3s;
-	height:100%;
+.btn-3r-ghost:hover {
+    background: #f7f7f7;
+    color: #171717 !important;
 }
 
-.curso-card:hover{
-	transform:translateY(-4px);
-	border-color:#164863;
+
+/* ==========================================================================
+   CARDS GERAIS
+   ========================================================================== */
+
+.card-3r {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+
+    box-shadow: 0 6px 23px rgba(23, 23, 23, 0.045);
+
+    border: 1px solid var(--3r-border);
+    margin-bottom: 24px;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.curso-card.concluido{
-	border-color:#28a745;
-	background:#f4fff7;
+.card-3r:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 9px 28px rgba(23, 23, 23, 0.065);
+    border-color: #dddddd;
 }
 
-.curso-icon{
-	width:55px;
-	height:55px;
-	background:#164863;
-	color:#fff;
-	border-radius:50%;
-	display:flex;
-	align-items:center;
-	justify-content:center;
-	font-size:24px;
-	flex-shrink:0;
+
+/* ==========================================================================
+   CARD - TRILHA
+   ========================================================================== */
+
+.card-trilha {
+    position: relative;
+    overflow: hidden;
 }
 
-.curso-card.concluido .curso-icon{
-	background:#28a745;
+.card-trilha::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background: var(--3r-gradient);
 }
 
-.curso-info h5{
-	font-size:18px;
-	font-weight:600;
-	margin-bottom:5px;
-	color:#232323;
+.card-trilha-content,
+.card-header-clean {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
 }
 
-.curso-info span{
-	font-size:14px;
-	color:#666;
+.card-icon-header,
+.icon-badge {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.25rem;
+    flex-shrink: 0;
+
+    background: #fff6c9;
+    color: #bf830d;
 }
 
-/*========================================================
-                CURRÍCULO
-========================================================*/
-
-.curriculo-box{
-	background:#f8f9fa;
-	border-radius:12px;
-	padding:25px;
-	display:flex;
-	justify-content:space-between;
-	align-items:center;
-	flex-wrap:wrap;
-	gap:25px;
+.card-trilha h3,
+.card-header-clean h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--3r-dark);
+    margin-bottom: 4px;
 }
 
-.curriculo-info h4{
-	font-size:22px;
-	font-weight:600;
-	margin-bottom:8px;
-	color:#232323;
+.card-trilha p,
+.card-header-clean p {
+    font-size: 0.9rem;
+    color: var(--3r-text-light);
+    line-height: 1.6;
+    margin: 0;
 }
 
-.curriculo-info span{
-	color:#777;
-	font-size:15px;
+.card-trilha-footer {
+    margin-top: 20px;
+    padding-top: 16px;
+
+    border-top: 1px solid var(--3r-border-light);
+
+    display: flex;
+    justify-content: flex-end;
 }
 
-.curriculo-acoes{
-	display:flex;
-	flex-wrap:wrap;
-	gap:15px;
+
+/* ==========================================================================
+   CARD - CURRÍCULO
+   ========================================================================== */
+
+.secao-curriculo,
+.card-curriculo {
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
 }
 
-.btn-curriculo{
-	background:#164863;
-	color:#fff;
-	border:none;
-	padding:12px 22px;
-	border-radius:6px;
-	font-weight:600;
-	transition:.3s;
+.curriculo-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+
+    margin-top: 20px;
+    padding-top: 16px;
+
+    border-top: 1px solid var(--3r-border-light);
 }
 
-.btn-curriculo:hover{
-	background:#12384d;
-}
-/*========================================================
-                TRILHA DE APRENDIZAGEM
-========================================================*/
+.option-box {
+    background: #ffffff;
 
-.progresso-texto{
-	font-size:16px;
-	font-weight:600;
-	color:#164863;
-}
+    border: 1px solid var(--3r-border);
+    border-radius: 12px;
 
-.barra-progresso{
-	width:100%;
-	height:14px;
-	background:#e9ecef;
-	border-radius:30px;
-	margin-top:20px;
-	overflow:hidden;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
 }
 
-.barra-preenchida{
-	height:100%;
-	background:#164863;
-	border-radius:30px;
-	transition:.5s;
+.option-box:hover {
+    border-color: #dddddd;
+    box-shadow: 0 5px 16px rgba(23, 23, 23, 0.04);
+    transform: translateY(-1px);
 }
 
-.curso-card{
-	background:#f8f9fa;
-	border-radius:12px;
-	padding:20px;
-	display:flex;
-	align-items:center;
-	gap:18px;
-	border:2px solid transparent;
-	transition:.3s;
-	height:100%;
+.option-box h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--3r-dark);
+    margin-bottom: 6px;
 }
 
-.curso-card:hover{
-	transform:translateY(-4px);
-	border-color:#164863;
+.option-box p {
+    font-size: 0.85rem;
+    color: var(--3r-text-light);
+    line-height: 1.6;
+    margin-bottom: 16px;
 }
 
-.curso-card.concluido{
-	border-color:#28a745;
-	background:#f4fff7;
+
+/* ==========================================================================
+   SIDEBAR / ESTATÍSTICAS
+   ========================================================================== */
+
+.side-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--3r-dark);
+    margin-bottom: 16px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.curso-icon{
-	width:55px;
-	height:55px;
-	background:#164863;
-	color:#fff;
-	border-radius:50%;
-	display:flex;
-	align-items:center;
-	justify-content:center;
-	font-size:24px;
-	flex-shrink:0;
+.side-title i {
+    color: #d99a23;
 }
 
-.curso-card.concluido .curso-icon{
-	background:#28a745;
+.stats-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.curso-info h5{
-	font-size:18px;
-	font-weight:600;
-	margin-bottom:5px;
-	color:#232323;
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid var(--3r-border-light);
 }
 
-.curso-info span{
-	font-size:14px;
-	color:#666;
+.stat-item:last-child {
+    border-bottom: none;
 }
 
-/*========================================================
-                CURRÍCULO
-========================================================*/
-
-.curriculo-box{
-	background:#f8f9fa;
-	border-radius:12px;
-	padding:25px;
-	display:flex;
-	justify-content:space-between;
-	align-items:center;
-	flex-wrap:wrap;
-	gap:25px;
+.stat-label {
+    font-size: 0.88rem;
+    color: var(--3r-text-light);
 }
 
-.curriculo-info h4{
-	font-size:22px;
-	font-weight:600;
-	margin-bottom:8px;
-	color:#232323;
+.stat-value {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--3r-dark);
 }
 
-.curriculo-info span{
-	color:#777;
-	font-size:15px;
+.stat-value.highlight {
+    color: #cf8d17;
 }
 
-.curriculo-acoes{
-	display:flex;
-	flex-wrap:wrap;
-	gap:15px;
+
+/* ==========================================================================
+   OPORTUNIDADES
+   ========================================================================== */
+
+.vagas-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.btn-curriculo{
-	background:#164863;
-	color:#fff;
-	border:none;
-	padding:12px 22px;
-	border-radius:6px;
-	font-weight:600;
-	transition:.3s;
+.vaga-card {
+    background: #ffffff;
+
+    border: 1px solid var(--3r-border);
+    border-radius: 10px;
+
+    padding: 12px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.btn-curriculo:hover{
-	background:#12384d;
+.vaga-card:hover {
+    border-color: #dddddd;
+    box-shadow: 0 4px 12px rgba(23, 23, 23, 0.04);
+}
+
+.vaga-titulo {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--3r-dark);
+    margin-bottom: 2px;
+}
+
+.vaga-empresa {
+    font-size: 0.8rem;
+    color: var(--3r-text-light);
+    margin-bottom: 8px;
+}
+
+.status-pill {
+    font-size: 0.72rem;
+
+    padding: 4px 9px;
+
+    border-radius: 12px;
+
+    font-weight: 600;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.status-espera {
+    background: var(--3r-warning-light);
+    color: var(--3r-warning);
+}
+
+.status-entrevista {
+    background: var(--3r-success-light);
+    color: var(--3r-success);
+}
+
+
+/* ==========================================================================
+   FORMULÁRIOS
+   ========================================================================== */
+
+.custom-input {
+    width: 100%;
+
+    padding: 10px 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    font-size: 0.9rem;
+
+    color: var(--3r-dark);
+    background-color: #ffffff;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.custom-input:focus {
+    border-color: #e4b64d;
+
+    box-shadow:
+        0 0 0 3px rgba(244, 196, 95, 0.16);
+}
+
+.custom-input.disabled,
+.custom-input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    color: #9ca3af;
+}
+
+.tag-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px;
+}
+
+.tag-checkbox {
+    display: none;
+}
+
+.tag-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 14px;
+
+    border: 1px solid var(--3r-border);
+    border-radius: 8px;
+
+    font-size: 0.85rem;
+
+    color: var(--3r-text);
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    margin: 0;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.tag-label i {
+    color: #9ca3af;
+
+    transition: color 0.2s ease;
+}
+
+.tag-label:hover {
+    border-color: #e4c36b;
+    background: #fffaf0;
+}
+
+.tag-checkbox:checked + .tag-label {
+    background: #fff5cd;
+    border-color: #e5b34a;
+    color: #a86f09;
+}
+
+.tag-checkbox:checked + .tag-label i {
+    color: #d99a23;
+}
+
+
+/* ==========================================================================
+   MODAIS
+   ========================================================================== */
+
+.modal-custom-3r .modal-content {
+    border: none;
+    border-radius: 16px;
+
+    box-shadow:
+        0 18px 50px rgba(15, 23, 42, 0.18);
+
+    overflow: hidden;
+}
+
+.modal-custom-3r .modal-header {
+    background: var(--3r-gradient);
+
+    border-bottom: none;
+
+    padding: 18px 22px;
+}
+
+.modal-custom-3r .modal-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #171717;
+}
+
+.modal-custom-3r .modal-title i {
+    color: #171717;
+    margin-right: 6px;
+}
+
+.modal-custom-3r .modal-body {
+    background: #ffffff;
+}
+
+.modal-custom-3r .modal-footer {
+    border-top: 1px solid var(--3r-border-light);
+    background: #ffffff;
+}
+
+
+/* ==========================================================================
+   FOTO / SELETOR
+   ========================================================================== */
+
+.foto-seletor-container {
+    background: #fffdf7;
+
+    border: 1px solid #eee4cf;
+    border-radius: 12px;
+
+    padding: 16px;
+}
+
+.seletor-preview-img {
+    width: 82px;
+    height: 82px;
+
+    border-radius: 50%;
+
+    border: 3px solid #fff0bd;
+}
+
+
+/* ==========================================================================
+   TABULEIRO DA TRILHA
+   ========================================================================== */
+
+.trilha-info-banner {
+    background: #fff6cd;
+
+    border: 1px solid #f4d889;
+    border-radius: 10px;
+
+    padding: 10px 14px;
+
+    color: var(--3r-dark);
+
+    font-size: 0.85rem;
+}
+
+.tabuleiro-container {
+    position: relative;
+
+    width: 100%;
+    height: 320px;
+
+    border-radius: 16px;
+
+    border: 1px solid var(--3r-border);
+
+    overflow: hidden;
+
+    margin-top: 16px;
+
+    background:
+        radial-gradient(
+            circle at 18% 20%,
+            rgba(251, 224, 111, 0.15),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 80% 72%,
+            rgba(239, 183, 95, 0.10),
+            transparent 27%
+        ),
+        #ffffff;
+}
+
+.tabuleiro-path {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+}
+
+.casa-node {
+    position: absolute;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 2;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.casa-node:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+}
+
+.node-icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1rem;
+}
+
+.node-done .node-icon {
+    background: #e1f5e6;
+    color: #19853b;
+    border: 2px solid #8dd7a3;
+}
+
+.node-current .node-icon {
+    background: var(--3r-gradient);
+
+    color: #171717;
+
+    border: 2px solid #e5b34a;
+
+    box-shadow:
+        0 5px 14px rgba(239, 183, 95, 0.22);
+}
+
+.node-locked .node-icon {
+    background: #f3f4f6;
+    color: #9ca3af;
+    border: 2px solid #d1d5db;
+}
+
+.pino-icon {
+    font-size: 1.15rem;
+}
+
+.node-title {
+    position: absolute;
+
+    top: 54px;
+
+    white-space: nowrap;
+
+    font-size: 0.72rem;
+
+    font-weight: 600;
+
+    color: var(--3r-dark-soft);
+
+    background: rgba(255, 255, 255, 0.97);
+
+    padding: 4px 7px;
+
+    border-radius: 5px;
+
+    border: 1px solid var(--3r-border);
+
+    box-shadow:
+        0 2px 7px rgba(23, 23, 23, 0.04);
+}
+
+.casa-detalhe-box {
+    background: #fffdf7;
+
+    border: 1px solid #efd38c;
+    border-radius: 12px;
+
+    padding: 14px;
+
+    text-align: left;
+}
+
+.casa-detalhe-box h6 {
+    color: var(--3r-dark);
+}
+
+.casa-detalhe-box p {
+    line-height: 1.6;
+}
+
+
+/* ==========================================================================
+   SELETOR DE AVATAR
+   ========================================================================== */
+
+.avatar-picker-section h5 {
+    color: var(--3r-dark);
+    font-weight: 600;
+}
+
+.avatar-grid {
+    display: flex;
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 8px;
+}
+
+.btn-avatar {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 50%;
+
+    border: 2px solid var(--3r-border);
+
+    background: #ffffff;
+
+    color: var(--3r-text-light);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-size: 1.1rem;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.btn-avatar:hover {
+    border-color: #e4b64d;
+
+    color: #c38610;
+
+    background: #fff8dc;
+}
+
+.btn-avatar.active {
+    border-color: #e4b64d;
+
+    background: #fff4c6;
+
+    color: #b8770a;
+
+    box-shadow:
+        0 4px 10px rgba(239, 183, 95, 0.12);
+}
+
+
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+
+@media (max-width: 991px) {
+
+    .perfil-main-wrapper {
+        padding-top: 100px;
+    }
+
+    .perfil-hero-card {
+        padding: 24px;
+    }
+
+    .hero-nome {
+        font-size: 1.6rem;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .perfil-main-wrapper {
+        padding-top: 90px;
+        padding-bottom: 40px;
+    }
+
+    .perfil-hero-card {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding: 22px;
+
+        gap: 18px;
+    }
+
+    .hero-avatar-wrapper {
+        width: 84px;
+        height: 84px;
+    }
+
+    .hero-nome {
+        font-size: 1.45rem;
+    }
+
+    .hero-bio {
+        font-size: 0.88rem;
+    }
+
+    .hero-actions {
+        width: 100%;
+    }
+
+    .hero-actions .btn-3r-primary {
+        width: 100%;
+    }
+
+    .curriculo-options {
+        grid-template-columns: 1fr;
+    }
+
+    .tabuleiro-container {
+        height: 300px;
+    }
+
+    .node-title {
+        font-size: 0.68rem;
+
+        max-width: 120px;
+
+        white-space: normal;
+
+        text-align: center;
+    }
+
+    .tag-selector-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .card-3r,
+    .secao-curriculo,
+    .card-curriculo {
+        padding: 18px;
+    }
+
+    .perfil-hero-card {
+        padding: 18px;
+    }
+
+    .card-trilha-content,
+    .card-header-clean {
+        gap: 12px;
+    }
+
+    .card-icon-header,
+    .icon-badge {
+        width: 42px;
+        height: 42px;
+
+        font-size: 1rem;
+    }
+
+    .card-trilha h3,
+    .card-header-clean h3 {
+        font-size: 1.05rem;+
+    }
+
+    .tabuleiro-container {
+        height: 270px;
+    }
 }
