@@ -335,7 +335,10 @@ $resultado = $conn->query($sql);
                 <h5>Benefícios</h5>
                 <ul id="modalVagaBeneficios"></ul>
 
-                <button class="btn-candidatar">Candidatar-se à Oportunidade</button>
+                <form action="php/egresso/candidatar_vaga.php" method="POST">
+                <input type="hidden" name="id_vaga" id="modalIdVaga">
+                <button type="submit" class="btn-candidatar">Candidatar-se à Oportunidade</button>
+                </form>
                 <button onclick="fecharModalVaga()" class="btn-fechar-dark">Fechar</button>
             </div>
         </div>

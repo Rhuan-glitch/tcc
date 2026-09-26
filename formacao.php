@@ -189,6 +189,7 @@ while ($curso = $resultado->fetch_assoc()) {
             <button 
             class="formacao-btn"
             onclick='abrirModalCurso(
+                <?= json_encode($curso["id_curso"]) ?>,
                 <?= json_encode($curso["nome_curso"]) ?>,
                 <?= json_encode($curso["carga_horaria"] . " horas") ?>,
                 <?= json_encode($curso["descricao"]) ?>,
@@ -262,6 +263,12 @@ while ($curso = $resultado->fetch_assoc()) {
                 <a id="cursoLink" href="#" target="_blank" class="btn-inscricao-3r">
                     Inscrever-se na Formação
                 </a>
+                <form id="formConcluirCurso" action="php/egresso/concluir_curso.php" method="POST">
+                <input type="hidden" id="idCursoConcluir" name="id_curso">
+                <button type="submit" class="btn-inscricao-3r">
+                    Marcar como concluído
+                </button>
+                </form>
                 <button onclick="fecharModalCurso()" class="btn-fechar">
                     Fechar
                 </button>

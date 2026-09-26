@@ -51,7 +51,7 @@ botoesFiltro.forEach(function(botao){
    MODAL CURSO
 =========================== */
 
-window.abrirModalCurso = function(nome, horas, descricao, link, certificado, conteudo){
+window.abrirModalCurso = function(idCurso,nome, horas, descricao, link, certificado, conteudo){
 
     
     document.getElementById("cursoTitulo").innerHTML = nome;
@@ -64,8 +64,9 @@ window.abrirModalCurso = function(nome, horas, descricao, link, certificado, con
     descricao;
 
 
-    document.getElementById("cursoLink").href =
-    link;
+    document.getElementById("cursoLink").href = link;
+    document.getElementById("cursoLink").setAttribute("data-id-curso", idCurso);
+    document.getElementById("idCursoConcluir").value = idCurso;
     document.querySelector(".curso-certificado").innerHTML =
 '<i class="fa fa-certificate"></i> ' + certificado;
 
@@ -86,7 +87,41 @@ window.fecharModalCurso = function(){
 
 
 }
+document.getElementById("cursoLink").addEventListener("click", function(event){
 
+    event.preventDefault();
+
+    let idCurso = this.getAttribute("data-id-curso");
+    let linkCurso = this.getAttribute("href");
+
+    fetch("php/egresso/iniciar_curso.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "id_curso=" + encodeURIComponent(idCurso)
+    })
+    .then(function(response){
+
+        if (!response.ok) {
+            throw new Error("Erro ao iniciar curso.");
+        }
+
+        return response.text();
+
+    })
+    .then(function(){
+
+        window.open(linkCurso, "_blank");
+
+    })
+    .catch(function(){
+
+        alert("Não foi possível iniciar a formação.");
+
+    });
+
+});
 
 
 /* FECHAR CLICANDO FORA */

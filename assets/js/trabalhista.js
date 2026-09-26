@@ -52,7 +52,8 @@ document.addEventListener("DOMContentLoaded", function() {
 /* --- MODAL DETALHES --- */
 function abrirModalDetalhes(btn) {
     const card = btn.closest('.vaga-item');
-    
+    const idVaga = card.getAttribute('data-id');
+    document.getElementById('modalIdVaga').value = idVaga;
     // Puxa os dados do HTML do card clicado
     const titulo = card.querySelector('.vaga-titulo').innerText;
     const empresa = card.querySelector('.empresa-nome').innerText;

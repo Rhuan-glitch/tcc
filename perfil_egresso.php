@@ -1,6 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+<?php
 
+require_once __DIR__ . "/php/config/config.php";
+
+exigirLogin();
+exigirPerfil('egresso');
+
+$cpf = $_SESSION["cpf"];
+
+$stmt = $conn->prepare("
+    SELECT cpf, nome, data_nascimento, email, telefone, cidade, area_interesse, foto_perfil
+    FROM egresso
+    WHERE cpf = ?
+");
+
+$stmt->bind_param("s", $cpf);
+$stmt->execute();
+
+$resultado = $stmt->get_result();
+
+if ($resultado->num_rows !== 1) {
+    die("Egresso não encontrado.");
+}
+
+$egresso = $resultado->fetch_assoc();
+// Busca as candidaturas do egresso
+$stmtCandidaturas = $conn->prepare("
+    SELECT 
+        ev.id_candidatura,
+        ev.data_candidatura,
+        ev.status_candidatura,
+        v.titulo_vaga,
+        v.cidade,
+        e.razao_social
+    FROM egresso_vaga ev
+    INNER JOIN vaga v ON ev.id_vaga = v.id_vaga
+    INNER JOIN empresa e ON v.cnpj_empresa = e.cnpj
+    WHERE ev.cpf_egresso = ?
+    ORDER BY ev.data_candidatura DESC
+");
+
+$stmtCandidaturas->bind_param("s", $cpf);
+$stmtCandidaturas->execute();
+
+$resultadoCandidaturas = $stmtCandidaturas->get_result();
+
+$candidaturas = [];
+
+while ($candidatura = $resultadoCandidaturas->fetch_assoc()) {
+    $candidaturas[] = $candidatura;
+}
+
+$totalCandidaturas = count($candidaturas);
+
+// Busca a quantidade de cursos concluídos pelo egresso
+$stmtCursos = $conn->prepare("
+    SELECT COUNT(*) AS total_cursos
+    FROM egresso_curso
+    WHERE cpf_egresso = ?
+    AND status_curso = 'Concluído'
+");
+
+$stmtCursos->bind_param("s", $cpf);
+$stmtCursos->execute();
+
+$resultadoCursos = $stmtCursos->get_result();
+$totalCursosConcluidos = $resultadoCursos->fetch_assoc()['total_cursos'];
+// Essa parte busca os cursos recomendados para a área de interesse do egresso
+$stmtTrilha = $conn->prepare("
+    SELECT 
+        c.id_curso,
+        c.nome_curso,
+        c.carga_horaria,
+        ec.status_curso
+    FROM curso c
+    LEFT JOIN egresso_curso ec
+        ON c.id_curso = ec.id_curso
+        AND ec.cpf_egresso = ?
+    WHERE c.area = ?
+    ORDER BY c.nome_curso
+");
+
+$stmtTrilha->bind_param("ss", $cpf, $egresso['area_interesse']);
+$stmtTrilha->execute();
+
+$resultadoTrilha = $stmtTrilha->get_result();
+
+$cursosTrilha = [];
+
+while ($curso = $resultadoTrilha->fetch_assoc()) {
+    $cursosTrilha[] = $curso;
+}
+
+
+// Aqui faz o cálculo do progresso da trilha
+$totalCursosTrilha = count($cursosTrilha);
+$cursosTrilhaConcluidos = 0;
+
+foreach ($cursosTrilha as $curso) {
+    if ($curso['status_curso'] === 'Concluído') {
+        $cursosTrilhaConcluidos++;
+    }
+}
+
+if ($totalCursosTrilha > 0) {
+    $progressoTrilha = round(($cursosTrilhaConcluidos / $totalCursosTrilha) * 100);
+} else {
+    $progressoTrilha = 0;
+}
+$stmtCurriculo = $conn->prepare("
+    SELECT data_atualizacao
+    FROM curriculo
+    WHERE cpf_egresso = ?
+");
+
+$stmtCurriculo->bind_param("s", $cpf);
+$stmtCurriculo->execute();
+
+$resultadoCurriculo = $stmtCurriculo->get_result();
+
+if ($resultadoCurriculo->num_rows === 1) {
+
+    $curriculo = $resultadoCurriculo->fetch_assoc();
+
+} else {
+
+    $curriculo = [
+        "data_atualizacao" => null
+    ];
+}
+?>
 	<head>
 		<!-- Meta -->
 		<meta charset="utf-8">
@@ -10,7 +140,7 @@
 		<meta name="description" content="Monoline - Design Agency HTML Template">
 		<meta name="keywords" content="agency, business, corporate, creative, html5, modern, multipurpose, One Page, parallax, startup ">		
 		<!-- SITE TITLE -->
-		<title>Monoline - Design Agency HTML Template</title>			
+		<title>Meu Perfil - Plataforma 3R </title>			
 		<!-- Latest Bootstrap min CSS -->
 		<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">		
 		<!-- Google Font -->
@@ -47,7 +177,7 @@
 	</head>
 	
     <body data-spy="scroll" data-offset="80">
-
+			<?php include 'nav-bar.php'; ?>
 		<!-- START PRELOADER -->
 		<div class="preloader">
 			<div class="spinner">
@@ -56,85 +186,6 @@
 			</div>
 		</div>
 		<!-- END PRELOADER -->		
-
-		 <!-- START NAVBAR -->
-		<div class="site-mobile-menu site-navbar-target">
-		  <div class="site-mobile-menu-header">
-			<div class="site-mobile-menu-close mt-3">
-			  <span class="icon-close2 js-menu-toggle"></span>
-			</div>
-		  </div>
-		  <div class="site-mobile-menu-body"></div>
-		</div>
-	   
-		<header class="site-navbar js-sticky-header site-navbar-target" role="banner">
-		  <div class="container">
-			<div class="row align-items-center">       
-			  <div class="col-6 col-xl-2">
-				<h1 class="mb-0 site-logo"><a href="index.html"><img src="assets/img/Logo 3R .png" alt=""></a></h1>
-			  </div>
-			  <div class="col-12 col-md-10 d-none d-xl-block">
-				<nav class="site-navigation position-relative text-right" role="navigation">
-				  <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-				  	<li class="has-children">
-					  <a href="index.html" class="nav-link">Home</a>
-					  <ul class="dropdown">
-						<li><a href="index_two.html" class="nav-link">Home Two</a></li>
-						<li><a href="index_three.html" class="nav-link">Home Three</a></li>
-					  </ul>
-					</li>	
-					<li><a class="nav-link" href="about.html">Trabalhista</a></li>
-					<li class="has-children">
-					  <a href="service.html" class="nav-link">Curriculo</a>
-					  <ul class="dropdown">
-						<li><a href="single_service.html" class="nav-link">Email Marketing</a></li>
-						<li><a href="single_service.html" class="nav-link">Offline SEO</a></li>
-						<li><a href="single_service.html" class="nav-link">Social media marketing</a></li>
-						<li><a href="single_service.html" class="nav-link">Lead Generation</a></li>
-						<li><a href="single_service.html" class="nav-link">Web Design</a></li>
-						<li><a href="single_service.html" class="nav-link">Search Engine optimization</a></li>
-					  </ul>
-					</li>					 
-			         <li><a class="nav-link" href="casestudy.html">Formação</a></li>									
-					<li class="has-children">
-					  <a href="portfolio.html" class="nav-link">Entrar</a>
-					  <ul class="dropdown">
-						<li><a href="portfolio_gallery.html" class="nav-link">Portfolio Gallery</a></li>
-						<li><a href="portfolio.html" class="nav-link">Portfolio Project</a></li>
-						<li><a href="single_project.html" class="nav-link">Single Project</a></li>
-					  </ul>
-					</li>	
-					<li class="has-children">
-					  <a href="#" class="nav-link">Pages</a>
-					  <ul class="dropdown">
-						<li><a href="about.html" class="nav-link">About</a></li>
-						<li><a href="faq.html" class="nav-link">Faq Page</a></li>
-						<li><a href="404.html" class="nav-link">404 Page</a></li>
-						<li><a href="cadastro.html" class="nav-link">Cadastre-se</a></li>
-						<li><a href="pricing.html" class="nav-link">Pricing</a></li>
-					  </ul>
-					</li>					
-					<li class="has-children">
-					  <a href="blog.html" class="nav-link">Blog</a>
-					  <ul class="dropdown">
-						<li><a href="blog.html" class="nav-link">Blog No Sidebar</a></li>
-						<li><a href="blog_sidebar.html" class="nav-link">Blog With Sidebar</a></li>
-						<li><a href="blog_single.html" class="nav-link">Single Blog</a></li>
-					  </ul>
-					</li>				
-			         <li><a class="nav-link" href="contact.html">Contact</a></li>					
-				  </ul>
-				</nav>
-			  </div>
-			   <div class="col-6 d-inline-block d-xl-none ml-md-0 py-3" style="position: relative; top: 3px;">
-			   <a href="#" class="site-menu-toggle js-menu-toggle float-right"><span class="icon-menu h3"></span></a>
-			   </div>
-			</div>
-		  </div>
-		</header>
-	   <!-- END NAVBAR-->			
-	
-
 <section class="section-top perfil-banner" style="background-image:url(assets/img/bg/section-top.png);background-size:cover;background-position:center;">
 	<div class="container">
 		<div class="row">
@@ -154,34 +205,37 @@
 		<div class="perfil-header">
 
 			<div class="perfil-foto">
-				<img src="assets/img/team/team-one.jpg" alt="Foto do Usuário">
+				<?php if (!empty($egresso['foto_perfil'])): ?>
+        			<img src="<?= htmlspecialchars($egresso['foto_perfil']) ?>" alt="Foto de <?= htmlspecialchars($egresso['nome']) ?>">
+    			<?php else: ?>
+        			<img src="assets/img/team/team-one.jpg" alt="Foto do Usuário"><?php endif; ?>
 			</div>
 
 			<div class="perfil-info">
-				<h2>Rhuan Felipe</h2>
+				<h2><?= htmlspecialchars($egresso['nome']) ?></h2>
 				<span class="perfil-tipo">Egresso da Plataforma 3R</span>
 
 				<p>Cada passo no aprendizado aproxima você de novas oportunidades.</p>
 
-				<button class="btn-editar-perfil">
-					<i class="fa fa-pencil"></i> Editar Perfil
-				</button>
+				<a href="editar_perfil_egresso.php" class="btn-editar-perfil">
+    				<i class="fa fa-pencil"></i> Editar Perfil
+				</a>
 			</div>
 
 			<div class="perfil-resumo">
 
 				<div class="resumo-card">
-					<h3>2</h3>
+					<h3><?= $totalCursosConcluidos ?></h3>
 					<span>Cursos Concluídos</span>
 				</div>
 
 				<div class="resumo-card">
-					<h3>3</h3>
+					<h3><?= $totalCandidaturas ?></h3>
 					<span>Candidaturas</span>
 				</div>
 
 				<div class="resumo-card">
-					<h3>Tecnologia</h3>
+					<h3><?= htmlspecialchars($egresso['area_interesse']) ?></h3>
 					<span>Área de Interesse</span>
 				</div>
 
@@ -199,42 +253,42 @@
 
 					<div class="perfil-item">
 						<strong>Nome</strong>
-						<span>Rhuan Felipe</span>
+						<span><?= htmlspecialchars($egresso['nome']) ?></span>
 					</div>
 
 					<div class="perfil-item">
 						<strong>CPF</strong>
-						<span>000.000.000-00</span>
+						<span><?= htmlspecialchars($egresso['cpf']) ?></span>
 					</div>
 
 					<div class="perfil-item">
 						<strong>E-mail</strong>
-						<span>usuario@email.com</span>
+						<span><?= htmlspecialchars($egresso['email']) ?></span>
 					</div>
 
 					<div class="perfil-item">
 						<strong>Telefone</strong>
-						<span>(41) 99999-9999</span>
+						<span><?= htmlspecialchars($egresso['telefone']) ?></span>
 					</div>
 
 					<div class="perfil-item">
 						<strong>Data de Nascimento</strong>
-						<span>01/01/2000</span>
+						<span> <?= date('d/m/Y', strtotime($egresso['data_nascimento'])) ?></span>
 					</div>
 
 					<div class="perfil-item">
 						<strong>Cidade</strong>
-						<span>Pinhais - PR</span>
+						<span><?= htmlspecialchars($egresso['cidade']) ?></span>
 					</div>
 
-					<div class="perfil-item">
+					<!-- <div class="perfil-item">
 						<strong>Escolaridade</strong>
 						<span>Ensino Médio Completo</span>
-					</div>
+					</div> -->
 
-					<button class="btn-atualizar mt-4">
+					<!-- <button class="btn-atualizar mt-4">
 						Atualizar Informações
-					</button>
+					</button> -->
 
 				</div>
 
@@ -251,42 +305,57 @@
 					<div class="row mt-4">
 
 						<div class="col-md-6">
-							<div class="interesse-card active">
+							<div class="interesse-card <?= $egresso['area_interesse'] === 'Tecnologia' ? 'active' : '' ?>">
 								<i class="fa fa-desktop"></i>
 								<h5>Tecnologia</h5>
 							</div>
 						</div>
-
 						<div class="col-md-6">
-							<div class="interesse-card">
+							<div class="interesse-card <?= $egresso['area_interesse'] === 'Idiomas' ? 'active' : '' ?>">
+								<i class="fa fa-desktop"></i>
+								<h5>Idiomas</h5>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="interesse-card <?= $egresso['area_interesse'] === 'Administrativo' ? 'active' : '' ?>">
 								<i class="fa fa-briefcase"></i>
 								<h5>Administrativo</h5>
 							</div>
 						</div>
 
 						<div class="col-md-6">
-							<div class="interesse-card">
+							<div class="interesse-card <?= $egresso['area_interesse'] === 'Logística' ? 'active' : '' ?>">
 								<i class="fa fa-truck"></i>
 								<h5>Logística</h5>
 							</div>
 						</div>
 
 						<div class="col-md-6">
-							<div class="interesse-card">
+							<div class="interesse-card <?= $egresso['area_interesse'] === 'Comercial' ? 'active' : '' ?>">
 								<i class="fa fa-shopping-cart"></i>
 								<h5>Comercial</h5>
 							</div>
 						</div>
-
 						<div class="col-md-6">
-							<div class="interesse-card">
+							<div class="interesse-card <?= $egresso['area_interesse'] === 'Negócios' ? 'active' : '' ?>">
+								<i class="fa fa-desktop"></i>
+								<h5>Negócios</h5>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="interesse-card <?= $egresso['area_interesse'] === 'Atendimento' ? 'active' : '' ?>">
 								<i class="fa fa-users"></i>
 								<h5>Atendimento</h5>
 							</div>
 						</div>
-
 						<div class="col-md-6">
-							<div class="interesse-card">
+							<div class="interesse-card <?= $egresso['area_interesse'] === 'Desenvolvimento Pessoal' ? 'active' : '' ?>">
+								<i class="fa fa-desktop"></i>
+								<h5>Desenvolvimento Pessoal</h5>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="interesse-card <?= $egresso['area_interesse'] === 'Operacional' ? 'active' : '' ?>">
 								<i class="fa fa-cogs"></i>
 								<h5>Operacional</h5>
 							</div>
@@ -294,9 +363,9 @@
 
 					</div>
 
-					<button class="btn-atualizar mt-4">
+					<!-- <button class="btn-atualizar mt-4">
 						Salvar Área de Interesse
-					</button>
+					</button> -->
 
 				</div>
 
@@ -310,7 +379,7 @@
 
 			<div class="d-flex justify-content-between align-items-center mb-3">
 				<h3>Trilha de Aprendizagem</h3>
-				<span class="progresso-texto">40% Concluído</span>
+				<span class="progresso-texto"><?= $progressoTrilha ?>% Concluído</span>
 			</div>
 
 			<p>
@@ -318,58 +387,103 @@
 			</p>
 
 			<div class="barra-progresso">
-				<div class="barra-preenchida" style="width:40%;"></div>
+				<div class="barra-preenchida" style="width:<?= $progressoTrilha ?>%;"></div>
 			</div>
 
 			<div class="row mt-5">
 
-				<div class="col-lg-6">
-					<div class="curso-card concluido">
-						<div class="curso-icon">
-							<i class="fa fa-check-circle"></i>
-						</div>
-						<div class="curso-info">
-							<h5>Informática Básica</h5>
-							<span>40 Horas • Concluído</span>
-						</div>
-					</div>
-				</div>
+				<?php if (count($cursosTrilha) > 0): ?>
 
-				<div class="col-lg-6">
-					<div class="curso-card concluido">
-						<div class="curso-icon">
-							<i class="fa fa-check-circle"></i>
-						</div>
-						<div class="curso-info">
-							<h5>Excel para Escritórios</h5>
-							<span>60 Horas • Concluído</span>
-						</div>
-					</div>
-				</div>
+        <?php foreach ($cursosTrilha as $curso): ?>
 
-				<div class="col-lg-6 mt-4">
-					<div class="curso-card">
-						<div class="curso-icon">
-							<i class="fa fa-circle-o"></i>
-						</div>
-						<div class="curso-info">
-							<h5>Comunicação Profissional</h5>
-							<span>20 Horas • Recomendado</span>
-						</div>
-					</div>
-				</div>
+            <?php if ($curso['status_curso'] === 'Concluído'): ?>
 
-				<div class="col-lg-6 mt-4">
-					<div class="curso-card">
-						<div class="curso-icon">
-							<i class="fa fa-circle-o"></i>
-						</div>
-						<div class="curso-info">
-							<h5>Empreendedorismo</h5>
-							<span>40 Horas • Recomendado</span>
-						</div>
-					</div>
-				</div>
+                <div class="col-lg-6 mb-4">
+                    <div class="curso-card concluido">
+
+                        <div class="curso-icon">
+                            <i class="fa fa-check-circle"></i>
+                        </div>
+
+                        <div class="curso-info">
+
+                            <h5>
+                                <?= htmlspecialchars($curso['nome_curso']) ?>
+                            </h5>
+
+                            <span>
+                                <?= htmlspecialchars($curso['carga_horaria']) ?> Horas • Concluído
+                            </span>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            <?php elseif ($curso['status_curso'] === 'Em Andamento'): ?>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="curso-card">
+
+                        <div class="curso-icon">
+                            <i class="fa fa-clock-o"></i>
+                        </div>
+
+                        <div class="curso-info">
+
+                            <h5>
+                                <?= htmlspecialchars($curso['nome_curso']) ?>
+                            </h5>
+
+                            <span>
+                                <?= htmlspecialchars($curso['carga_horaria']) ?> Horas • Em Andamento
+                            </span>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            <?php else: ?>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="curso-card">
+
+                        <div class="curso-icon">
+                            <i class="fa fa-circle-o"></i>
+                        </div>
+
+                        <div class="curso-info">
+
+                            <h5>
+                                <?= htmlspecialchars($curso['nome_curso']) ?>
+                            </h5>
+
+                            <span>
+                                <?= htmlspecialchars($curso['carga_horaria']) ?> Horas • Recomendado
+                            </span>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            <?php endif; ?>
+
+        <?php endforeach; ?>
+
+    <?php else: ?>
+
+        <div class="col-lg-12">
+
+            <p>
+                Ainda não há cursos disponíveis para sua área de interesse.
+            </p>
+
+        </div>
+
+    <?php endif; ?>
+
 
 			</div>
 
@@ -384,9 +498,9 @@
 					<div class="d-flex justify-content-between align-items-center">
 						<h3>Meu Currículo</h3>
 
-						<button class="btn-editar-perfil">
-							<i class="fa fa-pencil"></i> Editar Currículo
-						</button>
+						<a href="editar_curriculo.php" class="btn-editar-perfil">
+    						<i class="fa fa-pencil"></i> Editar Currículo
+						</a>
 					</div>
 
 					<p class="mt-3">
@@ -397,18 +511,26 @@
 
 						<div class="curriculo-info">
 							<h4>Currículo Profissional</h4>
-							<span>Última atualização: 16/07/2026</span>
+							<span> Última atualização:
+								<?php
+    							if ($curriculo['data_atualizacao']) {
+        							echo date("d/m/Y H:i", strtotime($curriculo['data_atualizacao']));
+    							} else {
+        							echo "Ainda não atualizado";
+    							}
+    							?>
+							</span>
 						</div>
 
 						<div class="curriculo-acoes">
 
-							<button class="btn-curriculo">
-								<i class="fa fa-file-pdf-o"></i> Visualizar PDF
-							</button>
+							<a href="visualizar_curriculo.php" class="btn-curriculo">
+								<i class="fa fa-file-pdf-o"></i> Salvar como PDF
+							</a>
 
-							<button class="btn-curriculo">
+							<!-- <button class="btn-curriculo">
 								<i class="fa fa-google"></i> Abrir Modelo no Google Drive
-							</button>
+							</button> -->
 
 						</div>
 
@@ -429,48 +551,20 @@
 
 					<p>Acompanhe o andamento das vagas para as quais você se candidatou.</p>
 
-					<div class="candidatura-item">
-
-						<div class="candidatura-info">
-							<h4>Auxiliar Administrativo</h4>
-							<span>Empresa: Tech Solutions Ltda</span>
-						</div>
-
-						<div class="candidatura-status status-analise">
-							Em análise
-						</div>
-
-					</div>
-
-					<hr>
-
-					<div class="candidatura-item">
-
-						<div class="candidatura-info">
-							<h4>Atendente de Loja</h4>
-							<span>Empresa: Varejo Mais</span>
-						</div>
-
-						<div class="candidatura-status status-entrevista">
-							Entrevista
-						</div>
-
-					</div>
-
-					<hr>
-
-					<div class="candidatura-item">
-
-						<div class="candidatura-info">
-							<h4>Auxiliar de Logística</h4>
-							<span>Empresa: Log Transportes</span>
-						</div>
-
-						<div class="candidatura-status status-reprovado">
-							Não Selecionado
-						</div>
-
-					</div>
+					<?php if (count($candidaturas) > 0): ?>
+					<?php foreach ($candidaturas as $candidatura): ?>
+        			<div class="candidatura-item">
+            		<div class="candidatura-info">
+                	<h4><?= htmlspecialchars($candidatura['titulo_vaga']) ?></h4>
+                	<span>Empresa:<?= htmlspecialchars($candidatura['razao_social']) ?></span><br>
+                	<span>Data da candidatura:<?= date('d/m/Y', strtotime($candidatura['data_candidatura'])) ?></span></div>
+            		<div class="candidatura-status"><?= htmlspecialchars($candidatura['status_candidatura']) ?></div>
+        			</div>
+        			<hr>
+    				<?php endforeach; ?>
+					<?php else: ?>
+					<p>Você ainda não se candidatou a nenhuma vaga.</p>
+					<?php endif; ?>
 
 				</div>
 
@@ -484,7 +578,7 @@
 		<div class="desempenho-item">
 			<i class="fa fa-graduation-cap"></i>
 			<div>
-				<h4>2 Cursos Concluídos</h4>
+				<h4><?= $totalCursosConcluidos ?> Curso<?= $totalCursosConcluidos != 1 ? 's' : '' ?> Concluído<?= $totalCursosConcluidos != 1 ? 's' : '' ?> </h4>
 				<span>Continue aprendendo para ampliar suas oportunidades.</span>
 			</div>
 		</div>
@@ -494,7 +588,7 @@
 		<div class="desempenho-item">
 			<i class="fa fa-briefcase"></i>
 			<div>
-				<h4>3 Candidaturas Enviadas</h4>
+				<h4><?= $totalCandidaturas ?> Candidatura<?= $totalCandidaturas != 1 ? 's' : '' ?> Enviada<?= $totalCandidaturas != 1 ? 's' : '' ?></h4>
 				<span>Acompanhe o andamento das suas oportunidades.</span>
 			</div>
 		</div>
@@ -504,7 +598,7 @@
 		<div class="desempenho-item">
 			<i class="fa fa-certificate"></i>
 			<div>
-				<h4>2 Certificados</h4>
+				<h4> <?= $totalCursosConcluidos ?> Certificado<?= $totalCursosConcluidos != 1 ? 's' : '' ?></h4>
 				<span>Disponíveis para download na área de cursos.</span>
 			</div>
 		</div>
@@ -514,7 +608,7 @@
 		<div class="desempenho-item">
 			<i class="fa fa-line-chart"></i>
 			<div>
-				<h4>40% da Trilha Concluída</h4>
+				<h4><?= $progressoTrilha ?>% da Trilha Concluída</h4>
 				<span>Continue estudando para completar sua trilha recomendada.</span>
 			</div>
 		</div>
