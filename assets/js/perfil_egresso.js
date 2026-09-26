@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const titulo = this.getAttribute('data-titulo');
             const desc = this.getAttribute('data-desc');
             const status = this.getAttribute('data-status');
-
+            const url = this.getAttribute('data-url');
             if (boxDetalhes && tituloDetalhe && descDetalhe && btnAcaoCasa) {
                 tituloDetalhe.textContent = titulo;
                 descDetalhe.textContent = desc;
@@ -72,7 +72,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     btnAcaoCasa.textContent = 'Acessar Curso';
                     btnAcaoCasa.classList.remove('disabled');
-                    btnAcaoCasa.setAttribute('href', 'formacao.html');
+                    if (url) {
+                        btnAcaoCasa.setAttribute('href', url);
+                        btnAcaoCasa.setAttribute('target', '_blank');
+                    } else {
+                        btnAcaoCasa.setAttribute('href', 'formacao.php');
+                        btnAcaoCasa.removeAttribute('target');
+                    }
                 }
             }
         });
@@ -102,4 +108,21 @@ document.addEventListener('DOMContentLoaded', function() {
             labelAreaTrilha.textContent = this.options[this.selectedIndex].text;
         });
     }
+    // 6. PREVIEW DA FOTO DE PERFIL
+const inputFoto = document.getElementById('input-foto-arquivo');
+const previewFoto = document.getElementById('modal-foto-preview');
+
+if (inputFoto && previewFoto) {
+
+    inputFoto.addEventListener('change', function() {
+
+        const arquivo = this.files[0];
+
+        if (arquivo) {
+            previewFoto.src = URL.createObjectURL(arquivo);
+        }
+
+    });
+
+}
 });

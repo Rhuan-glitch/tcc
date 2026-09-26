@@ -8,13 +8,72 @@ exigirPerfil('egresso');
 $cpf = $_SESSION["cpf"];
 
 
-/* Recebe os dados do formulário */
+/* =====================================================
+   RECEBE OS DADOS
+   ===================================================== */
+
+/* Dados do formulário antigo */
 $formacao = trim($_POST["formacao"] ?? "");
 $experiencia = trim($_POST["experiencia_profissional"] ?? "");
 $informacoes = trim($_POST["informacoes_adicionais"] ?? "");
 
 
-/* Verifica se o egresso já possui currículo */
+/* =====================================================
+   DADOS DO MODAL 2
+   ===================================================== */
+
+if (isset($_POST["escolaridade"])) {
+
+    /* Escolaridade */
+    $formacao = trim($_POST["escolaridade"] ?? "");
+
+
+    /* Experiências */
+    $experiencias = $_POST["experiencias"] ?? [];
+
+    if (!empty($experiencias)) {
+        $experiencia = implode("\n", $experiencias);
+    } else {
+        $experiencia = "";
+    }
+
+
+    /* Habilidades */
+    $habilidades = $_POST["habilidades"] ?? [];
+
+
+    /* Disponibilidade */
+    $disponibilidades = $_POST["disponibilidade"] ?? [];
+
+
+    /* Monta as informações adicionais */
+    $partesInformacoes = [];
+
+
+    if (!empty($habilidades)) {
+
+        $partesInformacoes[] =
+            "Habilidades:\n" .
+            implode("\n", $habilidades);
+    }
+
+
+    if (!empty($disponibilidades)) {
+
+        $partesInformacoes[] =
+            "Disponibilidade:\n" .
+            implode("\n", $disponibilidades);
+    }
+
+
+    $informacoes = implode("\n\n", $partesInformacoes);
+}
+
+
+/* =====================================================
+   VERIFICA SE O EGRESSO JÁ POSSUI CURRÍCULO
+   ===================================================== */
+
 $stmt = $conn->prepare("
     SELECT cpf_egresso
     FROM curriculo
@@ -27,8 +86,13 @@ $stmt->execute();
 $resultado = $stmt->get_result();
 
 
-/* Se já existe, atualiza */
+/* =====================================================
+   ATUALIZA OU CRIA O CURRÍCULO
+   ===================================================== */
+
 if ($resultado->num_rows === 1) {
+
+    /* Já existe → atualiza */
 
     $stmt = $conn->prepare("
         UPDATE curriculo
@@ -50,7 +114,8 @@ if ($resultado->num_rows === 1) {
 
 } else {
 
-    /* Se não existe, cria o currículo */
+    /* Não existe → cria */
+
     $stmt = $conn->prepare("
         INSERT INTO curriculo
         (
@@ -73,7 +138,10 @@ if ($resultado->num_rows === 1) {
 }
 
 
-/* Executa */
+/* =====================================================
+   EXECUTA
+   ===================================================== */
+
 if ($stmt->execute()) {
 
     header("Location: ../../perfil_egresso.php");
