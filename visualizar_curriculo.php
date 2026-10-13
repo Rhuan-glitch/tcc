@@ -3,110 +3,298 @@
 require_once __DIR__ . "/php/config/config.php";
 
 exigirLogin();
-exigirPerfil("egresso");
 
-$cpf = $_SESSION["cpf"];
 
-/* Busca os dados do egresso */
-$stmt = $conn->prepare("
-    SELECT nome, email, telefone, cidade, area_interesse
-    FROM egresso
-    WHERE cpf = ?
-");
+/* =====================================================
+   VERIFICA QUAL PERFIL ESTÁ ACESSANDO
+   ===================================================== */
 
-$stmt->bind_param("s", $cpf);
-$stmt->execute();
+$tipo = $_SESSION["tipo"] ?? "";
 
-$resultado = $stmt->get_result();
 
-if ($resultado->num_rows !== 1) {
-    die("Egresso não encontrado.");
+/* =====================================================
+   EMPRESA
+   ===================================================== */
+
+if ($tipo === "empresa") {
+
+    exigirPerfil("empresa");
+
+    $id_candidatura = intval($_GET["id_candidatura"] ?? 0);
+    $cnpj = $_SESSION["cnpj"] ?? "";
+
+    if ($id_candidatura <= 0 || empty($cnpj)) {
+        die("Dados inválidos.");
+    }
+
+
+    /* =================================================
+       BUSCA O CANDIDATO E O CURRÍCULO
+       ================================================= */
+
+    $stmt = $conn->prepare("
+        SELECT
+            e.nome,
+            e.email,
+            e.telefone,
+            e.cidade,
+            e.area_interesse,
+            e.foto_perfil,
+
+            c.formacao,
+            c.experiencia_profissional,
+            c.informacoes_adicionais,
+            c.data_atualizacao
+
+        FROM egresso_vaga ev
+
+        INNER JOIN egresso e
+            ON ev.cpf_egresso = e.cpf
+
+        INNER JOIN vaga v
+            ON ev.id_vaga = v.id_vaga
+
+        LEFT JOIN curriculo c
+            ON e.cpf = c.cpf_egresso
+
+        WHERE ev.id_candidatura = ?
+        AND v.cnpj_empresa = ?
+    ");
+
+    $stmt->bind_param(
+        "is",
+        $id_candidatura,
+        $cnpj
+    );
+
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+
+
+    if ($resultado->num_rows !== 1) {
+        die("Currículo não encontrado.");
+    }
+
+
+    $curriculo = $resultado->fetch_assoc();
+
+
 }
 
-$egresso = $resultado->fetch_assoc();
+
+/* =====================================================
+   EGRESSO
+   ===================================================== */
+
+elseif ($tipo === "egresso") {
+
+    exigirPerfil("egresso");
+
+    $cpf = $_SESSION["cpf"] ?? "";
+
+    if (empty($cpf)) {
+        die("Dados inválidos.");
+    }
 
 
-/* Busca os dados do currículo */
-$stmtCurriculo = $conn->prepare("
-    SELECT
-        formacao,
-        experiencia_profissional,
-        informacoes_adicionais
-    FROM curriculo
-    WHERE cpf_egresso = ?
-");
+    /* =================================================
+       BUSCA O EGRESSO E O CURRÍCULO
+       ================================================= */
 
-$stmtCurriculo->bind_param("s", $cpf);
-$stmtCurriculo->execute();
+    $stmt = $conn->prepare("
+        SELECT
+            e.nome,
+            e.email,
+            e.telefone,
+            e.cidade,
+            e.area_interesse,
+            e.foto_perfil,
 
-$resultadoCurriculo = $stmtCurriculo->get_result();
+            c.formacao,
+            c.experiencia_profissional,
+            c.informacoes_adicionais,
+            c.data_atualizacao
 
-if ($resultadoCurriculo->num_rows === 1) {
+        FROM egresso e
 
-    $curriculo = $resultadoCurriculo->fetch_assoc();
+        LEFT JOIN curriculo c
+            ON e.cpf = c.cpf_egresso
 
-} else {
+        WHERE e.cpf = ?
+    ");
 
-    $curriculo = [
-        "formacao" => "",
-        "experiencia_profissional" => "",
-        "informacoes_adicionais" => ""
-    ];
+
+    $stmt->bind_param(
+        "s",
+        $cpf
+    );
+
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+
+
+    if ($resultado->num_rows !== 1) {
+        die("Currículo não encontrado.");
+    }
+
+
+    $curriculo = $resultado->fetch_assoc();
+
+
+}
+
+
+/* =====================================================
+   PERFIL INVÁLIDO
+   ===================================================== */
+
+else {
+
+    die("Perfil não autorizado.");
+
+}
+
+
+/* =====================================================
+   ORGANIZA HABILIDADES E DISPONIBILIDADE
+   ===================================================== */
+
+$habilidades = [];
+$disponibilidades = [];
+
+if (!empty($curriculo["informacoes_adicionais"])) {
+
+    $partes = explode(
+        "\n\n",
+        $curriculo["informacoes_adicionais"]
+    );
+
+    foreach ($partes as $parte) {
+
+        if (strpos($parte, "Habilidades:") === 0) {
+
+            $texto = str_replace(
+                "Habilidades:\n",
+                "",
+                $parte
+            );
+
+            $habilidades = array_values(
+                array_filter(
+                    explode("\n", $texto)
+                )
+            );
+        }
+
+
+        if (strpos($parte, "Disponibilidade:") === 0) {
+
+            $texto = str_replace(
+                "Disponibilidade:\n",
+                "",
+                $parte
+            );
+
+            $disponibilidades = array_values(
+                array_filter(
+                    explode("\n", $texto)
+                )
+            );
+        }
+    }
 }
 
 ?>
 
+
 <!DOCTYPE html>
+
 <html lang="pt-br">
 
 <head>
 
     <meta charset="UTF-8">
-    <title>Currículo - <?= htmlspecialchars($egresso["nome"]) ?></title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Currículo - <?= htmlspecialchars($curriculo["nome"]) ?>
+    </title>
 
     <style>
 
         body {
             font-family: Arial, sans-serif;
-            background: #f5f5f5;
+            background: #f8f6f2;
             margin: 0;
-            padding: 30px;
+            padding: 40px;
+            color: #333;
         }
 
         .curriculo {
-            max-width: 800px;
+            max-width: 850px;
             margin: auto;
             background: white;
             padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
         }
 
-        h1 {
-            margin-bottom: 5px;
+        .cabecalho {
+            border-bottom: 2px solid #edc764;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
         }
 
-        h2 {
-            margin-top: 30px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
+        .cabecalho h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
         }
 
-        .dados {
-            color: #555;
+        .cabecalho p {
+            margin: 5px 0;
         }
 
         .secao {
-            margin-top: 20px;
+            margin-bottom: 25px;
+        }
+
+        .secao h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .secao p {
+            margin: 6px 0;
+            line-height: 1.5;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 4px;
+            border-radius: 8px;
+            background: #fff3cd;
+            border: 1px solid #edc764;
         }
 
         .botoes {
-            max-width: 800px;
-            margin: 20px auto;
             text-align: center;
+            margin-top: 30px;
         }
 
-        button {
-            padding: 10px 20px;
+        .botoes button {
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
             cursor: pointer;
+            background: #edc764;
+            font-weight: bold;
         }
 
         @media print {
@@ -116,12 +304,13 @@ if ($resultadoCurriculo->num_rows === 1) {
                 padding: 0;
             }
 
-            .botoes {
-                display: none;
-            }
-
             .curriculo {
                 box-shadow: none;
+                max-width: none;
+            }
+
+            .botoes {
+                display: none;
             }
 
         }
@@ -130,78 +319,203 @@ if ($resultadoCurriculo->num_rows === 1) {
 
 </head>
 
+
 <body>
+
+<div class="curriculo">
+
+
+    <!-- =====================================================
+         CABEÇALHO
+         ===================================================== -->
+
+    <div class="cabecalho">
+
+        <h1>
+            <?= htmlspecialchars($curriculo["nome"]) ?>
+        </h1>
+
+        <p>
+            <strong>
+                Área de interesse:
+            </strong>
+
+            <?= htmlspecialchars(
+                $curriculo["area_interesse"] ?: "Não informada"
+            ) ?>
+        </p>
+
+        <p>
+            <strong>
+                Cidade:
+            </strong>
+
+            <?= htmlspecialchars(
+                $curriculo["cidade"] ?: "Não informada"
+            ) ?>
+        </p>
+
+        <p>
+            <strong>
+                E-mail:
+            </strong>
+
+            <?= htmlspecialchars(
+                $curriculo["email"] ?: "Não informado"
+            ) ?>
+        </p>
+
+        <p>
+            <strong>
+                Telefone:
+            </strong>
+
+            <?= htmlspecialchars(
+                $curriculo["telefone"] ?: "Não informado"
+            ) ?>
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         ESCOLARIDADE
+         ===================================================== -->
+
+    <div class="secao">
+
+        <h2>
+            🎓 Escolaridade
+        </h2>
+
+        <p>
+            <?= nl2br(
+                htmlspecialchars(
+                    $curriculo["formacao"] ?: "Não informado"
+                )
+            ) ?>
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         EXPERIÊNCIAS
+         ===================================================== -->
+
+    <div class="secao">
+
+        <h2>
+            💼 Experiências
+        </h2>
+
+        <?php if (!empty($curriculo["experiencia_profissional"])): ?>
+
+            <?php foreach (
+                explode("\n", $curriculo["experiencia_profissional"])
+                as $experiencia
+            ): ?>
+
+                <?php if (trim($experiencia) !== ""): ?>
+
+                    <p>
+                        • <?= htmlspecialchars($experiencia) ?>
+                    </p>
+
+                <?php endif; ?>
+
+            <?php endforeach; ?>
+
+        <?php else: ?>
+
+            <p>
+                Não informado.
+            </p>
+
+        <?php endif; ?>
+
+    </div>
+
+
+    <!-- =====================================================
+         HABILIDADES
+         ===================================================== -->
+
+    <div class="secao">
+
+        <h2>
+            ⭐ Habilidades
+        </h2>
+
+        <?php if (!empty($habilidades)): ?>
+
+            <?php foreach ($habilidades as $habilidade): ?>
+
+                <span class="tag">
+                    <?= htmlspecialchars($habilidade) ?>
+                </span>
+
+            <?php endforeach; ?>
+
+        <?php else: ?>
+
+            <p>
+                Não informado.
+            </p>
+
+        <?php endif; ?>
+
+    </div>
+
+
+    <!-- =====================================================
+         DISPONIBILIDADE
+         ===================================================== -->
+
+    <div class="secao">
+
+        <h2>
+            🕐 Disponibilidade
+        </h2>
+
+        <?php if (!empty($disponibilidades)): ?>
+
+            <?php foreach ($disponibilidades as $disponibilidade): ?>
+
+                <span class="tag">
+                    <?= htmlspecialchars($disponibilidade) ?>
+                </span>
+
+            <?php endforeach; ?>
+
+        <?php else: ?>
+
+            <p>
+                Não informado.
+            </p>
+
+        <?php endif; ?>
+
+    </div>
+
+
+    <!-- =====================================================
+         BOTÃO
+         ===================================================== -->
 
     <div class="botoes">
 
-        <button onclick="window.print()">
-            Salvar / Imprimir PDF
+        <button
+            type="button"
+            onclick="window.print()"
+        >
+            Imprimir / Salvar PDF
         </button>
 
     </div>
 
 
-    <div class="curriculo">
-
-        <h1>
-            <?= htmlspecialchars($egresso["nome"]) ?>
-        </h1>
-
-        <div class="dados">
-
-            <p>
-                <?= htmlspecialchars($egresso["email"]) ?>
-            </p>
-
-            <p>
-                <?= htmlspecialchars($egresso["telefone"]) ?>
-            </p>
-
-            <p>
-                <?= htmlspecialchars($egresso["cidade"]) ?>
-            </p>
-
-            <p>
-                Área de interesse:
-                <?= htmlspecialchars($egresso["area_interesse"]) ?>
-            </p>
-
-        </div>
-
-
-        <div class="secao">
-
-            <h2>Formação</h2>
-
-            <p>
-                <?= nl2br(htmlspecialchars($curriculo["formacao"])) ?>
-            </p>
-
-        </div>
-
-
-        <div class="secao">
-
-            <h2>Experiência profissional</h2>
-
-            <p>
-                <?= nl2br(htmlspecialchars($curriculo["experiencia_profissional"])) ?>
-            </p>
-
-        </div>
-
-
-        <div class="secao">
-
-            <h2>Informações adicionais</h2>
-
-            <p>
-                <?= nl2br(htmlspecialchars($curriculo["informacoes_adicionais"])) ?>
-            </p>
-
-        </div>
-
-    </div>
+</div>
 
 </body>
 

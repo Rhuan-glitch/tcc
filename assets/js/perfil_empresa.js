@@ -270,49 +270,7 @@ document.addEventListener('DOMContentLoaded', function () {
             'submit',
             function (event) {
 
-                event.preventDefault();
-
-
-                const inputRazaoSocial =
-                    document.getElementById(
-                        'input-razao-social'
-                    );
-
-
-                const displayRazaoSocial =
-                    document.getElementById(
-                        'display-razao-social'
-                    );
-
-
-                if (
-                    inputRazaoSocial &&
-                    displayRazaoSocial &&
-                    inputRazaoSocial.value.trim() !== ''
-                ) {
-
-                    displayRazaoSocial.textContent =
-                        inputRazaoSocial.value.trim();
-
-                }
-
-
-                /*
-                    FUTURO BACK-END
-
-                    O formulário poderá enviar os campos
-                    diretamente para o PHP responsável por
-                    atualizar a tabela "empresa".
-
-                    Nenhum banco é alterado pelo JavaScript
-                    nesta versão.
-                */
-
-
-                fecharModal(
-                    '#modalEditarEmpresa'
-                );
-
+                
             }
         );
 
@@ -405,90 +363,261 @@ document.addEventListener('DOMContentLoaded', function () {
        7. ABRIR MODAL DE EDITAR VAGA
        ===================================================================== */
 
-    const botoesEditarVaga =
-        document.querySelectorAll(
-            '.btn-editar-vaga'
-        );
+    /* ============================================================
+   PREENCHER OS CAMPOS DA VAGA
+   ============================================================ */
 
 
-    const tituloModalVaga =
-        document.getElementById(
-            'titulo-modal-vaga'
-        );
+
+const botoesEditarVaga =
+    document.querySelectorAll(
+        '.btn-editar-vaga'
+    );
 
 
-    const inputTituloVaga =
-        document.getElementById(
-            'input-titulo-vaga'
-        );
+const tituloModalVaga =
+    document.getElementById(
+        'titulo-modal-vaga'
+    );
+const inputTituloVaga =
+    document.getElementById(
+        'input-titulo-vaga'
+    );
+
+const selectStatusVaga =
+    document.getElementById(
+        'select-status-vaga'
+    );
 
 
-    const selectStatusVaga =
-        document.getElementById(
-            'select-status-vaga'
-        );
+const btnSalvarVaga =
+    document.getElementById(
+        'btn-salvar-vaga'
+    );
 
 
-    const btnSalvarVaga =
-        document.getElementById(
-            'btn-salvar-vaga'
-        );
+let modoEdicaoVaga = false;
+let idVagaEdicao = null;
 
 
-    let modoEdicaoVaga = false;
+botoesEditarVaga.forEach(function (botao) {
+
+    botao.addEventListener(
+        'click',
+        function () {
+
+            modoEdicaoVaga = true;
 
 
-    botoesEditarVaga.forEach(function (botao) {
+            /* =========================================================
+               PEGA OS DADOS DA VAGA
+               ========================================================= */
 
-        botao.addEventListener(
-            'click',
-            function () {
+            idVagaEdicao =
+                this.getAttribute(
+                    'data-id'
+                );
+            const inputIdVaga =
+                document.getElementById(
+                'input-id-vaga'
+            );
+            if (inputIdVaga) {
+                inputIdVaga.value =
+                idVagaEdicao;
+            }
 
-                modoEdicaoVaga = true;
+            const nomeVaga =
+                this.getAttribute(
+                    'data-vaga'
+                );
+            const imagemVaga =
+                this.getAttribute(
+                    'data-img'
+                );
+            const imagemAtual =
+                document.getElementById(
+                    'imagem-atual-vaga'
+                );
+
+            const previewImagem =
+                document.getElementById(
+                    'preview-imagem-vaga'
+                );
+
+            if (imagemVaga) {
+
+            previewImagem.src = '/tcc-1/' + imagemVaga;
+            imagemAtual.style.display ='block';
+
+            } else {
+            previewImagem.src = '';
+            imagemAtual.style.display ='none';
+            }
+            const area =
+                this.getAttribute(
+                    'data-area'
+                );
 
 
-                const nomeVaga =
-                    this.getAttribute(
-                        'data-vaga'
-                    );
+            const cidade =
+                this.getAttribute(
+                    'data-cidade'
+                );
 
 
-                if (
-                    tituloModalVaga &&
-                    nomeVaga
+            const tipoContrato =
+                this.getAttribute(
+                    'data-tipo-contrato'
+                );
+
+
+            const cargaHoraria =
+                this.getAttribute(
+                    'data-carga-horaria'
+                );
+
+
+            const faixaSalarial =
+                this.getAttribute(
+                    'data-faixa-salarial'
+                );
+
+
+            const status =
+                this.getAttribute(
+                    'data-status'
+                );
+
+
+            const descricao =
+                this.getAttribute(
+                    'data-descricao'
+                );
+
+
+            const requisitos =
+                this.getAttribute(
+                    'data-requisitos'
+                );
+
+
+            const beneficios =
+                this.getAttribute(
+                    'data-beneficios'
+                );
+
+
+            /* =========================================================
+               ALTERA O TÍTULO DO MODAL
+               ========================================================= */
+
+            if (tituloModalVaga) {
+
+                tituloModalVaga.innerHTML =
+                    '<i class="fa fa-briefcase"></i> Editar Vaga';
+
+            }
+
+
+            /* =========================================================
+               PREENCHER OS CAMPOS DA VAGA
+               ========================================================= */
+
+            const formVaga =
+                document.getElementById(
+                    'formNovaVaga'
+                );
+            if (formVaga) {
+                formVaga.action = 'php/empresa/editar_vaga.php';
+            }
+
+            if (formVaga) {
+
+                formVaga.elements['titulo_vaga'].value =
+                    nomeVaga || '';
+
+
+                formVaga.elements['area'].value =
+                    area || '';
+
+
+                formVaga.elements['cidade'].value =
+                    cidade || '';
+
+
+                formVaga.elements['tipo_contrato'].value =
+                    tipoContrato || '';
+
+
+                formVaga.elements['carga_horaria'].value =
+                    cargaHoraria || '';
+
+
+                formVaga.elements['faixa_salarial'].value =
+                    faixaSalarial || '';
+
+
+                formVaga.elements['descricao'].value =
+                    descricao || '';
+
+
+                formVaga.elements['requisitos'].value =
+                    requisitos || '';
+
+
+                formVaga.elements['beneficios'].value =
+                    beneficios || '';
+
+            }
+
+
+            /* =========================================================
+               CONVERTE O STATUS DO BANCO PARA O SELECT
+               ========================================================= */
+
+            if (selectStatusVaga) {
+
+                if (status === 'Publicada') {
+
+                    selectStatusVaga.value =
+                        'ativa';
+
+                } else if (
+                    status === 'Aguardando Aprovação'
                 ) {
 
-                    tituloModalVaga.innerHTML =
-                        '<i class="fa fa-briefcase"></i> Editar Vaga';
+                    selectStatusVaga.value =
+                        'selecao';
 
-                }
-
-
-                if (
-                    inputTituloVaga &&
-                    nomeVaga
+                } else if (
+                    status === 'Arquivada'
                 ) {
 
-                    inputTituloVaga.value =
-                        nomeVaga;
-
-                }
-
-
-                if (btnSalvarVaga) {
-
-                    btnSalvarVaga.innerHTML =
-                        '<i class="fa fa-save"></i> Salvar Alterações';
+                    selectStatusVaga.value =
+                        'encerrada';
 
                 }
 
             }
-        );
-
-    });
 
 
+            /* =========================================================
+               ALTERA O BOTÃO
+               ========================================================= */
 
+            if (btnSalvarVaga) {
+
+                btnSalvarVaga.innerHTML =
+                    '<i class="fa fa-save"></i> Salvar Alterações';
+
+            }
+
+        }
+    );
+
+});
+
+ 
     /* =====================================================================
        8. MODAL DE NOVA VAGA
        Quando aberto pelo botão "Nova Vaga", limpa o modo de edição.
@@ -567,220 +696,549 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* =====================================================================
-       9. ABRIR CANDIDATURAS DA VAGA
-       ===================================================================== */
+   9. ABRIR CANDIDATURAS DA VAGA
+   ===================================================================== */
 
-    const botoesCandidatos =
-        document.querySelectorAll(
-            '.btn-candidatos'
-        );
+const botoesCandidatos =
+    document.querySelectorAll('.btn-candidatos');
 
+const modalVagaNome =
+    document.getElementById('modal-vaga-nome');
 
-    const modalVagaNome =
-        document.getElementById(
-            'modal-vaga-nome'
-        );
+const listaCandidatos =
+    document.getElementById('modal-lista-candidatos');
 
 
-    botoesCandidatos.forEach(function (botao) {
+botoesCandidatos.forEach(function (botao) {
 
-        botao.addEventListener(
-            'click',
-            function () {
+    botao.addEventListener('click', function () {
 
-                const nomeVaga =
-                    this.getAttribute(
-                        'data-vaga'
+        const idVaga =
+            this.getAttribute('data-id');
+
+        const nomeVaga =
+            this.getAttribute('data-vaga');
+
+
+        /* NOME DA VAGA */
+
+        if (modalVagaNome && nomeVaga) {
+            modalVagaNome.textContent = nomeVaga;
+        }
+
+
+        /* ABRE O MODAL */
+
+        const modal =
+            document.getElementById('modalCandidaturas');
+
+        if (!modal) {
+            return;
+        }
+
+
+        if (
+            window.jQuery &&
+            typeof window.jQuery(modal).modal === 'function'
+        ) {
+
+            window.jQuery(modal).modal('show');
+
+        } else {
+
+            modal.classList.add('show');
+
+            modal.style.display = 'block';
+
+            document.body.classList.add('modal-open');
+
+        }
+
+
+        /* BUSCA AS CANDIDATURAS */
+
+        if (!idVaga || !listaCandidatos) {
+            return;
+        }
+
+
+        listaCandidatos.innerHTML = `
+            <p style="text-align: center;">
+                Carregando candidaturas...
+            </p>
+        `;
+
+
+        fetch(
+            'php/empresa/buscar_candidaturas.php?id_vaga='
+            + encodeURIComponent(idVaga)
+        )
+            .then(function (resposta) {
+
+                if (!resposta.ok) {
+                    throw new Error(
+                        'Erro ao buscar candidaturas.'
                     );
-
-
-                if (
-                    modalVagaNome &&
-                    nomeVaga
-                ) {
-
-                    modalVagaNome.textContent =
-                        nomeVaga;
-
                 }
 
+                return resposta.json();
 
-                const modal =
-                    document.getElementById(
-                        'modalCandidaturas'
-                    );
+            })
+            .then(function (candidaturas) {
 
+                /* NENHUMA CANDIDATURA */
 
-                if (!modal) {
+                if (candidaturas.length === 0) {
+
+                    listaCandidatos.innerHTML = `
+                        <p style="text-align: center;">
+                            Ainda não há candidaturas para esta vaga.
+                        </p>
+                    `;
+
                     return;
                 }
 
 
-                if (
-                    window.jQuery &&
-                    typeof window.jQuery(modal).modal === 'function'
-                ) {
+                /* CANDIDATURAS ENCONTRADAS */
 
-                    window.jQuery(modal).modal(
-                        'show'
-                    );
+                listaCandidatos.innerHTML = '';
 
-                }
 
-                else {
+                candidaturas.forEach(function (candidatura) {
+                    let fotoCandidato = `
+        <i class="fa fa-user"></i>
+    `;
 
-                    modal.classList.add('show');
+    if (candidatura.foto_perfil) {
+        fotoCandidato = `
+            <img
+                src="/tcc-1/${candidatura.foto_perfil}"
+                alt="Foto de ${candidatura.nome}"
+                style="
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+                "
+            >
+        `;
+    } 
+                    const card =
+                        document.createElement('article');
 
-                    modal.style.display =
-                        'block';
+                    card.className =
+                        'candidato-modal-card';
 
-                    document.body.classList.add(
-                        'modal-open'
-                    );
 
-                }
+                    card.innerHTML = `
+                        <div class="candidato-avatar candidato-avatar-large">
+                            ${fotoCandidato}
+                        </div>
 
-            }
-        );
+                        <div class="candidato-modal-info">
+
+                            <h3>
+                                ${candidatura.nome}
+                            </h3>
+
+                            <p>
+                                ${candidatura.area_interesse || 'Área não informada'}
+                            </p>
+
+                            <span class="status-candidatura recebido">
+                                ${candidatura.status_candidatura}
+                            </span>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="btn-curriculo"
+                            data-id-candidatura="${candidatura.id_candidatura}"
+                        >
+                            Ver currículo
+                            <i class="fa fa-arrow-right"></i>
+                        </button>
+                    `;
+
+
+                    listaCandidatos.appendChild(card);
+
+                });
+
+            })
+            .catch(function (erro) {
+
+                console.error(erro);
+
+                listaCandidatos.innerHTML = `
+                    <p style="text-align: center;">
+                        Não foi possível carregar as candidaturas.
+                    </p>
+                `;
+
+            });
 
     });
 
-
+});
 
     /* =====================================================================
        10. BOTÕES "VER CURRÍCULO"
        ===================================================================== */
 
-    const botoesCurriculo =
-        document.querySelectorAll(
-            '.btn-curriculo'
-        );
+    
+
+const listaCandidatosCurriculo =
+    document.getElementById(
+        'modal-lista-candidatos'
+    );
 
 
-    botoesCurriculo.forEach(function (botao) {
+if (listaCandidatosCurriculo) {
 
-        botao.addEventListener(
-            'click',
-            function () {
+    listaCandidatosCurriculo.addEventListener(
+        'click',
+        function (event) {
 
-                alert(
-                    'Aqui será aberto o currículo do egresso. ' +
-                    'A integração com os dados do currículo será feita pelo Back-End.'
+            const botao =
+                event.target.closest(
+                    '.btn-curriculo'
+                );
+
+
+            if (!botao) {
+                return;
+            }
+
+
+            const idCandidatura =
+                botao.getAttribute(
+                    'data-id-candidatura'
+                );
+
+
+            if (!idCandidatura) {
+                return;
+            }
+
+
+            window.location.href =
+                'visualizar_curriculo.php?id_candidatura='
+                + encodeURIComponent(idCandidatura);
+
+        }
+    );
+
+}
+/* =====================================================================
+   11. BOTÕES DE CANDIDATO NA LISTA PRINCIPAL
+   ===================================================================== */
+
+const botoesVerCandidato =
+    document.querySelectorAll(
+        '.btn-ver-candidato'
+    );
+
+
+botoesVerCandidato.forEach(function (botao) {
+
+    botao.addEventListener(
+        'click',
+        function () {
+
+            const idVaga =
+                this.getAttribute(
+                    'data-id-vaga'
+                );
+
+
+            const modal =
+                document.getElementById(
+                    'modalCandidaturas'
+                );
+
+
+            if (!modal) {
+                return;
+            }
+
+
+            /* =========================================================
+               ABRE O MODAL
+               ========================================================= */
+
+            if (
+                window.jQuery &&
+                typeof window.jQuery(modal).modal === 'function'
+            ) {
+
+                window.jQuery(modal).modal(
+                    'show'
+                );
+
+            } else {
+
+                modal.classList.add('show');
+
+                modal.style.display = 'block';
+
+                document.body.classList.add(
+                    'modal-open'
                 );
 
             }
-        );
-
-    });
 
 
+            /* =========================================================
+               VERIFICA SE A VAGA FOI INFORMADA
+               ========================================================= */
 
-    /* =====================================================================
-       11. BOTÕES DE CANDIDATO NA LISTA PRINCIPAL
-       ===================================================================== */
+            if (!idVaga) {
 
-    const botoesVerCandidato =
-        document.querySelectorAll(
-            '.btn-ver-candidato'
-        );
+                console.error(
+                    'ID da vaga não encontrado.'
+                );
 
-
-    botoesVerCandidato.forEach(function (botao) {
-
-        botao.addEventListener(
-            'click',
-            function () {
-
-                const modal =
-                    document.getElementById(
-                        'modalCandidaturas'
-                    );
-
-
-                if (!modal) {
-                    return;
-                }
-
-
-                if (
-                    window.jQuery &&
-                    typeof window.jQuery(modal).modal === 'function'
-                ) {
-
-                    window.jQuery(modal).modal(
-                        'show'
-                    );
-
-                }
+                return;
 
             }
-        );
-
-    });
 
 
+            /* =========================================================
+               ELEMENTOS DO MODAL
+               ========================================================= */
 
+            const lista =
+                document.getElementById(
+                    'modal-lista-candidatos'
+                );
+
+
+            const nomeVaga =
+                document.getElementById(
+                    'modal-vaga-nome'
+                );
+
+
+            if (!lista) {
+                return;
+            }
+
+
+            /* =========================================================
+               MOSTRA CARREGANDO
+               ========================================================= */
+
+            lista.innerHTML = `
+                <p style="text-align: center;">
+                    Carregando candidaturas...
+                </p>
+            `;
+
+
+            /* =========================================================
+               BUSCA AS CANDIDATURAS DA VAGA
+               ========================================================= */
+
+            fetch(
+                'php/empresa/buscar_candidaturas.php?id_vaga='
+                + encodeURIComponent(idVaga)
+            )
+                .then(function (resposta) {
+
+                    if (!resposta.ok) {
+
+                        throw new Error(
+                            'Erro ao buscar candidaturas.'
+                        );
+
+                    }
+
+                    return resposta.json();
+
+                })
+
+                .then(function (candidaturas) {
+
+
+                    /* =================================================
+                       NOME DA VAGA
+                       ================================================= */
+
+                    if (
+                        candidaturas.length > 0 &&
+                        nomeVaga
+                    ) {
+
+                        nomeVaga.textContent =
+                            candidaturas[0].titulo_vaga;
+
+                    }
+
+
+                    /* =================================================
+                       NENHUMA CANDIDATURA
+                       ================================================= */
+
+                    if (
+                        candidaturas.length === 0
+                    ) {
+
+                        lista.innerHTML = `
+                            <p style="text-align: center;">
+                                Ainda não há candidaturas para esta vaga.
+                            </p>
+                        `;
+
+                        return;
+
+                    }
+
+
+                    /* =================================================
+                       LIMPA A LISTA
+                       ================================================= */
+
+                    lista.innerHTML = '';
+
+
+                    /* =================================================
+                       MONTA OS CANDIDATOS
+                       ================================================= */
+
+                    candidaturas.forEach(
+                        function (candidatura) {
+
+
+                            /* =========================================
+                               FOTO DO CANDIDATO
+                               ========================================= */
+
+                            let fotoCandidato = `
+                                <i class="fa fa-user"></i>
+                            `;
+
+
+                            if (
+                                candidatura.foto_perfil
+                            ) {
+
+                                fotoCandidato = `
+                                    <img
+                                        src="/tcc-1/${candidatura.foto_perfil}"
+                                        alt="Foto de ${candidatura.nome}"
+                                        style="
+                                            width: 100%;
+                                            height: 100%;
+                                            object-fit: cover;
+                                            border-radius: 50%;
+                                        "
+                                    >
+                                `;
+
+                            }
+
+
+                            /* =========================================
+                               CRIA O CARD
+                               ========================================= */
+
+                            const card =
+                                document.createElement(
+                                    'article'
+                                );
+
+
+                            card.className =
+                                'candidato-modal-card';
+
+
+                            card.innerHTML = `
+
+                                <div class="candidato-avatar candidato-avatar-large">
+
+                                    ${fotoCandidato}
+
+                                </div>
+
+
+                                <div class="candidato-modal-info">
+
+                                    <h3>
+                                        ${candidatura.nome}
+                                    </h3>
+
+
+                                    <p>
+                                        ${candidatura.area_interesse || 'Área não informada'}
+                                    </p>
+
+
+                                    <span class="status-candidatura recebido">
+
+                                        ${candidatura.status_candidatura}
+
+                                    </span>
+
+                                </div>
+
+
+                                <button
+                                    type="button"
+                                    class="btn-curriculo"
+                                    data-id-candidatura="${candidatura.id_candidatura}"
+                                >
+
+                                    Ver currículo
+
+                                    <i class="fa fa-arrow-right"></i>
+
+                                </button>
+
+                            `;
+
+
+                            lista.appendChild(
+                                card
+                            );
+
+                        }
+                    );
+
+                })
+
+                .catch(function (erro) {
+
+                    console.error(
+                        erro
+                    );
+
+
+                    lista.innerHTML = `
+                        <p style="text-align: center;">
+                            Não foi possível carregar as candidaturas.
+                        </p>
+                    `;
+
+                });
+
+        }
+    );
+
+});
+
+
+    
     /* =====================================================================
-       12. FORMULÁRIO DA VAGA
-       ===================================================================== */
+   12. FORMULÁRIO DA VAGA
+   ===================================================================== */
 
     const formNovaVaga =
         document.getElementById(
             'formNovaVaga'
         );
-
-
-    if (formNovaVaga) {
-
-        formNovaVaga.addEventListener(
-            'submit',
-            function (event) {
-
-                event.preventDefault();
-
-
-                /*
-                    FUTURO BACK-END
-
-                    O formulário deverá enviar para o PHP:
-
-                    titulo_vaga
-                    area
-                    cidade
-                    descricao
-                    requisitos
-                    beneficios
-                    carga_horaria
-                    faixa_salarial
-                    tipo_contrato
-                    img_vaga
-                    status
-
-                    Esses campos correspondem aos atributos
-                    existentes na tabela "vaga".
-                */
-
-
-                const mensagem =
-                    modoEdicaoVaga
-                        ? 'A interface de edição da vaga está funcionando. O salvamento real será conectado ao Back-End.'
-                        : 'A interface de publicação da vaga está funcionando. O cadastro real será conectado ao Back-End.';
-
-
-                alert(mensagem);
-
-
-                fecharModal(
-                    '#modalNovaVaga'
-                );
-
-            }
-        );
-
-    }
-
-
-
     /* =====================================================================
        13. ESC PARA FECHAR MODAL
        ===================================================================== */

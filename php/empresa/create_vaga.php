@@ -41,7 +41,41 @@ $beneficios      = trim($_POST["beneficios"] ?? '');
 $carga_horaria   = intval($_POST["carga_horaria"] ?? 0);
 $faixa_salarial  = trim($_POST["faixa_salarial"] ?? '');
 $tipo_contrato   = trim($_POST["tipo_contrato"] ?? '');
+/* ==========================================================
+   4.1 RECEBER E SALVAR IMAGEM DA VAGA
+========================================================== */
 
+$img_vaga = null;
+
+if (isset($_FILES["img_vaga"]) && $_FILES["img_vaga"]["error"] === 0) {
+
+    $extensao = strtolower(
+        pathinfo($_FILES["img_vaga"]["name"], PATHINFO_EXTENSION)
+    );
+
+    $extensoesPermitidas = ["jpg", "jpeg", "png", "webp"];
+
+    if (!in_array($extensao, $extensoesPermitidas)) {
+        die("Erro: formato de imagem não permitido.");
+    }
+
+    $novoNome = uniqid("vaga_", true) . "." . $extensao;
+
+    $pastaUpload = __DIR__ . "/../uploads/";
+
+    if (!is_dir($pastaUpload)) {
+        mkdir($pastaUpload, 0777, true);
+    }
+
+    if (!move_uploaded_file(
+        $_FILES["img_vaga"]["tmp_name"],
+        $pastaUpload . $novoNome
+    )) {
+        die("Erro ao salvar a imagem da vaga.");
+    }
+
+    $img_vaga = "php/uploads/" . $novoNome;
+}
 /* ==========================================================
    5. VALIDAR CAMPOS
 ========================================================== */
@@ -75,10 +109,11 @@ $sql = "INSERT INTO vaga (
             carga_horaria,
             faixa_salarial,
             tipo_contrato,
+            img_vaga,
             status,
             data_aprovacao
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Aguardando Aprovação', NULL)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, 'Aguardando Aprovação', NULL)";
 
 $stmt = $conn->prepare($sql);
 
@@ -87,7 +122,7 @@ if (!$stmt) {
 }
 
 $stmt->bind_param(
-    "sssssssiss",
+    "sssssssisss",
     $cnpj_empresa,
     $titulo_vaga,
     $area,
@@ -97,7 +132,8 @@ $stmt->bind_param(
     $beneficios,
     $carga_horaria,
     $faixa_salarial,
-    $tipo_contrato
+    $tipo_contrato,
+    $img_vaga
 );
 
 /* ==========================================================

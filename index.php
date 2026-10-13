@@ -71,7 +71,7 @@ require_once __DIR__ . '/php/config/config.php';
                         <h1>Uma nova chance para recomeçar com dignidade</h1>
                         <h3>A Plataforma 3R conecta egressos do sistema prisional a oportunidades reais de emprego...</h3>
                         <div class="hero-buttons-container">
-                            <a href="cadastro.html" class="btn-hero-dark"><i class="fa fa-user-plus"></i> Cadastre-se</a>
+                            <a href="cadastro.php" class="btn-hero-dark"><i class="fa fa-user-plus"></i> Cadastre-se</a>
                         </div>
                     </div>
                 </div>
@@ -80,10 +80,10 @@ require_once __DIR__ . '/php/config/config.php';
                 <div class="carousel-item">
                     <img src="assets/img/bg/Fundo.png" alt="slider-image" />
                     <div class="kenburns_061_slide kenburns_061_slide_center" data-animation="animated fadeInLeft">
-                        <h1>Crie seu Currículo com IA</h1>
-                        <h3>Nossa ferramenta com inteligência artificial revisa e aprimora seu currículo...</h3>
+                        <h1>Crie seu Currículo</h1>
+                        <h3>Nossa plataforma auxilia você na criação do seu currículo...</h3>
                         <div class="hero-buttons-container">
-                            <a href="cadastro.html" class="btn-hero-dark">Criar Currículo</a>
+                            <a href="perfil_egresso.php" class="btn-hero-dark">Criar Currículo</a>
                         </div>
                     </div>
                 </div>
@@ -322,7 +322,7 @@ require_once __DIR__ . '/php/config/config.php';
                         
                         <!-- LADO DIREITO: O Formulário Elegante -->
                         <div class="col-lg-7 col-md-12 painel-form-contato">
-                            <form action="#" method="post" class="form-custom-3r">
+                            <form action="php/contact.php" method="post" class="form-custom-3r">
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
                                         <label class="label-custom">Seu Nome</label>
@@ -341,7 +341,7 @@ require_once __DIR__ . '/php/config/config.php';
                                         <textarea name="message" class="form-control-custom" rows="4" placeholder="Digite aqui os detalhes..." required></textarea>
                                     </div>
                                     <div class="col-md-12 text-end">
-                                        <button type="submit" class="btn-custom-3r">Enviar Mensagem</button>
+                                        <button type="submit" name='submit' class="btn-custom-3r">Enviar Mensagem</button>
                                     </div>
                                 </div>
                             </form>
@@ -352,56 +352,7 @@ require_once __DIR__ . '/php/config/config.php';
             </div>
         </section>
         
-        <!-- START FOOTER -->
-        <div class="footer">
-            <div class="container">     
-                <div class="row footer_bg">                     
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                        <div class="footer_logo">
-                            <img src="assets/img/Logo 3R (5).png" alt="" />
-                            <p>Nossa missão é ser a ponte para o seu novo futuro. Ajudamos pessoas em processo de reconstrução a encontrar oportunidades de trabalho e capacitação.</p>
-                        </div>
-                        <div class="social_profile">
-                            <ul>
-                                <li><a href="#" class="f_facebook"><i class="fa fa-facebook" title="Facebook"></i></a></li>
-                                <li><a href="#" class="f_twitter"><i class="fa fa-youtube" title="Youtube"></i></a></li>
-                                <li><a href="#" class="f_instagram"><i class="fa fa-instagram" title="Instagram"></i></a></li>
-                                <li><a href="#" class="f_linkedin"><i class="fa fa-linkedin" title="LinkedIn"></i></a></li>
-                            </ul>
-                        </div>                          
-                    </div><!--- END COL -->                     
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                        <div class="single_footer">
-                            <h4>Dúvidas Frequentes</h4>
-                            <ul>
-                                <li><a href="#">Privacidade e Segurança</a></li>
-                                <li><a href="#">Termos de Serviço</a></li>
-                                <li><a href="#">Como Funciona</a></li>
-                            </ul>
-                        </div>
-                    </div><!--- END COL --> 
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                        <div class="single_footer">
-                            <h4>Plataforma</h4>
-                            <ul>
-                                <li><a href="#">Trabalhista</a></li>
-                                <li><a href="#">Formação</a></li>
-                                <li><a href="#">Cadastre-se</a></li>
-                                <li><a href="#">Login</a></li>                       
-                            </ul>
-                        </div>
-                    </div><!--- END COL --> 
-                </div><!--- END ROW -->     
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <div class="footer_copyright">
-                            <p>&copy; 2026 Plataforma 3R - Recomeçar, Reconstruir e Renascer. <br>Todos os direitos reservados.</p>
-                        </div>
-                    </div>
-                </div>              
-            </div><!--- END CONTAINER -->
-        </div>
-        <!-- END FOOTER --> 
+        <?php include 'footer.php';?>
 
         <!-- Latest jQuery -->
         <script src="assets/js/jquery-1.12.4.min.js"></script>

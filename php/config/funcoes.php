@@ -42,7 +42,7 @@ function usuarioLogado()
 function exigirLogin()
 {
     if (!isset($_SESSION["usuario"])) {
-        header("Location: /tcc-1/login.html");
+        header("Location: /tcc-1/login.php");
         exit();
     }
 }

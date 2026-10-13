@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-br">
 <?php
 require_once __DIR__ . "/php/config/config.php";
 exigirLogin();
@@ -119,6 +117,8 @@ $cursos = $resultadoCursos->fetch_assoc();
 $totalCursosConcluidos = $cursos['total_cursos_concluidos'] ?? 0;
 $totalCursosAndamento = $cursos['total_cursos_andamento'] ?? 0;
 ?>
+<!DOCTYPE html>
+<html lang="pt-br">
     <head>
         <!-- Meta -->
         <meta charset="utf-8">
@@ -235,10 +235,10 @@ $totalCursosAndamento = $cursos['total_cursos_andamento'] ?? 0;
                       </button>
                     </div>
                     <div class="option-box">
-                      <h4>Fazer via Google Docs</h4>
-                      <p>Prefere modelo externo? Crie e edite diretamente na nuvem.</p>
-                      <a href="https://docs.google.com/document/d/1fO5ckkvMBWfYtZ2Cqoq9Ms6PF7b12Dxsjv5S6oA7wJI/edit?usp=sharing" target="_blank" rel="noopener" class="btn-3r-dark">
-                        <i class="fa fa-external-link"></i> Abrir Google Docs
+                      <h4>Visualizar Currículo</h4>
+                      <p>Aqui você consegue salvar e baixar o seu currículo.</p>
+                      <a href="visualizar_curriculo.php" class="btn-3r-dark">
+                        <i class="fa fa-external-link"></i> Visualizar Currículo
                       </a>
                     </div>
                   </div>
@@ -300,7 +300,7 @@ $totalCursosAndamento = $cursos['total_cursos_andamento'] ?? 0;
 
         <!-- MODAL 1: EDITAR PERFIL -->
         <div class="modal fade modal-custom-3r" id="modalEditarPerfil" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+          <div class="modal-dialog modal-xg modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title"><i class="fa fa-user-circle"></i> Editar Dados Pessoais</h5>
@@ -620,54 +620,7 @@ $totalCursosAndamento = $cursos['total_cursos_andamento'] ?? 0;
           </div>
         </div>
 
-        <!-- FOOTER -->
-        <div class="footer" style="background-size: cover;">
-            <div class="container">    
-                <div class="row footer_bg">                    
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                        <div class="footer_logo">
-                            <img src="assets/img/Logo 3R (5).png" alt="Logo Footer" />
-                            <p>Nossa missão é ser a ponte para o seu novo futuro. Ajudamos pessoas em processo de reconstrução a encontrar oportunidades de trabalho e capacitação.</p>
-                        </div>
-                        <div class="social_profile">
-                            <ul>
-                                <li><a href="#" class="f_facebook"><i class="fa fa-facebook" title="Facebook"></i></a></li>
-                                <li><a href="#" class="f_youtube"><i class="fa fa-youtube" title="YouTube"></i></a></li>
-                                <li><a href="#" class="f_instagram"><i class="fa fa-instagram" title="Instagram"></i></a></li>
-                                <li><a href="#" class="f_linkedin"><i class="fa fa-linkedin" title="LinkedIn"></i></a></li>
-                            </ul>
-                        </div>                          
-                    </div>                  
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                        <div class="single_footer">
-                            <h4>Dúvidas Frequentes</h4>
-                            <ul>
-                                <li><a href="#">Privacidade e Segurança</a></li>
-                                <li><a href="#">Termos de Uso</a></li>
-                                <li><a href="#">Comunicação</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                        <div class="single_footer">
-                            <h4>Plataforma</h4>
-                            <ul>
-                                <li><a href="#">Sobre Nós</a></li>
-                                <li><a href="#">Vagas de Emprego</a></li>
-                                <li><a href="formacao.html">Cursos Liberados</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>    
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <div class="footer_copyright">
-                            <p>&copy; 2026 Plataforma 3R - Recomeçar, Reconstruir e Renascer. <br>Todos os direitos reservados.</p>
-                        </div>
-                    </div>
-                </div>              
-            </div>
-        </div>
+        <?php include 'footer.php';?>
 
         <!-- JS IMPORTS -->
         <script src="assets/js/jquery-1.12.4.min.js"></script>

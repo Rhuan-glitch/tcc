@@ -40,7 +40,44 @@ $beneficios     = trim($_POST["beneficios"] ?? '');
 $carga_horaria  = intval($_POST["carga_horaria"] ?? 0);
 $faixa_salarial = trim($_POST["faixa_salarial"] ?? '');
 $tipo_contrato  = trim($_POST["tipo_contrato"] ?? '');
+/* ==========================================================
+   IMAGEM DA VAGA
+========================================================== */
 
+$novaImagem = null;
+
+if (
+    isset($_FILES["img_vaga"]) &&
+    $_FILES["img_vaga"]["error"] === 0
+) {
+
+    $extensao = strtolower(
+        pathinfo($_FILES["img_vaga"]["name"], PATHINFO_EXTENSION)
+    );
+
+    $extensoesPermitidas = ["jpg", "jpeg", "png", "webp"];
+
+    if (!in_array($extensao, $extensoesPermitidas)) {
+        die("Erro: formato de imagem não permitido.");
+    }
+
+    $novoNome = uniqid("vaga_", true) . "." . $extensao;
+
+    $pastaUpload = __DIR__ . "/../uploads/";
+
+    if (!is_dir($pastaUpload)) {
+        mkdir($pastaUpload, 0777, true);
+    }
+
+    if (!move_uploaded_file(
+        $_FILES["img_vaga"]["tmp_name"],
+        $pastaUpload . $novoNome
+    )) {
+        die("Erro ao salvar a nova imagem da vaga.");
+    }
+
+    $novaImagem = "php/uploads/" . $novoNome;
+}
 /* ==========================================================
    4. VALIDAR OS CAMPOS
 ========================================================== */
@@ -119,7 +156,8 @@ $stmt->bind_param(
                 beneficios = ?,
                 carga_horaria = ?,
                 faixa_salarial = ?,
-                tipo_contrato = ?
+                tipo_contrato = ?,
+                img_vaga = COALESCE(?, img_vaga)
             WHERE id_vaga = ?
             AND cnpj_empresa = ?";
 
@@ -130,7 +168,7 @@ $stmt->bind_param(
     }
 
     $stmt->bind_param(
-        "ssssssissis",
+        "ssssssisssis",
         $titulo_vaga,
         $area,
         $cidade,
@@ -140,6 +178,7 @@ $stmt->bind_param(
         $carga_horaria,
         $faixa_salarial,
         $tipo_contrato,
+        $novaImagem,
         $id_vaga,
         $cnpj_empresa
     );

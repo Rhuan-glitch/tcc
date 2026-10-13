@@ -6,7 +6,7 @@ require_once __DIR__ . "/config/config.php";
 function falharLogin($mensagem = "Usuário ou senha inválidos.") {
     echo "<script>
             alert(" . json_encode($mensagem) . ");
-            window.location.href = '../login.html';
+            window.location.href = '../login.php';
           </script>";
     exit();
 }

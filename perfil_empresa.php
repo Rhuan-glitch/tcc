@@ -1,6 +1,177 @@
+<?php
+
+require_once __DIR__ . "/php/config/config.php";
+
+exigirLogin();
+exigirPerfil("empresa");
+
+$cnpj = $_SESSION["cnpj"];
+
+
+/* =========================================================
+   DADOS DA EMPRESA
+   ========================================================= */
+
+$stmtEmpresa = $conn->prepare("
+    SELECT
+        cnpj,
+        razao_social,
+        email,
+        telefone,
+        estado,
+        cidade,
+        bairro,
+        rua,
+        numero,
+        complemento,
+        cep,
+        descricao_empresa,
+        logo_empresa
+    FROM empresa
+    WHERE cnpj = ?
+");
+
+$stmtEmpresa->bind_param("s", $cnpj);
+$stmtEmpresa->execute();
+
+$resultadoEmpresa = $stmtEmpresa->get_result();
+
+if ($resultadoEmpresa->num_rows !== 1) {
+    die("Empresa não encontrada.");
+}
+
+$empresa = $resultadoEmpresa->fetch_assoc();
+
+/* =========================================================
+   VAGAS DA EMPRESA
+   ========================================================= */
+
+$stmtVagas = $conn->prepare("
+    SELECT
+        id_vaga,
+        titulo_vaga,
+        area,
+        cidade,
+        descricao,
+        requisitos,
+        beneficios,
+        carga_horaria,
+        faixa_salarial,
+        tipo_contrato,
+        img_vaga,
+        status,
+        data_aprovacao
+    FROM vaga
+    WHERE cnpj_empresa = ?
+    ORDER BY id_vaga DESC
+");
+
+$stmtVagas->bind_param("s", $cnpj);
+$stmtVagas->execute();
+
+$resultadoVagas = $stmtVagas->get_result();
+
+$vagas = [];
+
+while ($vaga = $resultadoVagas->fetch_assoc()) {
+    $vagas[] = $vaga;
+}
+
+
+/* =========================================================
+   ESTATÍSTICAS
+   ========================================================= */
+
+$totalVagas = 0;
+$totalCandidaturas = 0;
+$totalEmSelecao = 0;
+
+
+/* Total de vagas publicadas */
+
+$stmtTotalVagas = $conn->prepare("
+    SELECT COUNT(*) AS total
+    FROM vaga
+    WHERE cnpj_empresa = ?
+    AND status = 'Publicada'
+");
+
+$stmtTotalVagas->bind_param("s", $cnpj);
+$stmtTotalVagas->execute();
+
+$resultadoTotalVagas = $stmtTotalVagas->get_result();
+$totalVagas = $resultadoTotalVagas->fetch_assoc()["total"];
+
+
+/* Total de candidaturas */
+
+$stmtTotalCandidaturas = $conn->prepare("
+    SELECT COUNT(*) AS total
+    FROM egresso_vaga ev
+    INNER JOIN vaga v
+        ON ev.id_vaga = v.id_vaga
+    WHERE v.cnpj_empresa = ?
+");
+
+$stmtTotalCandidaturas->bind_param("s", $cnpj);
+$stmtTotalCandidaturas->execute();
+
+$resultadoTotalCandidaturas = $stmtTotalCandidaturas->get_result();
+$totalCandidaturas = $resultadoTotalCandidaturas->fetch_assoc()["total"];
+
+
+/* Candidaturas em análise */
+
+$stmtEmSelecao = $conn->prepare("
+    SELECT COUNT(*) AS total
+    FROM egresso_vaga ev
+    INNER JOIN vaga v
+        ON ev.id_vaga = v.id_vaga
+    WHERE v.cnpj_empresa = ?
+    AND ev.status_candidatura = 'Em Análise'
+");
+
+$stmtEmSelecao->bind_param("s", $cnpj);
+$stmtEmSelecao->execute();
+
+$resultadoEmSelecao = $stmtEmSelecao->get_result();
+$totalEmSelecao = $resultadoEmSelecao->fetch_assoc()["total"];
+ 
+/* =========================================================
+   CANDIDATURAS RECENTES
+   ========================================================= */
+
+$stmtCandidaturasRecentes = $conn->prepare("
+    SELECT
+        ev.cpf_egresso,
+        ev.id_vaga,
+        ev.status_candidatura,
+        e.nome,
+        e.foto_perfil,
+        v.titulo_vaga
+    FROM egresso_vaga ev
+    INNER JOIN vaga v
+        ON ev.id_vaga = v.id_vaga
+    INNER JOIN egresso e
+        ON ev.cpf_egresso = e.cpf
+    WHERE v.cnpj_empresa = ?
+    ORDER BY ev.id_vaga DESC
+    LIMIT 5
+");
+
+$stmtCandidaturasRecentes->bind_param("s", $cnpj);
+$stmtCandidaturasRecentes->execute();
+
+$resultadoCandidaturasRecentes = $stmtCandidaturasRecentes->get_result();
+
+$candidaturasRecentes = [];
+
+while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
+    $candidaturasRecentes[] = $candidatura;
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 
     <!-- ================================================================
@@ -183,140 +354,7 @@
     <!-- ================================================================
          NAVBAR
          ================================================================ -->
-
-    <header
-        class="site-navbar js-sticky-header site-navbar-target"
-        role="banner"
-    >
-
-        <div class="container">
-
-            <div class="row align-items-center">
-
-
-                <!-- LOGO -->
-
-                <div class="col-6 col-xl-2">
-
-                    <h1 class="mb-0 site-logo">
-
-                        <a href="index.html">
-
-                            <img
-                                src="assets/img/Logo 3R .png"
-                                alt="Logo 3R"
-                            >
-
-                        </a>
-
-                    </h1>
-
-                </div>
-
-
-                <!-- MENU DESKTOP -->
-
-                <div class="col-12 col-md-10 d-none d-xl-block">
-
-                    <nav
-                        class="site-navigation position-relative text-right"
-                        role="navigation"
-                    >
-
-                        <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-
-
-                            <li>
-
-                                <a
-                                    href="index.html"
-                                    class="nav-link"
-                                >
-                                    Home
-                                </a>
-
-                            </li>
-
-
-                            <li>
-
-                                <a
-                                    href="trabalhista.html"
-                                    class="nav-link"
-                                >
-                                    Trabalhista
-                                </a>
-
-                            </li>
-
-
-                            <li>
-
-                                <a
-                                    href="formacao.html"
-                                    class="nav-link"
-                                >
-                                    Formação
-                                </a>
-
-                            </li>
-
-
-                            <li class="active">
-
-                                <a
-                                    href="empresa.html"
-                                    class="nav-link"
-                                >
-                                    Perfil
-                                </a>
-
-                            </li>
-
-
-                            <li>
-
-                                <a
-                                    href="login.html"
-                                    class="nav-link"
-                                >
-                                    Login
-                                </a>
-
-                            </li>
-
-
-                        </ul>
-
-                    </nav>
-
-                </div>
-
-
-                <!-- MENU MOBILE -->
-
-                <div
-                    class="col-6 d-inline-block d-xl-none ml-md-0 py-3"
-                    style="position: relative; top: 3px;"
-                >
-
-                    <a
-                        href="#"
-                        class="site-menu-toggle js-menu-toggle float-right"
-                    >
-
-                        <span class="icon-menu h3"></span>
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </header>
-
+        <?php include 'nav-bar.php'; ?>
 
     <!-- ================================================================
          CONTEÚDO PRINCIPAL
@@ -335,13 +373,19 @@
 
 
                 <div class="empresa-logo-wrapper">
-
+                <?php if (!empty($empresa['logo_empresa'])): ?>
+                    <img
+                        id="empresa-logo-preview"
+                        src="<?= htmlspecialchars($empresa['logo_empresa']) ?>"
+                        alt="Logo da empresa"
+                        class="empresa-logo-img">
+                <?php else: ?>
                     <img
                         id="empresa-logo-preview"
                         src="assets/img/team/team-one.jpg"
                         alt="Logo da empresa"
-                        class="empresa-logo-img"
-                    >
+                        class="empresa-logo-img">
+                <?php endif; ?>
 
                 </div>
 
@@ -353,38 +397,15 @@
                     </span>
 
 
-                    <h1
-                        class="empresa-nome"
-                        id="display-razao-social"
-                    >
-                        Tech Solutions Ltda
-                    </h1>
+                    <h1 class="empresa-nome" id="display-razao-social"><?= htmlspecialchars($empresa["razao_social"]) ?></h1>
 
 
                     <p class="empresa-localizacao">
-
                         <i class="fa fa-map-marker"></i>
-
-                        <span id="display-cidade">
-                            Pinhais
-                        </span>
-
-                        -
-
-                        <span id="display-estado">
-                            PR
-                        </span>
-
-                    </p>
-
-
-                    <p
-                        class="empresa-descricao"
-                        id="display-descricao"
-                    >
-                        Empresa voltada para soluções em tecnologia,
-                        atendimento e desenvolvimento de serviços.
-                    </p>
+                        <span id="display-cidade"><?= htmlspecialchars($empresa["cidade"]) ?></span>-<span id="display-estado"><?= htmlspecialchars($empresa["estado"]) ?></span></p>
+                     
+                     
+                    <p class="empresa-descricao" id="display-descricao"><?= htmlspecialchars($empresa["descricao_empresa"]?? '') ?></p>
 
 
                     <div class="empresa-hero-actions">
@@ -426,18 +447,8 @@
 
 
                     <div>
-
-                        <span class="mini-label">
-                            Vagas Publicadas
-                        </span>
-
-                        <strong
-                            class="mini-value"
-                            id="stat-vagas"
-                        >
-                            2
-                        </strong>
-
+                        <span class="mini-label">Vagas Publicadas</span>
+                        <strong class="mini-value" id="stat-vagas"><?= $totalVagas ?></strong>
                     </div>
 
                 </div>
@@ -453,18 +464,8 @@
 
 
                     <div>
-
-                        <span class="mini-label">
-                            Candidaturas
-                        </span>
-
-                        <strong
-                            class="mini-value"
-                            id="stat-candidaturas"
-                        >
-                            11
-                        </strong>
-
+                        <span class="mini-label">Candidaturas</span>
+                        <strong class="mini-value" id="stat-candidaturas"><?= $totalCandidaturas ?></strong>
                     </div>
 
                 </div>
@@ -480,18 +481,8 @@
 
 
                     <div>
-
-                        <span class="mini-label">
-                            Em Seleção
-                        </span>
-
-                        <strong
-                            class="mini-value"
-                            id="stat-selecao"
-                        >
-                            1
-                        </strong>
-
+                        <span class="mini-label">Em Seleção</span>
+                        <strong class="mini-value" id="stat-selecao"><?= $totalEmSelecao ?></strong>
                     </div>
 
                 </div>
@@ -652,311 +643,210 @@
                 >
 
 
-                    <!-- ==================================================
-                         VAGA 1
-                         ================================================== -->
+                    <?php foreach ($vagas as $vaga): ?>
 
-                    <article
-                        class="vaga-empresa-card"
-                        data-status="ativa"
-                    >
+    <?php
+        /*
+         * Define o status visual da vaga
+         * sem alterar o valor original do banco.
+         */
 
+        if ($vaga["status"] === "Publicada") {
+            $statusClasse = "ativa";
+            $statusTexto = "Ativa";
+        } elseif ($vaga["status"] === "Arquivada") {
+            $statusClasse = "encerrada";
+            $statusTexto = "Encerrada";
+        } elseif ($vaga["status"] === "Aguardando Aprovação") {
+            $statusClasse = "selecao";
+            $statusTexto = "Aguardando aprovação";
+        } else {
+            $statusClasse = "encerrada";
+            $statusTexto = $vaga["status"];
+        }
 
-                        <div class="vaga-card-top">
 
+        /*
+         * Conta quantas pessoas se candidataram
+         * para esta vaga.
+         */
 
-                            <div>
+        $stmtCandidatos = $conn->prepare("
+            SELECT COUNT(*) AS total
+            FROM egresso_vaga
+            WHERE id_vaga = ?
+        ");
 
-                                <span class="vaga-status ativa">
+        $stmtCandidatos->bind_param("i", $vaga["id_vaga"]);
+        $stmtCandidatos->execute();
 
-                                    <i class="fa fa-circle"></i>
+        $resultadoCandidatos = $stmtCandidatos->get_result();
 
-                                    Ativa
+        $totalCandidatos = $resultadoCandidatos->fetch_assoc()["total"];
+    ?>
 
-                                </span>
 
+    <article
+        class="vaga-empresa-card"
+        data-status="<?= $statusClasse ?>"
+    >
+        
 
-                                <h3>
-                                    Auxiliar Administrativo
-                                </h3>
+        <div class="vaga-card-top">
 
 
-                                <p class="vaga-meta">
+            <div>
 
-                                    <i class="fa fa-map-marker"></i>
+                <span class="vaga-status <?= $statusClasse ?>">
 
-                                    Pinhais, PR
+                    <i class="fa fa-circle"></i>
 
-                                    <span class="separador">
-                                        •
-                                    </span>
+                    <?= htmlspecialchars($statusTexto) ?>
 
-                                    <i class="fa fa-clock-o"></i>
+                </span>
 
-                                    CLT
 
-                                </p>
+                <h3>
+                    <?= htmlspecialchars($vaga["titulo_vaga"] ?? "") ?>
+                </h3>
 
-                            </div>
 
+                <p class="vaga-meta">
 
-                        </div>
+                    <i class="fa fa-map-marker"></i>
 
+                    <?= htmlspecialchars($vaga["cidade"] ?? "") ?>
 
-                        <p class="vaga-descricao">
+                    <span class="separador">
+                        •
+                    </span>
 
-                            Auxiliar nas rotinas administrativas,
-                            organização de documentos e atendimento.
+                    <i class="fa fa-clock-o"></i>
 
-                        </p>
+                    <?= htmlspecialchars($vaga["tipo_contrato"] ?? "") ?>
 
+                </p>
 
-                        <div class="vaga-info-grid">
+            </div>
 
 
-                            <div>
+        </div>
 
-                                <span>
-                                    Área
-                                </span>
 
-                                <strong>
-                                    Administração
-                                </strong>
+        <p class="vaga-descricao">
 
-                            </div>
+            <?= htmlspecialchars($vaga["descricao"] ?? "") ?>
 
+        </p>
 
-                            <div>
 
-                                <span>
-                                    Carga horária
-                                </span>
+        <div class="vaga-info-grid">
 
-                                <strong>
-                                    40h semanais
-                                </strong>
 
-                            </div>
+            <div>
 
+                <span>
+                    Área
+                </span>
 
-                            <div>
+                <strong>
+                    <?= htmlspecialchars($vaga["area"] ?? "") ?>
+                </strong>
 
-                                <span>
-                                    Faixa salarial
-                                </span>
+            </div>
 
-                                <strong>
-                                    A combinar
-                                </strong>
 
-                            </div>
+            <div>
 
+                <span>
+                    Carga horária
+                </span>
 
-                            <div>
+                <strong>
+                    <?= htmlspecialchars($vaga["carga_horaria"] ?? "") ?>h semanais
+                </strong>
 
-                                <span>
-                                    Candidatos
-                                </span>
+            </div>
 
-                                <strong>
-                                    8
-                                </strong>
 
-                            </div>
+            <div>
 
+                <span>
+                    Faixa salarial
+                </span>
 
-                        </div>
+                <strong>
+                    <?= htmlspecialchars($vaga["faixa_salarial"] ?? "") ?>
+                </strong>
 
+            </div>
 
-                        <div class="vaga-card-footer">
 
+            <div>
 
-                            <button
-                                type="button"
-                                class="btn-3r-outline btn-editar-vaga"
-                                data-toggle="modal"
-                                data-target="#modalNovaVaga"
-                                data-vaga="Auxiliar Administrativo"
-                            >
+                <span>
+                    Candidatos
+                </span>
 
-                                <i class="fa fa-pencil"></i>
+                <strong>
+                    <?= $totalCandidatos ?>
+                </strong>
 
-                                Editar
+            </div>
 
-                            </button>
 
+        </div>
 
-                            <button
-                                type="button"
-                                class="btn-candidatos"
-                                data-vaga="Auxiliar Administrativo"
-                            >
 
-                                <i class="fa fa-users"></i>
+        <div class="vaga-card-footer">
 
-                                Ver candidaturas
 
-                            </button>
+            <button
+                type="button"
+                class="btn-3r-outline btn-editar-vaga"
+                data-toggle="modal"
+                data-target="#modalNovaVaga"
+                data-id="<?= $vaga["id_vaga"] ?>"
+                data-img="<?= htmlspecialchars($vaga["img_vaga"] ?? "") ?>"
+                data-vaga="<?= htmlspecialchars($vaga["titulo_vaga"] ?? "") ?>"
+                data-area="<?= htmlspecialchars($vaga["area"] ?? "") ?>"
+                data-cidade="<?= htmlspecialchars($vaga["cidade"] ?? "") ?>"
+                data-tipo-contrato="<?= htmlspecialchars($vaga["tipo_contrato"] ?? "") ?>"
+                data-carga-horaria="<?= htmlspecialchars($vaga["carga_horaria"] ?? "") ?>"
+                data-faixa-salarial="<?= htmlspecialchars($vaga["faixa_salarial"] ?? "") ?>"
+                data-status="<?= htmlspecialchars($vaga["status"] ?? "") ?>"
+                data-descricao="<?= htmlspecialchars($vaga["descricao"] ?? "") ?>"
+                data-requisitos="<?= htmlspecialchars($vaga["requisitos"] ?? "") ?>"
+                data-beneficios="<?= htmlspecialchars($vaga["beneficios"] ?? "") ?>">
 
+                <i class="fa fa-pencil"></i>
 
-                        </div>
+                Editar
 
-                    </article>
+            </button>
 
 
-                    <!-- ==================================================
-                         VAGA 2
-                         ================================================== -->
+            <button
+                type="button"
+                class="btn-candidatos"
+                data-id="<?= $vaga["id_vaga"] ?>"
+                data-vaga="<?= htmlspecialchars($vaga["titulo_vaga"] ?? "") ?>"
+            >
 
-                    <article
-                        class="vaga-empresa-card"
-                        data-status="selecao"
-                    >
+                <i class="fa fa-users"></i>
 
+                Ver candidaturas
 
-                        <div class="vaga-card-top">
+            </button>
 
 
-                            <div>
+        </div>
 
-                                <span class="vaga-status selecao">
 
-                                    <i class="fa fa-circle"></i>
+    </article>
 
-                                    Em seleção
 
-                                </span>
-
-
-                                <h3>
-                                    Atendente de Loja
-                                </h3>
-
-
-                                <p class="vaga-meta">
-
-                                    <i class="fa fa-map-marker"></i>
-
-                                    Curitiba, PR
-
-                                    <span class="separador">
-                                        •
-                                    </span>
-
-                                    <i class="fa fa-clock-o"></i>
-
-                                    CLT
-
-                                </p>
-
-                            </div>
-
-
-                        </div>
-
-
-                        <p class="vaga-descricao">
-
-                            Atendimento ao público, organização da loja
-                            e suporte às atividades internas.
-
-                        </p>
-
-
-                        <div class="vaga-info-grid">
-
-
-                            <div>
-
-                                <span>
-                                    Área
-                                </span>
-
-                                <strong>
-                                    Vendas / Atendimento
-                                </strong>
-
-                            </div>
-
-
-                            <div>
-
-                                <span>
-                                    Carga horária
-                                </span>
-
-                                <strong>
-                                    44h semanais
-                                </strong>
-
-                            </div>
-
-
-                            <div>
-
-                                <span>
-                                    Faixa salarial
-                                </span>
-
-                                <strong>
-                                    R$ 1.800 - R$ 2.200
-                                </strong>
-
-                            </div>
-
-
-                            <div>
-
-                                <span>
-                                    Candidatos
-                                </span>
-
-                                <strong>
-                                    3
-                                </strong>
-
-                            </div>
-
-
-                        </div>
-
-
-                        <div class="vaga-card-footer">
-
-
-                            <button
-                                type="button"
-                                class="btn-3r-outline btn-editar-vaga"
-                                data-toggle="modal"
-                                data-target="#modalNovaVaga"
-                                data-vaga="Atendente de Loja"
-                            >
-
-                                <i class="fa fa-pencil"></i>
-
-                                Editar
-
-                            </button>
-
-
-                            <button
-                                type="button"
-                                class="btn-candidatos"
-                                data-vaga="Atendente de Loja"
-                            >
-
-                                <i class="fa fa-users"></i>
-
-                                Ver candidaturas
-
-                            </button>
-
-
-                        </div>
-
-                    </article>
-
+<?php endforeach; ?>
                 </div>
 
             </section>
@@ -999,94 +889,96 @@
                     class="lista-candidaturas"
                     id="lista-candidaturas"
                 >
+                     <?php if (empty($candidaturasRecentes)): ?>
 
+        <div class="candidatura-card">
 
-                    <!-- CANDIDATO 1 -->
+            <div class="candidato-avatar">
 
-                    <article class="candidatura-card">
+                <i class="fa fa-user"></i>
 
+            </div>
 
-                        <div class="candidato-avatar">
+            <div class="candidato-info">
 
-                            <i class="fa fa-user"></i>
+                <h3>
+                    Nenhuma candidatura ainda
+                </h3>
 
-                        </div>
+                <p>
+                    As candidaturas recebidas pela sua empresa aparecerão aqui.
+                </p>
 
+            </div>
 
-                        <div class="candidato-info">
+        </div>
 
-                            <h3>
-                                Candidato de Exemplo
-                            </h3>
+    <?php else: ?>
 
+        <?php foreach ($candidaturasRecentes as $candidatura): ?>
 
-                            <p>
-                                Auxiliar Administrativo
-                            </p>
+            <article class="candidatura-card">
 
+                <div class="candidato-avatar">
 
-                            <span class="candidatura-data">
-                                Candidatura recebida recentemente
-                            </span>
+                    <?php if (!empty($candidatura["foto_perfil"])): ?>
 
-                        </div>
-
-
-                        <button
-                            type="button"
-                            class="btn-ver-candidato"
-                            title="Ver candidatura"
+                        <img
+                            src="<?= htmlspecialchars($candidatura["foto_perfil"]) ?>"
+                            alt="Foto de <?= htmlspecialchars($candidatura["nome"]) ?>"
+                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"
                         >
 
-                            <i class="fa fa-chevron-right"></i>
+                    <?php else: ?>
 
-                        </button>
+                        <i class="fa fa-user"></i>
 
-                    </article>
+                    <?php endif; ?>
 
-
-                    <!-- CANDIDATO 2 -->
-
-                    <article class="candidatura-card">
+                </div>
 
 
-                        <div class="candidato-avatar">
+                <div class="candidato-info">
 
-                            <i class="fa fa-user"></i>
-
-                        </div>
-
-
-                        <div class="candidato-info">
-
-                            <h3>
-                                Candidato de Exemplo
-                            </h3>
+                    <h3>
+                        <?= htmlspecialchars($candidatura["nome"]) ?>
+                    </h3>
 
 
-                            <p>
-                                Atendente de Loja
-                            </p>
+                    <p>
+                        <?= htmlspecialchars($candidatura["titulo_vaga"]) ?>
+                    </p>
 
 
-                            <span class="candidatura-data">
-                                Candidatura recebida recentemente
-                            </span>
+                    <span class="candidatura-data">
 
-                        </div>
+                        Status:
+                        <?= htmlspecialchars($candidatura["status_candidatura"]) ?>
+
+                    </span>
+
+                </div>
 
 
-                        <button
-                            type="button"
-                            class="btn-ver-candidato"
-                            title="Ver candidatura"
-                        >
+                <button
+                    type="button"
+                    class="btn-ver-candidato"
+                    title="Ver candidatura"
+                    data-id-vaga="<?= htmlspecialchars($candidatura["id_vaga"]) ?>"
+                    data-cpf="<?= htmlspecialchars($candidatura["cpf_egresso"]) ?>"
+                >
 
-                            <i class="fa fa-chevron-right"></i>
+                    <i class="fa fa-chevron-right"></i>
 
-                        </button>
+                </button>
 
-                    </article>
+            </article>
+
+        <?php endforeach; ?>
+
+    <?php endif; ?>
+
+                    
 
 
                 </div>
@@ -1148,7 +1040,7 @@
                 </div>
 
 
-                <form id="formEditarEmpresa">
+                <form id="formEditarEmpresa" action="/tcc-1/php/empresa/atualizar_perfil_empresa.php" method="POST" enctype="multipart/form-data">
 
 
                     <div class="modal-body">
@@ -1156,16 +1048,20 @@
 
                         <div class="foto-empresa-editor">
 
-
+                        <?php if (!empty($empresa['logo_empresa'])): ?>
+                            <img
+                                id="modal-logo-preview"
+                                src="<?= htmlspecialchars($empresa['logo_empresa']) ?>"
+                                alt="Preview da logo"
+                                class="modal-logo-img">
+                        <?php else: ?>
                             <img
                                 id="modal-logo-preview"
                                 src="assets/img/team/team-one.jpg"
                                 alt="Preview da logo"
-                                class="modal-logo-img"
-                            >
-
-
-                            <div>
+                                class="modal-logo-img">
+                        <?php endif; ?>
+                        <div>
 
                                 <label>
                                     Logo da Empresa
@@ -1175,6 +1071,7 @@
                                 <input
                                     type="file"
                                     id="input-logo-arquivo"
+                                    name='logo_empresa'
                                     accept="image/png, image/jpeg, image/webp"
                                     class="d-none"
                                 >
@@ -1185,226 +1082,61 @@
                                     class="btn-3r-outline"
                                     id="btn-escolher-logo"
                                 >
-
                                     <i class="fa fa-upload"></i>
-
                                     Escolher logo
-
                                 </button>
-
                             </div>
-
                         </div>
-
-
                         <div class="row">
-
-
                             <div class="col-md-6 form-group">
-
-                                <label>
-                                    Razão Social
-                                </label>
-
-
-                                <input
-                                    type="text"
-                                    class="custom-input"
-                                    name="razao_social"
-                                    id="input-razao-social"
-                                    value="Tech Solutions Ltda"
-                                    required
-                                >
-
+                                <label>Razão Social</label>
+                                <input type="text" class="custom-input" name="razao_social" id="input-razao-social" value="<?= htmlspecialchars($empresa["razao_social"] ?? "") ?>" required>
                             </div>
 
 
                             <div class="col-md-6 form-group">
-
-                                <label>
-                                    CNPJ
-                                </label>
-
-
-                                <input
-                                    type="text"
-                                    class="custom-input disabled"
-                                    value="00.000.000/0001-00"
-                                    readonly
-                                    disabled
-                                >
-
+                                <label>CNPJ</label>
+                                <input type="text" class="custom-input disabled" value="<?= htmlspecialchars($empresa["cnpj"] ?? "") ?>" readonly disabled>
                             </div>
-
-
                             <div class="col-md-6 form-group">
-
-                                <label>
-                                    E-mail
-                                </label>
-
-
-                                <input
-                                    type="email"
-                                    class="custom-input"
-                                    name="email"
-                                    value="contato@empresa.com"
-                                    required
-                                >
-
+                                <label>E-mail</label>
+                                <input type="email" class="custom-input" name="email" value="<?= htmlspecialchars($empresa["email"] ?? "") ?>" required>
                             </div>
-
-
                             <div class="col-md-6 form-group">
-
-                                <label>
-                                    Telefone
-                                </label>
-
-
-                                <input
-                                    type="tel"
-                                    class="custom-input"
-                                    name="telefone"
-                                    value="(41) 00000-0000"
-                                >
-
+                                <label>Telefone</label>
+                                <input type="tel" class="custom-input" name="telefone" value="<?= htmlspecialchars($empresa["telefone"] ?? "") ?>">
                             </div>
-
-
                             <div class="col-md-4 form-group">
-
-                                <label>
-                                    Estado
-                                </label>
-
-
-                                <input
-                                    type="text"
-                                    class="custom-input"
-                                    name="estado"
-                                    value="PR"
-                                >
-
+                                <label>Estado</label>
+                                <input type="text" class="custom-input" name="estado" value="<?= htmlspecialchars($empresa["estado"] ?? "") ?>">
                             </div>
-
-
                             <div class="col-md-8 form-group">
-
-                                <label>
-                                    Cidade
-                                </label>
-
-
-                                <input
-                                    type="text"
-                                    class="custom-input"
-                                    name="cidade"
-                                    value="Pinhais"
-                                >
-
+                                <label>Cidade</label>
+                                <input type="text" class="custom-input" name="cidade" value="<?= htmlspecialchars($empresa["cidade"] ?? "") ?>">
                             </div>
-
-
                             <div class="col-md-6 form-group">
-
-                                <label>
-                                    Bairro
-                                </label>
-
-
-                                <input
-                                    type="text"
-                                    class="custom-input"
-                                    name="bairro"
-                                    placeholder="Bairro"
-                                >
-
+                                <label>Bairro</label>
+                                <input type="text" class="custom-input" name="bairro" value="<?= htmlspecialchars($empresa["bairro"] ?? "") ?>" placeholder="Bairro">
                             </div>
-
-
                             <div class="col-md-6 form-group">
-
-                                <label>
-                                    Rua
-                                </label>
-
-
-                                <input
-                                    type="text"
-                                    class="custom-input"
-                                    name="rua"
-                                    placeholder="Rua"
-                                >
-
+                                <label>Rua</label>
+                                <input type="text" class="custom-input" name="rua" value='<?= htmlspecialchars($empresa["rua"] ?? "") ?>' placeholder="Rua">
                             </div>
-
-
                             <div class="col-md-4 form-group">
-
-                                <label>
-                                    Número
-                                </label>
-
-
-                                <input
-                                    type="text"
-                                    class="custom-input"
-                                    name="numero"
-                                    placeholder="Número"
-                                >
-
+                                <label>Número</label>
+                                <input type="text" class="custom-input" name="numero" value='<?= htmlspecialchars($empresa["numero"] ?? "") ?>'placeholder="Número">
                             </div>
-
-
                             <div class="col-md-8 form-group">
-
-                                <label>
-                                    Complemento
-                                </label>
-
-
-                                <input
-                                    type="text"
-                                    class="custom-input"
-                                    name="complemento"
-                                    placeholder="Complemento"
-                                >
-
+                                <label>Complemento</label>
+                                <input type="text" class="custom-input" name="complemento" value='<?= htmlspecialchars($empresa["complemento"] ?? "") ?>' placeholder="Complemento">
                             </div>
-
-
                             <div class="col-md-4 form-group">
-
-                                <label>
-                                    CEP
-                                </label>
-
-
-                                <input
-                                    type="text"
-                                    class="custom-input"
-                                    name="cep"
-                                    placeholder="00000-000"
-                                >
-
+                                <label>CEP</label>
+                                <input type="text" class="custom-input" name="cep" value='<?= htmlspecialchars($empresa["cep"] ?? "") ?>' placeholder="00000-000">
                             </div>
-
-
                             <div class="col-md-12 form-group">
-
-                                <label>
-                                    Descrição da Empresa
-                                </label>
-
-
-                                <textarea
-                                    class="custom-input"
-                                    name="descricao_empresa"
-                                    rows="4"
-                                    placeholder="Conte um pouco sobre sua empresa..."
-                                >Empresa voltada para soluções em tecnologia, atendimento e desenvolvimento de serviços.</textarea>
-
+                                <label>Descrição da Empresa</label>
+                                <textarea class="custom-input" name="descricao_empresa" rows="4" placeholder="Conte um pouco sobre sua empresa..."><?= htmlspecialchars($empresa["descricao_empresa"] ?? "") ?></textarea>
                             </div>
 
 
@@ -1427,7 +1159,7 @@
 
                         <button
                             type="submit"
-                            class="btn-3r-primary"
+                            class="btn-3r-primary" 
                         >
 
                             <i class="fa fa-save"></i>
@@ -1500,9 +1232,9 @@
                 </div>
 
 
-                <form id="formNovaVaga">
-
-
+                <form id="formNovaVaga"  action="php/empresa/create_vaga.php" method="POST" enctype="multipart/form-data">
+                    
+                    <input type="hidden" name="id_vaga" id="input-id-vaga">
                     <div class="modal-body">
 
 
@@ -1594,10 +1326,11 @@
 
 
                                 <input
-                                    type="text"
+                                    type="number"
                                     class="custom-input"
                                     name="carga_horaria"
-                                    placeholder="Ex.: 40h semanais"
+                                    placeholder="Ex.: 40"
+                                    min='1' required
                                 >
 
                             </div>
@@ -1708,18 +1441,12 @@
 
                             <div class="col-md-12 form-group">
 
-                                <label>
-                                    Imagem da Vaga
-                                </label>
-
-
-                                <input
-                                    type="file"
-                                    class="custom-input-file"
-                                    name="img_vaga"
-                                    accept="image/png, image/jpeg, image/webp"
-                                >
-
+                                <label>Imagem da Vaga</label>
+                            <div id="imagem-atual-vaga" style="margin-bottom: 10px; display: none;">
+                            <small>Imagem atual:</small><br>
+                            <img id="preview-imagem-vaga" src="" alt="Imagem atual da vaga" style="max-width: 250px; max-height: 150px; object-fit: cover; margin-top: 8px; border-radius: 8px;">
+                            </div>
+                            <input type="file" class="custom-input-file" name="img_vaga" accept="image/png, image/jpeg, image/webp">
                             </div>
 
 
@@ -1957,213 +1684,140 @@
         </div>
 
     </div>
-
-
+    
     <!-- ================================================================
-         FOOTER
-         ================================================================ -->
+     MODAL - VISUALIZAR CURRÍCULO DO CANDIDATO
+     ================================================================ -->
+
+<div
+    class="modal fade modal-custom-3r"
+    id="modalVisualizarCurriculo"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+>
 
     <div
-        class="footer"
-        style="background-size: cover;"
+        class="modal-dialog modal-lg modal-dialog-centered"
+        role="document"
     >
 
-        <div class="container">
+        <div class="modal-content">
 
 
-            <div class="row footer_bg">
+            <!-- CABEÇALHO -->
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    <i class="fa fa-file-text"></i>
+
+                    Currículo do Candidato
+
+                </h5>
 
 
-                <div class="col-lg-3 col-sm-6 col-xs-12">
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Fechar"
+                >
+
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+
+                </button>
+
+            </div>
 
 
-                    <div class="footer_logo">
+            <!-- CONTEÚDO -->
+
+            <div class="modal-body">
 
 
-                        <img
-                            src="assets/img/Logo 3R (5).png"
-                            alt="Logo Footer"
-                        >
+                <!-- DADOS DO CANDIDATO -->
 
+                <div class="mb-4">
 
-                        <p>
+                    <h4 id="curriculo-nome">
+                        Carregando...
+                    </h4>
 
-                            Nossa missão é ser a ponte para o seu novo futuro.
-                            Ajudamos pessoas em processo de reconstrução a
-                            encontrar oportunidades de trabalho e capacitação.
+                    <p id="curriculo-area">
+                        Área de interesse
+                    </p>
 
-                        </p>
-
-
-                    </div>
-
-
-                    <div class="social_profile">
-
-
-                        <ul>
-
-
-                            <li>
-
-                                <a
-                                    href="#"
-                                    class="f_facebook"
-                                >
-
-                                    <i
-                                        class="fa fa-facebook"
-                                        title="Facebook"
-                                    ></i>
-
-                                </a>
-
-                            </li>
-
-
-                            <li>
-
-                                <a
-                                    href="#"
-                                    class="f_youtube"
-                                >
-
-                                    <i
-                                        class="fa fa-youtube"
-                                        title="YouTube"
-                                    ></i>
-
-                                </a>
-
-                            </li>
-
-
-                            <li>
-
-                                <a
-                                    href="#"
-                                    class="f_instagram"
-                                >
-
-                                    <i
-                                        class="fa fa-instagram"
-                                        title="Instagram"
-                                    ></i>
-
-                                </a>
-
-                            </li>
-
-
-                            <li>
-
-                                <a
-                                    href="#"
-                                    class="f_linkedin"
-                                >
-
-                                    <i
-                                        class="fa fa-linkedin"
-                                        title="LinkedIn"
-                                    ></i>
-
-                                </a>
-
-                            </li>
-
-
-                        </ul>
-
-                    </div>
-
+                    <p id="curriculo-contato">
+                        Contato
+                    </p>
 
                 </div>
 
 
-                <div class="col-lg-3 col-sm-6 col-xs-12">
+                <!-- ESCOLARIDADE -->
 
+                <div class="form-group mb-4">
 
-                    <div class="single_footer">
+                    <label class="font-weight-bold">
+                        <i class="fa fa-graduation-cap"></i>
+                        Escolaridade
+                    </label>
 
-
-                        <h4>
-                            Dúvidas Frequentes
-                        </h4>
-
-
-                        <ul>
-
-
-                            <li>
-                                <a href="#">
-                                    Privacidade e Segurança
-                                </a>
-                            </li>
-
-
-                            <li>
-                                <a href="#">
-                                    Termos de Uso
-                                </a>
-                            </li>
-
-
-                            <li>
-                                <a href="#">
-                                    Comunicação
-                                </a>
-                            </li>
-
-
-                        </ul>
-
-
-                    </div>
-
+                    <p id="curriculo-formacao">
+                        Não informado
+                    </p>
 
                 </div>
 
 
-                <div class="col-lg-3 col-sm-6 col-xs-12">
+                <!-- EXPERIÊNCIAS -->
 
+                <div class="form-group mb-4">
 
-                    <div class="single_footer">
+                    <label class="font-weight-bold">
+                        <i class="fa fa-briefcase"></i>
+                        Experiências
+                    </label>
 
-
-                        <h4>
-                            Plataforma
-                        </h4>
-
-
-                        <ul>
-
-
-                            <li>
-                                <a href="#">
-                                    Sobre Nós
-                                </a>
-                            </li>
-
-
-                            <li>
-                                <a href="trabalhista.html">
-                                    Vagas de Emprego
-                                </a>
-                            </li>
-
-
-                            <li>
-                                <a href="formacao.html">
-                                    Cursos Liberados
-                                </a>
-                            </li>
-
-
-                        </ul>
-
-
+                    <div id="curriculo-experiencias">
+                        Não informado
                     </div>
 
+                </div>
+
+
+                <!-- HABILIDADES -->
+
+                <div class="form-group mb-4">
+
+                    <label class="font-weight-bold">
+                        <i class="fa fa-star"></i>
+                        Habilidades
+                    </label>
+
+                    <div id="curriculo-habilidades">
+                        Não informado
+                    </div>
+
+                </div>
+
+
+                <!-- DISPONIBILIDADE -->
+
+                <div class="form-group mb-2">
+
+                    <label class="font-weight-bold">
+                        <i class="fa fa-clock-o"></i>
+                        Disponibilidade
+                    </label>
+
+                    <div id="curriculo-disponibilidade">
+                        Não informado
+                    </div>
 
                 </div>
 
@@ -2171,32 +1825,19 @@
             </div>
 
 
-            <div class="row">
+            <!-- RODAPÉ -->
 
+            <div class="modal-footer">
 
-                <div class="col-lg-12 text-center">
+                <button
+                    type="button"
+                    class="btn-3r-ghost"
+                    data-dismiss="modal"
+                >
 
+                    Fechar
 
-                    <div class="footer_copyright">
-
-
-                        <p>
-
-                            &copy; 2026 Plataforma 3R -
-                            Recomeçar, Reconstruir e Renascer.
-
-                            <br>
-
-                            Todos os direitos reservados.
-
-                        </p>
-
-
-                    </div>
-
-
-                </div>
-
+                </button>
 
             </div>
 
@@ -2204,6 +1845,9 @@
         </div>
 
     </div>
+
+</div>
+    <?php include 'footer.php';?>
 
 
     <!-- ================================================================

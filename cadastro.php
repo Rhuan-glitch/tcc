@@ -50,12 +50,12 @@
           <div class="container">
             <div class="row align-items-center">       
               <div class="col-6 col-xl-2">
-                <h1 class="mb-0 site-logo"><a href="index.html"><img src="assets/img/Logo 3R .png" alt=""></a></h1>
+                <h1 class="mb-0 site-logo"><a href="index.php"><img src="assets/img/Logo 3R .png" alt=""></a></h1>
               </div>
               <div class="col-12 col-md-10 d-none d-xl-block">
                 <nav class="site-navigation position-relative text-right" role="navigation">
                   <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                    <li class="nav-link"> <a href="index.html" class="nav-link">Home</a></li>   
+                    <li class="nav-link"> <a href="index.php" class="nav-link">Home</a></li>   
                     <li><a class="nav-link" href="trabalhista.php">Trabalhista</a></li>                
                     <li><a class="nav-link" href="formacao.php">Formação</a></li>                                
                     <li><a href="login.html" class="nav-link">Login</a></li>
@@ -228,60 +228,7 @@
     </div>
 </section>
         
-        <!-- START FOOTER -->
-        <div class="footer">
-            <div class="container">     
-                <div class="row footer_bg">                     
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                        <div class="footer_logo">
-                            <img src="assets/img/Logo 3R (5).png" alt="" />
-                            <p>Nossa missão é ser a ponte para o seu novo futuro. Ajudamos pessoas em processo de reconstrução a encontrar oportunidades de trabalho e capacitação.</p>
-                        </div>
-                        <div class="social_profile">
-                            <ul>
-                                <li><a href="#" class="f_facebook"><i class="fa fa-facebook" title="Facebook"></i></a></li>
-                                <li><a href="#" class="f_twitter"><i class="fa fa-youtube" title="Twitter"></i></a></li>
-                                <li><a href="#" class="f_instagram"><i class="fa fa-instagram" title="Instagram"></i></a></li>
-                                <li><a href="#" class="f_linkedin"><i class="fa fa-linkedin" title="LinkedIn"></i></a></li>
-                            </ul>
-                        </div>                          
-                    </div>                     
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                        <div class="single_footer">
-                            <h4>Frequently Asked Questions</h4>
-                            <ul>
-                                <li><a href="#">Privacy & Securty</a></li>
-                                <li><a href="#">Terms of Service</a></li>
-                                <li><a href="#">Communications</a></li>
-                                <li><a href="#">Referral Terms</a></li>
-                                <li><a href="#">Disclaimers</a></li>
-                            </ul>
-                        </div>
-                    </div> 
-                    <div class="col-lg-3 col-sm-6 col-xs-1">
-                        <div class="single_footer">
-                            <h4>Company</h4>
-                            <ul>
-                                <li><a href="#">Licenses</a></li>
-                                <li><a href="#">market API</a></li>
-                                <li><a href="#">Careers and job</a></li>
-                                <li><a href="#">Emplois en France</a></li>
-                                <li><a href="#">Jobs in Deutschland </a></li>                       
-                            </ul>
-                        </div>
-                    </div> 
-                </div>     
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <div class="footer_copyright">
-                            <p>&copy; 2026 Plataforma 3R - Recomeçar, Reconstruir e Renascer. <br>Todos os direitos reservados.</p>
-                        </div>
-                    </div>
-                </div>              
-            </div>
-        </div>
-        <!-- END FOOTER --> 
-
+        <?php include 'footer.php';?>
         <!-- Scripts -->
         <script src="assets/js/jquery-1.12.4.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>

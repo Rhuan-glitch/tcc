@@ -1,8 +1,6 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+
 
 $logado = isset($_SESSION["usuario"]);
 $tipo = $_SESSION["tipo"] ?? null;
@@ -32,7 +30,7 @@ $tipo = $_SESSION["tipo"] ?? null;
 
                 <h1 class="mb-0 site-logo">
 
-                    <a href="index.html">
+                    <a href="index.php">
 
                         <img 
                             src="assets/img/Logo 3R .png" 
@@ -74,7 +72,7 @@ $tipo = $_SESSION["tipo"] ?? null;
 
                             <li>
                                 <a 
-                                    href="login.html" 
+                                    href="login.php" 
                                     class="nav-link"
                                 >
                                     Login
@@ -83,7 +81,7 @@ $tipo = $_SESSION["tipo"] ?? null;
 
                             <li>
                                 <a 
-                                    href="cadastro.html" 
+                                    href="cadastro.php" 
                                     class="nav-link"
                                 >
                                     Cadastre-se

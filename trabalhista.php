@@ -61,40 +61,7 @@ $resultado = $conn->query($sql);
     
     <body data-spy="scroll" data-offset="80">
 
-        <!-- START NAVBAR -->
-        <div class="site-mobile-menu site-navbar-target">
-          <div class="site-mobile-menu-header">
-            <div class="site-mobile-menu-close mt-3">
-              <span class="icon-close2 js-menu-toggle"></span>
-            </div>
-          </div>
-          <div class="site-mobile-menu-body"></div>
-        </div>
-       
-        <header class="site-navbar js-sticky-header site-navbar-target" role="banner">
-          <div class="container">
-            <div class="row align-items-center">       
-              <div class="col-6 col-xl-2">
-                <h1 class="mb-0 site-logo"><a href="index.html"><img src="assets/img/Logo 3R .png" alt="Logo 3R"></a></h1>
-              </div>
-              <div class="col-12 col-md-10 d-none d-xl-block">
-                <nav class="site-navigation position-relative text-right" role="navigation">
-                  <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                    <li class="nav-link"> <a href="index.html" class="nav-link">Home</a></li>   
-                    <li><a class="nav-link" href="trabalhista.php">Trabalhista</a></li>                
-                    <li><a class="nav-link" href="formacao.php">Formação</a></li>                                
-                    <li><a href="login.html" class="nav-link">Login</a></li>
-                  </ul>
-                </nav>
-              </div>
-              <div class="col-6 d-inline-block d-xl-none ml-md-0 py-3">
-                <a href="#" class="site-menu-toggle js-menu-toggle float-right"><span class="icon-menu h3"></span></a>
-              </div>
-            </div>
-          </div>
-        </header>
-        <!-- END NAVBAR-->       
-
+        <?php include 'nav-bar.php'; ?>
         <!-- START PRELOADER -->
         <div class="preloader">
             <div class="spinner">
@@ -432,60 +399,7 @@ $resultado = $conn->query($sql);
             </div>
         </div>
 
-        <!-- START FOOTER -->
-        <div class="footer">
-            <div class="container">     
-                <div class="row footer_bg">                     
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                        <div class="footer_logo">
-                            <img src="assets/img/Logo 3R (5).png" alt="Logo 3R Rodapé" />
-                            <p>Nossa missão é ser a ponte para o seu novo futuro. Ajudamos pessoas em processo de reconstrução a encontrar oportunidades de trabalho e capacitação.</p>
-                        </div>
-                        <div class="social_profile">
-                            <ul>
-                                <li><a href="#" class="f_facebook"><i class="fa fa-facebook" title="Facebook"></i></a></li>
-                                <li><a href="#" class="f_twitter"><i class="fa fa-youtube" title="Twitter"></i></a></li>
-                                <li><a href="#" class="f_instagram"><i class="fa fa-instagram" title="Instagram"></i></a></li>
-                                <li><a href="#" class="f_linkedin"><i class="fa fa-linkedin" title="LinkedIn"></i></a></li>
-                            </ul>
-                        </div>                          
-                    </div>                  
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                        <div class="single_footer">
-                            <h4>Frequently Asked Questions</h4>
-                            <ul>
-                                <li><a href="#">Privacy & Security</a></li>
-                                <li><a href="#">Terms of Service</a></li>
-                                <li><a href="#">Communications</a></li>
-                                <li><a href="#">Referral Terms</a></li>
-                                <li><a href="#">Disclaimers</a></li>
-                            </ul>
-                        </div>
-                    </div> 
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                        <div class="single_footer">
-                            <h4>Company</h4>
-                            <ul>
-                                <li><a href="#">Licenses</a></li>
-                                <li><a href="#">Market API</a></li>
-                                <li><a href="#">Careers and job</a></li>
-                                <li><a href="#">Emplois en France</a></li>
-                                <li><a href="#">Jobs in Deutschland</a></li>                       
-                            </ul>
-                        </div>
-                    </div> 
-                </div>     
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <div class="footer_copyright">
-                            <p>&copy; 2026 Plataforma 3R - Recomeçar, Reconstruir e Renascer. <br>Todos os direitos reservados.</p>
-                        </div>
-                    </div>
-                </div>              
-            </div>
-        </div>
-        <!-- END FOOTER --> 
-
+        <?php include 'footer.php';?>
         <!-- Latest jQuery -->
         <script src="assets/js/jquery-1.12.4.min.js"></script>
         <!-- Latest compiled and minified Bootstrap -->
