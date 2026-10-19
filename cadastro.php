@@ -209,7 +209,7 @@
         </form>
 
         <div class="footer-form">
-            Já tem uma conta? <a href="login.html">Entrar</a>
+            Já tem uma conta? <a href="login.php">Entrar</a>
         </div>
 
         <!-- Modal de Sucesso -->
