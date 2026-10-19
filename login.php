@@ -97,7 +97,7 @@
 
             <!-- Rodapé do Formulário (Ir para Cadastro) -->
             <div class="footer-form">
-                Não possui uma conta? <a href="cadastro.html">Cadastre-se</a>
+                Não possui uma conta? <a href="cadastro.php">Cadastre-se</a>
             </div>
         </form>
     </div>
