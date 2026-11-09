@@ -491,6 +491,85 @@
     display: block;
 }
 
+/* MODAL CONFIRMAÇÃO DE EXCLUSÃO CUSTOMIZADO */
+.modal-confirm-delete {
+    text-align: center;
+    max-width: 440px;
+    border-top: 6px solid #e74c3c;
+    padding: 35px 30px;
+}
+
+.modal-delete-icon {
+    width: 64px;
+    height: 64px;
+    background-color: #fde8e8;
+    color: #e74c3c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 16px auto;
+}
+
+.modal-confirm-delete h2 {
+    justify-content: center;
+    font-size: 22px;
+    color: #181717;
+    margin-bottom: 10px;
+}
+
+.modal-confirm-delete p {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.modal-delete-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.btn-cancelar-delete {
+    flex: 1;
+    background: #f1f3f5;
+    color: #495057;
+    border: 1px solid #ced4da;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-cancelar-delete:hover {
+    background: #e2e6ea;
+    color: #212529;
+}
+
+.btn-confirmar-delete {
+    flex: 1;
+    background: #e74c3c;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.btn-confirmar-delete:hover {
+    background: #c0392b;
+    transform: translateY(-1px);
+}
+
+
+
 /* --------------------------------------------------------------------------
    7. BOTÕES INTERNOS DOS MODAIS
    -------------------------------------------------------------------------- */

@@ -8,9 +8,6 @@ exigirPerfil("empresa");
 $cnpj = $_SESSION["cnpj"];
 
 
-/* =========================================================
-   DADOS DA EMPRESA
-   ========================================================= */
 
 $stmtEmpresa = $conn->prepare("
     SELECT
@@ -42,9 +39,7 @@ if ($resultadoEmpresa->num_rows !== 1) {
 
 $empresa = $resultadoEmpresa->fetch_assoc();
 
-/* =========================================================
-   VAGAS DA EMPRESA
-   ========================================================= */
+
 
 $stmtVagas = $conn->prepare("
     SELECT
@@ -78,9 +73,6 @@ while ($vaga = $resultadoVagas->fetch_assoc()) {
 }
 
 
-/* =========================================================
-   ESTATÍSTICAS
-   ========================================================= */
 
 $totalVagas = 0;
 $totalCandidaturas = 0;
@@ -137,9 +129,7 @@ $stmtEmSelecao->execute();
 $resultadoEmSelecao = $stmtEmSelecao->get_result();
 $totalEmSelecao = $resultadoEmSelecao->fetch_assoc()["total"];
  
-/* =========================================================
-   CANDIDATURAS RECENTES
-   ========================================================= */
+
 
 $stmtCandidaturasRecentes = $conn->prepare("
     SELECT
@@ -174,9 +164,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
 <html lang="pt-br">
 <head>
 
-    <!-- ================================================================
-         META
-         ================================================================ -->
 
     <meta charset="utf-8">
 
@@ -198,14 +185,11 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
     >
 
 
-    <!-- SITE TITLE -->
 
     <title>Plataforma 3R - Perfil da Empresa</title>
 
 
-    <!-- ================================================================
-         BOOTSTRAP
-         ================================================================ -->
+
 
     <link
         rel="stylesheet"
@@ -213,9 +197,7 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
     >
 
 
-    <!-- ================================================================
-         GOOGLE FONTS
-         ================================================================ -->
+
 
     <link
         rel="stylesheet"
@@ -226,11 +208,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
         rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600"
     >
-
-
-    <!-- ================================================================
-         FONT AWESOME
-         ================================================================ -->
 
     <link
         rel="stylesheet"
@@ -243,9 +220,7 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
     >
 
 
-    <!-- ================================================================
-         ARQUIVOS DA TEMPLATE
-         ================================================================ -->
+    <
 
     <link
         rel="stylesheet"
@@ -297,11 +272,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
         href="assets/css/responsive.css"
     >
 
-
-    <!-- ================================================================
-         CSS ESPECÍFICO DO PERFIL DA EMPRESA
-         ================================================================ -->
-
     <link
         rel="stylesheet"
         href="assets/css/perfil_empresa.css"
@@ -311,11 +281,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
 
 
 <body data-spy="scroll" data-offset="80">
-
-
-    <!-- ================================================================
-         PRELOADER
-         ================================================================ -->
 
     <div class="preloader">
 
@@ -328,11 +293,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
         </div>
 
     </div>
-
-
-    <!-- ================================================================
-         MENU MOBILE
-         ================================================================ -->
 
     <div class="site-mobile-menu site-navbar-target">
 
@@ -351,23 +311,14 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
     </div>
 
 
-    <!-- ================================================================
-         NAVBAR
-         ================================================================ -->
+    
         <?php include 'nav-bar.php'; ?>
 
-    <!-- ================================================================
-         CONTEÚDO PRINCIPAL
-         ================================================================ -->
+
 
     <main class="perfil-empresa-wrapper">
 
         <div class="container">
-
-
-            <!-- ==========================================================
-                 HERO DA EMPRESA
-                 ========================================================== -->
 
             <section class="empresa-hero-card">
 
@@ -429,11 +380,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
 
             </section>
 
-
-            <!-- ==========================================================
-                 RESUMO DA EMPRESA
-                 ========================================================== -->
-
             <section class="empresa-resumo-grid">
 
 
@@ -491,10 +437,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
             </section>
 
 
-            <!-- ==========================================================
-                 IMPACTO DA EMPRESA
-                 Sugestão Front-End
-                 ========================================================== -->
 
             <section class="empresa-impacto-card">
 
@@ -542,11 +484,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
 
 
             </section>
-
-
-            <!-- ==========================================================
-                 VAGAS
-                 ========================================================== -->
 
             <section class="card-empresa vagas-section">
 
@@ -851,11 +788,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
 
             </section>
 
-
-            <!-- ==========================================================
-                 CANDIDATURAS RECENTES
-                 ========================================================== -->
-
             <section class="card-empresa candidaturas-section">
 
 
@@ -991,10 +923,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
 
     </main>
 
-
-    <!-- ================================================================
-         MODAL - EDITAR PERFIL
-         ================================================================ -->
 
     <div
         class="modal fade modal-custom-empresa"
@@ -1181,10 +1109,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
     </div>
 
 
-    <!-- ================================================================
-         MODAL - NOVA / EDITAR VAGA
-         ================================================================ -->
-
     <div
         class="modal fade modal-custom-empresa"
         id="modalNovaVaga"
@@ -1299,15 +1223,11 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
                                 >
 
                             </div>
-
-
                             <div class="col-md-6 form-group">
 
                                 <label>
                                     Tipo de Contrato
                                 </label>
-
-
                                 <input
                                     type="text"
                                     class="custom-input"
@@ -1316,8 +1236,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
                                 >
 
                             </div>
-
-
                             <div class="col-md-6 form-group">
 
                                 <label>
@@ -1490,11 +1408,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
         </div>
 
     </div>
-
-
-    <!-- ================================================================
-         MODAL - CANDIDATURAS DA VAGA
-         ================================================================ -->
 
     <div
         class="modal fade modal-custom-empresa"
@@ -1685,9 +1598,6 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
 
     </div>
     
-    <!-- ================================================================
-     MODAL - VISUALIZAR CURRÍCULO DO CANDIDATO
-     ================================================================ -->
 
 <div
     class="modal fade modal-custom-3r"
@@ -1846,13 +1756,15 @@ while ($candidatura = $resultadoCandidaturasRecentes->fetch_assoc()) {
 
     </div>
 
-</div>
+</div> 
+
+
+
+
+
+
     <?php include 'footer.php';?>
 
-
-    <!-- ================================================================
-         JS
-         ================================================================ -->
 
     <script src="assets/js/jquery-1.12.4.min.js"></script>
 
