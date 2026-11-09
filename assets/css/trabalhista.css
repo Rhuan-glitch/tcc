@@ -1,11 +1,10 @@
 /* ==========================================================================
-   ESTILOS PREMIUM - REFINAMENTO REAL (SEM CORES INVENTADAS)
-   Página Trabalhista (Vagas & Informativos)
+   ESTILOS PREMIUM REFINADOS - PÁGINA TRABALHISTA
+   Identidade Amarelo (#f3cc4c), Grafite (#111827) e Superfícies Suaves
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. CARDS INFORMATIVOS (Reabilitação, etc.)
-   Refinamento: Mais espaço (padding), sombra ultra suave, efeito de flutuação
+   1. CARDS INFORMATIVOS (Isenção, Proteção, Reabilitação, Sistema Prisional)
    -------------------------------------------------------------------------- */
 .single_feature {
     background: #ffffff;
@@ -51,7 +50,6 @@
 
 /* --------------------------------------------------------------------------
    2. ÁREA ADMINISTRATIVA (Empresas)
-   Refinamento: Layout mais limpo, CTA (Call to Action) mais chamativo e moderno
    -------------------------------------------------------------------------- */
 .area-admin {
     background: #ffffff;
@@ -85,7 +83,7 @@
 }
 
 .btn-admin-vaga {
-    background-color: #f3cc4c; /* Seu amarelo */
+    background-color: #f3cc4c;
     color: #111;
     border: none;
     padding: 14px 32px;
@@ -105,7 +103,6 @@
 
 /* --------------------------------------------------------------------------
    3. CAIXA DE FILTROS DE VAGAS
-   Refinamento: Design mais minimalista
    -------------------------------------------------------------------------- */
 .filtro-box {
     background: #ffffff;
@@ -139,7 +136,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   4. CARDS DE VAGAS (Onde a mágica acontece - Sem listras, apenas elegância)
+   4. CARDS DE VAGAS
    -------------------------------------------------------------------------- */
 .vaga-card {
     background: #ffffff;
@@ -191,26 +188,29 @@
     background: #fff;
 }
 
-/* Botão "Ver Detalhes" */
+/* Botão "Ver Detalhes" Refinado */
 .btn-detalhes {
-    border: 2px solid #222;
+    border: 2px solid #111827;
     border-radius: 8px;
-    padding: 10px 24px;
-    color: #222;
+    padding: 10px 22px;
+    color: #111827;
     background: transparent;
     font-weight: 700;
     font-size: 13px;
-    transition: all 0.3s;
+    transition: all 0.25s ease;
     cursor: pointer;
 }
 
 .btn-detalhes:hover {
-    background: #222;
-    color: #ffffff;
+    background: #f3cc4c;
+    border-color: #f3cc4c;
+    color: #111827;
+    box-shadow: 0 4px 12px rgba(243, 204, 76, 0.3);
+    transform: translateY(-1px);
 }
 
 /* --------------------------------------------------------------------------
-   5. BOTÕES DE EDITAR / EXCLUIR (Discretos e modernos)
+   5. BOTÕES DE EDITAR / EXCLUIR
    -------------------------------------------------------------------------- */
 .vaga-acoes {
     display: flex;
@@ -248,107 +248,251 @@
 }
 
 /* --------------------------------------------------------------------------
-   6. MODAL DE DETALHES (Estilo vidro/limpo)
+   6. MODAIS PREMIUM (Detalhes e Publicação / Edição)
    -------------------------------------------------------------------------- */
+
+/* Animação suave para abertura dos modais */
+@keyframes modalSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-25px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 .modal-overlay {
     display: none;
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.7); 
-    backdrop-filter: blur(5px);
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(8px);
     z-index: 99999;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
 .modal-vaga-content {
     background: #ffffff;
-    padding: 40px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 550px;
+    padding: 35px 40px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 620px;
     position: relative;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-    max-height: 85vh;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 
+                0 0 0 1px rgba(243, 204, 76, 0.2);
+    border-top: 5px solid #f3cc4c;
+    max-height: 88vh;
     overflow-y: auto;
+    animation: modalSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Scrollbar estilizada */
+.modal-vaga-content::-webkit-scrollbar {
+    width: 6px;
+}
+.modal-vaga-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 8px;
+}
+.modal-vaga-content::-webkit-scrollbar-thumb {
+    background: #f3cc4c;
+    border-radius: 8px;
+}
+
+/* Botão Fechar */
 .btn-close-modal {
     position: absolute;
     right: 20px;
     top: 20px;
     border: none;
-    background: #f5f5f5;
-    width: 35px;
-    height: 35px;
-    border-radius: 8px;
-    font-size: 18px;
-    color: #555;
+    background: #f4f4f5;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 20px;
+    color: #666;
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.25s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-.btn-close-modal:hover {
-    background: #222;
-    color: #fff;
+    line-height: 1;
 }
 
-/* Badges neutros (Foca no conteúdo, sem parecer um carnaval) */
+.btn-close-modal:hover {
+    background: #f3cc4c;
+    color: #111;
+    transform: rotate(90deg);
+}
+
+/* Títulos nos Modais */
+.modal-vaga-content h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+
+.modal-vaga-content .empresa-sub {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 20px;
+}
+
+/* Badges Informativos */
 .badges-container {
     display: flex;
-    justify-content: flex-start;
-    gap: 8px;
-    margin-bottom: 20px;
+    gap: 10px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
 }
 
 .badge-custom {
-    padding: 6px 12px;
-    border-radius: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
     font-size: 12px;
     font-weight: 700;
-    background: #f5f5f5;
-    color: #444;
-    border: 1px solid #eaeaea;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
+.badge-cidade {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+}
+
+.badge-regime {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+.badge-salario {
+    background: rgba(243, 204, 76, 0.15);
+    color: #856404;
+    border: 1px solid rgba(243, 204, 76, 0.4);
+}
+
+/* Subtítulos de Seção Interna */
 .modal-vaga-content h5 {
-    color: #1a1a1a;
-    font-size: 17px;
-    font-weight: 800;
-    border-bottom: 1px solid #eaeaea;
-    padding-bottom: 12px;
-    margin-top: 25px;
-    margin-bottom: 15px;
+    color: #111827;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #f3f4f6;
+    padding-bottom: 8px;
+    margin-top: 24px;
+    margin-bottom: 12px;
 }
 
 .modal-vaga-content ul {
     padding-left: 0;
     list-style: none;
+    margin-bottom: 20px;
 }
 
 .modal-vaga-content ul li {
-    color: #555;
-    font-size: 15px;
-    margin-bottom: 10px;
-    padding-left: 20px;
+    color: #4b5563;
+    font-size: 14px;
+    margin-bottom: 8px;
+    padding-left: 24px;
     position: relative;
+    line-height: 1.5;
 }
 
 .modal-vaga-content ul li::before {
-    content: "■"; /* Quadrado pequeno ao invés de bolinha, mais moderno */
-    color: #f3cc4c; 
+    content: "✓";
+    color: #111827;
+    background: #f3cc4c;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
     position: absolute;
     left: 0;
-    top: 0px;
-    font-size: 12px;
+    top: 2px;
+    font-size: 10px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Form inputs e selects dentro do Modal */
+.modal-vaga-content .form-group {
+    margin-bottom: 18px;
+}
+
+.modal-vaga-content label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.modal-vaga-content .form-control {
+    border-radius: 10px;
+    border: 1.5px solid #e5e7eb;
+    height: auto;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #1f2937;
+    background-color: #f9fafb;
+    transition: all 0.25s ease;
+}
+
+.modal-vaga-content .form-control:focus {
+    background-color: #ffffff;
+    border-color: #f3cc4c;
+    box-shadow: 0 0 0 4px rgba(243, 204, 76, 0.25);
+    outline: none;
+}
+
+.modal-vaga-content textarea.form-control {
+    resize: vertical;
+    min-height: 90px;
+}
+
+/* Upload personalizado de arquivos */
+.custom-file-upload {
+    border: 2px dashed #d1d5db;
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+    background: #f9fafb;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: block;
+}
+
+.custom-file-upload:hover {
+    border-color: #f3cc4c;
+    background: rgba(243, 204, 76, 0.05);
+}
+
+.custom-file-upload i {
+    font-size: 22px;
+    color: #f3cc4c;
+    margin-bottom: 6px;
+    display: block;
 }
 
 /* --------------------------------------------------------------------------
-   7. BOTÕES DENTRO DO MODAL
+   7. BOTÕES INTERNOS DOS MODAIS
    -------------------------------------------------------------------------- */
 .btn-candidatar {
     background: #f3cc4c;
@@ -356,35 +500,42 @@
     font-weight: 800;
     font-size: 15px;
     width: 100%;
-    border-radius: 8px;
-    padding: 16px;
+    border-radius: 10px;
+    padding: 14px 20px;
     border: none;
-    margin-top: 25px;
+    margin-top: 20px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    box-shadow: 0 4px 14px rgba(243, 204, 76, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .btn-candidatar:hover {
-    background: #dfb738;
+    background: #e5b932;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(243, 204, 76, 0.5);
 }
 
 .btn-fechar-dark {
-    background: #f5f5f5;
-    color: #444;
+    background: #f3f4f6;
+    color: #4b5563;
     font-weight: 700;
     font-size: 14px;
     width: 100%;
-    border-radius: 8px;
-    padding: 14px;
-    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
     margin-top: 10px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.2s ease;
 }
 
 .btn-fechar-dark:hover {
-    background: #e0e0e0;
-    color: #111;
+    background: #e5e7eb;
+    color: #111827;
 }

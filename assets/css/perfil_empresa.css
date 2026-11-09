@@ -1788,3 +1788,32 @@ body {
     }
 
 }
+
+/* ==========================================================================
+   ESTILIZAÇÃO DO BOTÃO FECHAR (X) DO MODAL DA TRILHA DE APRENDIZAGEM
+   ========================================================================== */
+
+/* Garante fundo transparente e remove bordas no cabeçalho amarelado */
+.modal-header .close,
+.modal-header button.close {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: #171717 !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    opacity: 0.7 !important;
+    padding: 0 5px !important;
+    margin: -0.5rem -0.5rem -0.5rem auto !important;
+    line-height: 1 !important;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease !important;
+}
+
+.modal-header .close:hover,
+.modal-header button.close:hover {
+    opacity: 1 !important;
+    background: transparent !important;
+    transform: scale(1.15) !important;
+}

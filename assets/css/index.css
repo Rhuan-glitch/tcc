@@ -228,6 +228,7 @@ body {
 .p-amarela { color: #fbbc05; }
 .p-laranja { color: #fa7b17; }
 .p-azul { color: #4285f4; }
+.p-vermelho { color: #e7211a; }
 
 .track-barra-premium {
     width: 100%;
@@ -246,6 +247,7 @@ body {
 .bg-amarelo { background-color: #fbbc05; }
 .bg-laranja { background-color: #fa7b17; }
 .bg-azul { background-color: #4285f4; }
+.bg-vermelho { background-color: #e7211a; }
 
 .logo-spotlight-wrapper {
     background: none !important;

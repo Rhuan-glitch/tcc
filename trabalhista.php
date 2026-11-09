@@ -9,9 +9,7 @@ $sql = "SELECT
         INNER JOIN empresa 
             ON vaga.cnpj_empresa = empresa.cnpj";
 
-
 $resultado = $conn->query($sql);
-
 ?> 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -24,7 +22,7 @@ $resultado = $conn->query($sql);
         <meta name="description" content="Monoline - Design Agency HTML Template">
         <meta name="keywords" content="agency, business, corporate, creative, html5, modern, multipurpose, One Page, parallax, startup">       
         <!-- SITE TITLE -->
-        <title>Monoline - Design Agency HTML Template</title>           
+        <title>Página Trabalhista - Vagas & Informativos</title>           
         <!-- Latest Bootstrap min CSS -->
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">       
         <!-- Google Font -->
@@ -41,7 +39,7 @@ $resultado = $conn->query($sql);
         <!-- animate CSS -->
         <link rel="stylesheet" href="assets/css/animate.css">       
         <!-- Venobox CSS -->
-        <link rel="stylesheet" href="assets/css/venobox.css">           
+        <link rel="stylesheet" href="assets/css/venobox.css">          
         <!-- MAGNIFIC CSS -->
         <link rel="stylesheet" href="assets/css/magnific-popup.css">                    
         <!-- Style CSS -->                      
@@ -62,6 +60,7 @@ $resultado = $conn->query($sql);
     <body data-spy="scroll" data-offset="80">
 
         <?php include 'nav-bar.php'; ?>
+
         <!-- START PRELOADER -->
         <div class="preloader">
             <div class="spinner">
@@ -124,15 +123,18 @@ $resultado = $conn->query($sql);
         
         <section class="blog_area section-padding">
             <div class="container">
-                <?php if ($_SESSION["tipo"] === "empresa" ||  $_SESSION["tipo"] === "administrador"):?>
-                <div class="area-admin mb-5 p-4 text-center">
-                    <h4 class="titulo-area-admin">Área para Empresas</h4>
-                    <p class="subtitulo-area-admin">Publique novas oportunidades na plataforma e encontre o talento ideal.</p>
-                    <button class="btn-admin-vaga mt-2" onclick="abrirModalPublicar()">
+                <?php if ($_SESSION["tipo"] === "empresa" || $_SESSION["tipo"] === "administrador"):?>
+                <div class="area-admin mb-5 text-center">
+                    <div class="textos-admin">
+                        <h4 class="titulo-area-admin">Área para Empresas</h4>
+                        <p class="subtitulo-area-admin">Publique novas oportunidades na plataforma e encontre o talento ideal.</p>
+                    </div>
+                    <button class="btn-admin-vaga" onclick="abrirModalPublicar()">
                         <i class="fa fa-plus"></i> Publicar Vaga
                     </button>
                 </div>
                 <?php endif;?>
+
                 <div class="filtro-box mb-5">
                     <h4>Filtrar Oportunidades</h4>
                     <div class="row">
@@ -143,7 +145,7 @@ $resultado = $conn->query($sql);
                                 <option value="Curitiba">Curitiba</option>
                                 <option value="Pinhais">Pinhais</option>
                                 <option value="Piraquara">Piraquara</option>
-								<option value="Colombo">Colombo</option>
+                                <option value="Colombo">Colombo</option>
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -170,131 +172,124 @@ $resultado = $conn->query($sql);
                 <div class="row" id="listaOportunidades">
                     <?php while ($vaga = $resultado->fetch_assoc()): ?>
 
-        <div class="col-lg-6 col-md-12 vaga-item"
-             data-id="<?= htmlspecialchars($vaga['id_vaga']) ?>"
-             data-cidade="<?= htmlspecialchars($vaga['cidade']) ?>"
-             data-salario="<?= htmlspecialchars($vaga['faixa_salarial']) ?>"
-             data-funcao="<?= htmlspecialchars($vaga['area']) ?>">
+                    <div class="col-lg-6 col-md-12 vaga-item"
+                         data-id="<?= htmlspecialchars($vaga['id_vaga']) ?>"
+                         data-cidade="<?= htmlspecialchars($vaga['cidade']) ?>"
+                         data-salario="<?= htmlspecialchars($vaga['faixa_salarial']) ?>"
+                         data-funcao="<?= htmlspecialchars($vaga['area']) ?>">
 
-            <div class="vaga-card">
+                        <div class="vaga-card">
 
-                <div class="d-flex justify-content-between align-items-start">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h3 class="vaga-titulo">
+                                        <?= htmlspecialchars($vaga['titulo_vaga']) ?>
+                                    </h3>
 
-                    <div>
-                        <h3 class="vaga-titulo">
-                            <?= htmlspecialchars($vaga['titulo_vaga']) ?>
-                        </h3>
+                                    <p class="empresa-nome">
+                                        <?= htmlspecialchars($vaga['razao_social']) ?>
+                                    </p>
+                                </div>
 
-                        <p class="empresa-nome">
-                            <?= htmlspecialchars($vaga['razao_social']) ?>
-                        </p>
+                                <img src="https://via.placeholder.com/80?text=Logo"
+                                     alt="Logo Empresa"
+                                     class="logo-vaga">
+                            </div>
+
+                            <div class="vaga-info mt-3">
+                                <p>
+                                    Local:
+                                    <span class="vaga-cidade">
+                                        <?= htmlspecialchars($vaga['cidade']) ?>
+                                    </span>
+                                </p>
+
+                                <p>
+                                    Regime:
+                                    <span class="vaga-regime">
+                                        <?= htmlspecialchars($vaga['tipo_contrato']) ?>
+                                    </span>
+                                </p>
+
+                                <p>
+                                    Salário:
+                                    <strong class="vaga-valor">
+                                        <?= htmlspecialchars($vaga['faixa_salarial']) ?>
+                                    </strong>
+                                </p>
+                            </div>
+
+                            <p class="vaga-desc">
+                                <?= htmlspecialchars($vaga['descricao']) ?>
+                            </p>
+
+                            <div class="d-none requisitos-hidden">
+                                <?= htmlspecialchars($vaga['requisitos']) ?>
+                            </div>
+
+                            <div class="d-none beneficios-hidden">
+                                <?= htmlspecialchars($vaga['beneficios']) ?>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+
+                                <button class="btn-detalhes" onclick="abrirModalDetalhes(this)">
+                                    Ver Detalhes
+                                </button>
+
+                                <div class="vaga-acoes">
+                                    <?php if ($_SESSION["tipo"] === "administrador" || ($_SESSION["tipo"] === "empresa" && $_SESSION["cnpj"] === $vaga["cnpj_empresa"])): ?>
+                                    <button class="text-edit btn-acao" onclick="editarVaga(this)">
+                                        EDITAR
+                                    </button>
+
+                                    <button class="text-delete btn-acao" onclick="excluirVaga(this)">
+                                        EXCLUIR
+                                    </button>
+                                    <?php endif; ?>
+                                </div>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
-                    <img src="https://via.placeholder.com/80?text=Logo"
-                         alt="Logo Empresa"
-                         class="logo-vaga">
+                    <?php endwhile; ?>
                 </div>
 
-
-                <div class="vaga-info mt-3">
-
-                    <p>
-                        Local:
-                        <span class="vaga-cidade">
-                            <?= htmlspecialchars($vaga['cidade']) ?>
-                        </span>
-                    </p>
-
-                    <p>
-                        Regime:
-                        <span class="vaga-regime">
-                            <?= htmlspecialchars($vaga['tipo_contrato']) ?>
-                        </span>
-                    </p>
-
-                    <p>
-                        Salário:
-                        <strong class="vaga-valor">
-                            <?= htmlspecialchars($vaga['faixa_salarial']) ?>
-                        </strong>
-                    </p>
-
-                </div>
-
-
-                <p class="vaga-desc">
-                    <?= htmlspecialchars($vaga['descricao']) ?>
-                </p>
-
-
-                <div class="d-none requisitos-hidden">
-                    <?= htmlspecialchars($vaga['requisitos']) ?>
-                </div>
-
-                <div class="d-none beneficios-hidden">
-                    <?= htmlspecialchars($vaga['beneficios']) ?>
-                </div>
-
-
-                <hr>
-
-
-                <div class="d-flex justify-content-between align-items-center mt-3">
-
-                    <button class="btn-detalhes"
-                            onclick="abrirModalDetalhes(this)">
-                        Ver Detalhes
-                    </button>
-
-                    <div class="vaga-acoes">
-                         <?php if ($_SESSION["tipo"] === "administrador" || ($_SESSION["tipo"] === "empresa" && $_SESSION["cnpj"] === $vaga["cnpj_empresa"])): ?>
-                        <button class="text-edit btn-acao"
-                                onclick="editarVaga(this)">
-                            EDITAR
-                        </button>
-
-                        <button class="text-delete btn-acao"
-                                onclick="excluirVaga(this)">
-                            EXCLUIR
-                        </button>
-                        <?php endif; ?>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    <?php endwhile; ?>
-
-</div>
-                    
-
-                </div>
             </div>
         </section>
 
         <!-- MODAL DETALHES -->
         <div id="modalVaga" class="modal-overlay">
             <div class="modal-content modal-vaga-content">
-                <button onclick="fecharModalVaga()" class="btn-close-modal">&times;</button>
+                <button onclick="fecharModalVaga()" class="btn-close-modal" title="Fechar">&times;</button>
                 
-                <div class="text-center mb-3">
-                    <img src="" id="modalVagaLogo" class="logo-vaga-modal" alt="Logo Empresa">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <img src="" id="modalVagaLogo" class="logo-vaga" alt="Logo Empresa" style="width: 60px; height: 60px;">
+                    <div>
+                        <h2 id="modalVagaTitulo" class="m-0">Nome da Vaga</h2>
+                        <p id="modalVagaEmpresa" class="empresa-sub m-0 mt-1">Nome da Empresa</p>
+                    </div>
                 </div>
 
-                <h2 id="modalVagaTitulo">Nome da Vaga</h2>
-                <p id="modalVagaEmpresa" class="empresa-sub">Nome da Empresa</p>
-
                 <div class="badges-container">
-                    <span class="badge-custom badge-cidade" id="modalVagaLocal">Cidade</span>
-                    <span class="badge-custom badge-regime" id="modalVagaRegime">Regime</span>
-                    <span class="badge-custom badge-salario" id="modalVagaSalario">Salário</span>
+                    <span class="badge-custom badge-cidade" id="modalVagaLocal">
+                        <i class="fa fa-map-marker"></i> Cidade
+                    </span>
+                    <span class="badge-custom badge-regime" id="modalVagaRegime">
+                        <i class="fa fa-briefcase"></i> Regime
+                    </span>
+                    <span class="badge-custom badge-salario" id="modalVagaSalario">
+                        <i class="fa fa-money"></i> Salário
+                    </span>
                 </div>
 
                 <h5>Sobre a Oportunidade</h5>
-                <p id="modalVagaDescricao">Descrição</p>
+                <p id="modalVagaDescricao" style="color: #4b5563; line-height: 1.6; font-size: 14px;"></p>
 
                 <h5>Requisitos</h5>
                 <ul id="modalVagaRequisitos"></ul>
@@ -303,34 +298,46 @@ $resultado = $conn->query($sql);
                 <ul id="modalVagaBeneficios"></ul>
 
                 <form action="php/egresso/candidatar_vaga.php" method="POST">
-                <input type="hidden" name="id_vaga" id="modalIdVaga">
-                <button type="submit" class="btn-candidatar">Candidatar-se à Oportunidade</button>
+                    <input type="hidden" name="id_vaga" id="modalIdVaga">
+                    <button type="submit" class="btn-candidatar">
+                        <i class="fa fa-paper-plane"></i> Candidatar-se à Oportunidade
+                    </button>
                 </form>
                 <button onclick="fecharModalVaga()" class="btn-fechar-dark">Fechar</button>
             </div>
         </div>
 
-        <!-- MODAL PUBLICAR -->
+        <!-- MODAL PUBLICAR / EDITAR VAGA -->
         <div id="modalPublicar" class="modal-overlay">
             <div class="modal-content modal-vaga-content">
-                <button onclick="fecharModalPublicar()" class="btn-close-modal">&times;</button>
-                <h2 id="tituloModalForm">Publicar Nova Vaga</h2>
+                <button onclick="fecharModalPublicar()" class="btn-close-modal" title="Fechar">&times;</button>
                 
-                <form id="formVaga" class="mt-4" action='php/empresa/create_vaga.php' method='POST' enctype="multipart/form-data">
+                <div class="border-bottom pb-3 mb-4">
+                    <h2 id="tituloModalForm">Publicar Nova Vaga</h2>
+                    <p class="text-muted m-0" style="font-size: 13px;">Preencha os dados abaixo para anunciar a oportunidade.</p>
+                </div>
+                
+                <form id="formVaga" action='php/empresa/create_vaga.php' method='POST' enctype="multipart/form-data">
                     <input type="hidden" id="formIdVaga" name="id_vaga">
+
                     <div class="form-group">
-                        <label for="formLogo">Logo da Empresa (Opcional)</label>
-                        <input type="file" class="form-control" id="formLogo" name='img_vaga' accept="image/*">
-                        <small class="form-text text-muted">*Selecione uma imagem para aparecer no anúncio da vaga.</small>
+                        <label>Logo da Empresa (Opcional)</label>
+                        <label for="formLogo" class="custom-file-upload">
+                            <i class="fa fa-cloud-upload"></i>
+                            <span style="font-size: 13px; font-weight: 600; color: #374151; display: block;">Clique para selecionar uma imagem</span>
+                            <small class="text-muted">Formatos aceitos: PNG, JPG ou JPEG</small>
+                        </label>
+                        <input type="file" id="formLogo" name='img_vaga' accept="image/*" style="display: none;">
                     </div>
 
-                    <div class="form-group mt-3">
+                    <div class="form-group">
                         <label for="formTitulo">Título da Vaga *</label>
                         <input type="text" class="form-control" id="formTitulo" name='titulo_vaga' required placeholder="Ex: Auxiliar Administrativo">
                     </div>
+
                     <div class="form-group">
                         <label for="formEmpresa">Nome da Empresa *</label>
-                        <input type="text" class="form-control" id="formEmpresa" required placeholder="Sua Empresa">
+                        <input type="text" class="form-control" id="formEmpresa" required placeholder="Sua Empresa Ltda">
                     </div>
                     
                     <div class="row">
@@ -344,11 +351,11 @@ $resultado = $conn->query($sql);
                         </div>
                         <div class="form-group col-md-6">
                             <label for="formCidade">Cidade *</label>
-                            <select class="form-control" id="formCidade" name='cidade'required>
+                            <select class="form-control" id="formCidade" name='cidade' required>
                                 <option value="Curitiba">Curitiba</option>
                                 <option value="Pinhais">Pinhais</option>
                                 <option value="Piraquara">Piraquara</option>
-								<option value="Colombo">Colombo</option>
+                                <option value="Colombo">Colombo</option>
                             </select>
                         </div>
                     </div>
@@ -359,53 +366,60 @@ $resultado = $conn->query($sql);
                             <input type="text" class="form-control" id="formRegime" name='tipo_contrato' required placeholder="Ex: CLT, PJ, Estágio">
                         </div>
                         <div class="form-group col-md-6">
-                        <label for="formCargaHoraria">Carga Horária *</label>
-                        <input type="number"class="form-control"id="formCargaHoraria"name="carga_horaria"min="1" required placeholder="Ex: 40">
+                            <label for="formCargaHoraria">Carga Horária Semanal *</label>
+                            <input type="number" class="form-control" id="formCargaHoraria" name="carga_horaria" min="1" required placeholder="Ex: 40">
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="form-group col-md-6">
                             <label for="formSalarioValor">Valor do Salário *</label>
                             <input type="text" class="form-control" id="formSalarioValor" required placeholder="Ex: R$ 2.000,00">
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="formSalarioFiltro">Faixa Salarial (Para o Filtro) *</label>
-                        <select class="form-control" id="formSalarioFiltro" name='faixa_salarial' required>
-                            <option value="Até R$ 1.500">Até R$ 1.500</option>
-                            <option value="R$ 1.500 a R$ 2.500">R$ 1.500 a R$ 2.500</option>
-                            <option value="Acima de R$ 2.500">Acima de R$ 2.500</option>
-                        </select>
+                        <div class="form-group col-md-6">
+                            <label for="formSalarioFiltro">Faixa Salarial (Filtro) *</label>
+                            <select class="form-control" id="formSalarioFiltro" name='faixa_salarial' required>
+                                <option value="Até R$ 1.500">Até R$ 1.500</option>
+                                <option value="R$ 1.500 a R$ 2.500">R$ 1.500 a R$ 2.500</option>
+                                <option value="Acima de R$ 2.500">Acima de R$ 2.500</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="formDescricao">Sobre a Oportunidade *</label>
-                        <textarea class="form-control" id="formDescricao" name='descricao' rows="3" required></textarea>
+                        <textarea class="form-control" id="formDescricao" name='descricao' rows="3" required placeholder="Descreva as responsabilidades e detalhes da vaga..."></textarea>
                     </div>
+                    
                     <div class="form-group">
                         <label for="formRequisitos">Requisitos (Separe por vírgula) *</label>
                         <textarea class="form-control" id="formRequisitos" name='requisitos' rows="2" required placeholder="Ex: Ensino médio, Excel básico"></textarea>
                     </div>
+
                     <div class="form-group">
                         <label for="formBeneficios">Benefícios (Separe por vírgula) *</label>
                         <textarea class="form-control" id="formBeneficios" name='beneficios' rows="2" required placeholder="Ex: Vale transporte, VR"></textarea>
                     </div>
                     
-                    <button type="submit" class="btn-candidatar" id="btnSalvarVaga">Publicar Vaga</button>
+                    <button type="submit" class="btn-candidatar" id="btnSalvarVaga">
+                        <i class="fa fa-check-circle"></i> Publicar Vaga
+                    </button>
                     
-                    <a href="php/empresa/listar_vagas.php" class="btn">Gerenciar vagas</a>
+                    <a href="php/empresa/listar_vagas.php" class="btn btn-block text-center mt-2" style="font-size: 13px; font-weight: 600; color: #666;">Gerenciar vagas existentes</a>
+                    
                     <button type="button" onclick="fecharModalPublicar()" class="btn-fechar-dark">Cancelar</button>
                 </form>
-
             </div>
         </div>
 
         <?php include 'footer.php';?>
+
         <!-- Latest jQuery -->
         <script src="assets/js/jquery-1.12.4.min.js"></script>
         <!-- Latest compiled and minified Bootstrap -->
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
         <!-- modernizer JS -->      
-        <script src="assets/js/modernizr-2.8.3.min.js"></script>                                                                                        
+        <script src="assets/js/modernizr-2.8.3.min.js"></script>                                                                                                                
         <!-- owl-carousel min js  -->
         <script src="assets/owlcarousel/js/owl.carousel.min.js"></script>                   
         <!-- magnific-popup js -->               
@@ -422,12 +436,12 @@ $resultado = $conn->query($sql);
         <script src="assets/js/jquery.stellar.min.js"></script>         
         <!-- WOW - Reveal Animations When You Scroll -->
         <script src="assets/js/wow.min.js"></script>    
-        <!-- form contact js -->                                                                                                
+        <!-- form contact js -->                                                                                                                                                            
         <script src="assets/js/form-contact.js"></script>               
         <!-- scrolltopcontrol js -->
-        <script src="assets/js/menu.js"></script>                                                                                       
-        <script src="assets/js/jquery.sticky.js"></script>                                                                                      
-        <script src="assets/js/scrolltopcontrol.js"></script>                                                                                       
+        <script src="assets/js/menu.js"></script>                                                                                                                
+        <script src="assets/js/jquery.sticky.js"></script>                                                                                                                
+        <script src="assets/js/scrolltopcontrol.js"></script>                                                                                                                
         <!-- scripts js -->
         <script src="assets/js/scripts.js"></script>        
         <script src="assets/js/trabalhista.js"></script>        

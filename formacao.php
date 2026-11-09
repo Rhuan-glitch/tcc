@@ -3,9 +3,7 @@ require_once "php/config/config.php";
 exigirLogin();
 
 $sql = "SELECT * FROM curso";
-
 $resultado = $conn->query($sql);
-
 ?> 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -34,7 +32,6 @@ $resultado = $conn->query($sql);
     <body data-spy="scroll" data-offset="80">
         
         <?php include 'nav-bar.php'; ?>
-
 
         <!-- START CONTEÚDO PRINCIPAL -->
         <main>
@@ -115,89 +112,91 @@ $resultado = $conn->query($sql);
                     </div>
 
                     <div class="row" id="listaCursos">
-                        <!-- CURSO 1 -->
-                         <?php
+                        <!-- CURSOS DINÂMICOS DO BANCO -->
+                        <?php
+                        $sql = "SELECT * FROM curso";
+                        $resultado = $conn->query($sql);
 
-$sql = "SELECT * FROM curso";
+                        while ($curso = $resultado->fetch_assoc()) {
+                        ?>
+                        <div class="col-lg-4 col-md-6 curso-item mb-4" data-categoria="<?= htmlspecialchars($curso['area']) ?>">
+                            <div class="formacao-card">
+                                <img 
+                                    src="/tcc-1/php/uploads/<?= htmlspecialchars($curso['img_curso']) ?>" 
+                                    class="img-fluid" 
+                                    alt="<?= htmlspecialchars($curso['nome_curso']) ?>"
+                                >
+                                <div class="formacao-content">
+                                    <span class="categoria">
+                                        <?= htmlspecialchars(ucfirst($curso['area'])) ?>
+                                    </span>
 
-$resultado = $conn->query($sql);
+                                    <h2>
+                                        <?= htmlspecialchars($curso['nome_curso']) ?>
+                                    </h2>
 
-while ($curso = $resultado->fetch_assoc()) {
+                                    <p>
+                                        <?= htmlspecialchars($curso['descricao']) ?>
+                                    </p>
 
-?>
+                                    <div class="formacao-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        <?= htmlspecialchars($curso['carga_horaria']) ?> horas
+                                    </div>
 
-<div class="col-lg-4 col-md-6 curso-item" data-categoria="<?= $curso['area'] ?>">
+                                    <button 
+                                        class="formacao-btn"
+                                        onclick='abrirModalCurso(
+                                            <?= json_encode($curso["id_curso"]) ?>,
+                                            <?= json_encode($curso["nome_curso"]) ?>,
+                                            <?= json_encode($curso["carga_horaria"] . " horas") ?>,
+                                            <?= json_encode($curso["descricao"]) ?>,
+                                            <?= json_encode($curso["url_curso"]) ?>,
+                                            <?= json_encode($curso["certificado"]) ?>,
+                                            <?= json_encode($curso["conteudo_programatico"]) ?>
+                                        )'>
+                                        <i class="fa fa-graduation-cap"></i> Acessar Formação
+                                    </button>
 
-    <div class="formacao-card">
+                                    <?php if (isset($_SESSION["tipo"]) && $_SESSION["tipo"] === "administrador"): ?>
+                                    <div class="admin-card-actions">
+                                        <button 
+                                            type="button" 
+                                            class="btn-card-edit"
+                                            onclick='abrirModalEditar(
+                                                <?= json_encode($curso["id_curso"]) ?>,
+                                                <?= json_encode($curso["nome_curso"]) ?>,
+                                                <?= json_encode($curso["area"]) ?>,
+                                                <?= json_encode($curso["carga_horaria"]) ?>,
+                                                <?= json_encode($curso["certificado"]) ?>,
+                                                <?= json_encode($curso["descricao"]) ?>,
+                                                <?= json_encode($curso["conteudo_programatico"]) ?>,
+                                                <?= json_encode($curso["url_curso"]) ?>
+                                            )'>
+                                            <i class="fa fa-pencil"></i> Editar
+                                        </button>
 
-        <img 
-        src="/tcc-1/php/uploads/<?= $curso['img_curso'] ?>" 
-        class="img-fluid" 
-        alt="<?= $curso['nome_curso'] ?>"
-        >
-        <div class="formacao-content">
-
-            <span class="categoria">
-                <?= ucfirst($curso['area']) ?>
-            </span>
-
-            <h2>
-                <?= $curso['nome_curso'] ?>
-            </h2>
-
-            <p>
-                <?= $curso['descricao'] ?>
-            </p>
-
-            <div class="formacao-info">
-                <i class="fa fa-clock-o"></i>
-                <?= $curso['carga_horaria'] ?> horas
-            </div>
-
-            <button 
-            class="formacao-btn"
-            onclick='abrirModalCurso(
-                <?= json_encode($curso["id_curso"]) ?>,
-                <?= json_encode($curso["nome_curso"]) ?>,
-                <?= json_encode($curso["carga_horaria"] . " horas") ?>,
-                <?= json_encode($curso["descricao"]) ?>,
-                <?= json_encode($curso["url_curso"]) ?>,
-                <?= json_encode($curso["certificado"]) ?>,
-                <?= json_encode($curso["conteudo_programatico"]) ?>
-            )'>
-            Acessar Formação
-            </button>
-            <?php if ($_SESSION["tipo"] === "administrador"): ?>
-            <a href="php/admin/editar_curso.php?id=<?= $curso['id_curso'] ?>"class="btn btn-warning">Editar</a>
-            <form action="php/admin/excluir_curso.php" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este curso?');" style="display:inline;">
-    
-    <input type="hidden" name="id" value="<?= $curso['id_curso'] ?>">
-
-    <button type="submit">
-        Excluir
-    </button>
-
-</form>
-<?php endif;?>
-        </div>
-
-    </div>
-
-</div>
-
-<?php
-
-}
-
-?>
-                       
+                                        <button 
+                                            type="button" 
+                                            class="btn-card-delete" 
+                                            onclick="abrirModalExcluir(<?= $curso['id_curso'] ?>, '<?= addslashes(htmlspecialchars($curso['nome_curso'], ENT_QUOTES)) ?>')">
+                                            <i class="fa fa-trash"></i> Excluir
+                                        </button>
+                                    </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php } ?>
+                    </div>
+                        
                     <?php if (isset($_SESSION["tipo"]) && $_SESSION["tipo"] === "administrador"): ?>
                     <!-- ÁREA ADMINISTRADOR -->
                     <div class="area-admin">
                         <h3>Área Administrativa</h3>
                         <p>Publique novas formações na plataforma.</p>
                         <button class="btn-admin" onclick="abrirModalCadastro()">
-                            <i class="fa fa-plus"></i> Publicar Formação
+                            <i class="fa fa-plus-circle"></i> Publicar Formação
                         </button>
                     </div>
                     <?php endif; ?>
@@ -205,10 +204,10 @@ while ($curso = $resultado->fetch_assoc()) {
             </section>
         </main>
 
-        <!-- MODAL CURSO -->
+        <!-- MODAL VER DETALHES DO CURSO -->
         <div id="modalCurso" class="modal-overlay" style="display:none;">
             <div class="modal-content">
-                <img src="assets/img/Logo 3R .png" class="logo-modal">
+                <img src="assets/img/Logo 3R .png" class="logo-modal" alt="Logo 3R">
                 <h2 id="cursoTitulo">Nome do Curso</h2>
                 
                 <div class="curso-dados">
@@ -229,10 +228,10 @@ while ($curso = $resultado->fetch_assoc()) {
                     Inscrever-se na Formação
                 </a>
                 <form id="formConcluirCurso" action="php/egresso/concluir_curso.php" method="POST">
-                <input type="hidden" id="idCursoConcluir" name="id_curso">
-                <button type="submit" class="btn-inscricao-3r">
-                    Marcar como concluído
-                </button>
+                    <input type="hidden" id="idCursoConcluir" name="id_curso">
+                    <button type="submit" class="btn-inscricao-3r">
+                        Marcar como concluído
+                    </button>
                 </form>
                 <button onclick="fecharModalCurso()" class="btn-fechar">
                     Fechar
@@ -243,16 +242,16 @@ while ($curso = $resultado->fetch_assoc()) {
         <!-- MODAL CADASTRO ADMINISTRADOR -->
         <div id="modalCadastro" class="modal-overlay" style="display:none;">
             <div class="modal-content modal-admin">
-                <img src="assets/img/Logo 3R .png" class="logo-modal">
+                <img src="assets/img/Logo 3R .png" class="logo-modal" alt="Logo 3R">
                 <h2>
                     <i class="fa fa-plus-circle"></i> Cadastrar Nova Formação
                 </h2>
-                <form id="formAdminCurso" class="form-admin" action="php/admin/create_curso.php" method="POST" enctype= 'multipart/form-data'>
+                <form id="formAdminCurso" class="form-admin" action="php/admin/create_curso.php" method="POST" enctype="multipart/form-data">
                     <label>Foto da Capa do Curso</label>
                     <input type="file" id="imagemCurso" name="img_curso" accept="image/png, image/jpeg, image/webp" required>
                     
                     <label>Categoria da Formação</label>
-                    <select id="categoriaCurso" name='area'>
+                    <select id="categoriaCurso" name="area">
                         <option value="tecnologia">Tecnologia</option>
                         <option value="comercial">Comercial</option>
                         <option value="administrativo">Administrativo</option>
@@ -263,10 +262,10 @@ while ($curso = $resultado->fetch_assoc()) {
                     </select>
                     
                     <label>Nome da Formação</label>
-                    <input type="text" id="nomeCurso" name='nome_curso' placeholder="Ex: Inglês Básico para o Trabalho" required>
+                    <input type="text" id="nomeCurso" name="nome_curso" placeholder="Ex: Inglês Básico para o Trabalho" required>
                     
-                    <label>Carga Horária</label>
-                    <input type="text" id="cargaCurso" name="carga_horaria" placeholder="Ex: 80 horas" required>
+                    <label>Carga Horária (em horas)</label>
+                    <input type="text" id="cargaCurso" name="carga_horaria" placeholder="Ex: 80" required>
                     
                     <label>Possui Certificado?</label>
                     <select id="certificadoCurso" name="certificado">
@@ -284,13 +283,87 @@ while ($curso = $resultado->fetch_assoc()) {
                     <input type="url" id="linkCurso" name="url_curso" placeholder="https://..." required>
                     
                     <button type="submit" class="btn-publicar">
-                        Publicar Curso
+                        <i class="fa fa-check-circle"></i> Publicar Curso
                     </button>
-                    
                 </form>
                 <button onclick="fecharModalCadastro()" class="btn-fechar">
                     Cancelar
                 </button>
+            </div>
+        </div>
+
+        <!-- MODAL EDITAR FORMAÇÃO (NOVO E COMPLETO) -->
+        <div id="modalEditar" class="modal-overlay" style="display:none;">
+            <div class="modal-content modal-admin">
+                <img src="assets/img/Logo 3R .png" class="logo-modal" alt="Logo 3R">
+                <h2>
+                    <i class="fa fa-pencil-square-o"></i> Editar Formação
+                </h2>
+                <form id="formEditarCurso" class="form-admin" action="php/admin/editar_curso.php" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" id="edit_id_curso" name="id">
+                    
+                    <label>Alterar Capa (Deixe em branco para manter a imagem atual)</label>
+                    <input type="file" id="edit_imagemCurso" name="img_curso" accept="image/png, image/jpeg, image/webp">
+                    
+                    <label>Categoria da Formação</label>
+                    <select id="edit_categoriaCurso" name="area">
+                        <option value="tecnologia">Tecnologia</option>
+                        <option value="comercial">Comercial</option>
+                        <option value="administrativo">Administrativo</option>
+                        <option value="idiomas">Idiomas</option>
+                        <option value="negocios">Negócios</option>
+                        <option value="desenvolvimento">Desenvolvimento Pessoal</option>
+                        <option value="operacional">Operacional</option>
+                    </select>
+                    
+                    <label>Nome da Formação</label>
+                    <input type="text" id="edit_nomeCurso" name="nome_curso" placeholder="Ex: Inglês Básico para o Trabalho" required>
+                    
+                    <label>Carga Horária (em horas)</label>
+                    <input type="text" id="edit_cargaCurso" name="carga_horaria" placeholder="Ex: 80" required>
+                    
+                    <label>Possui Certificado?</label>
+                    <select id="edit_certificadoCurso" name="certificado">
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                    
+                    <label>Sobre a Formação</label>
+                    <textarea id="edit_descricaoCurso" name="descricao" placeholder="Digite a descrição da formação" required></textarea>
+                    
+                    <label>Conteúdo Programático</label>
+                    <textarea id="edit_conteudoCurso" name="conteudo_programatico" placeholder="Ex: Vocabulário profissional..." required></textarea>
+                    
+                    <label>Link da Formação</label>
+                    <input type="url" id="edit_linkCurso" name="url_curso" placeholder="https://..." required>
+                    
+                    <button type="submit" class="btn-publicar">
+                        <i class="fa fa-save"></i> Salvar Alterações
+                    </button>
+                </form>
+                <button onclick="fecharModalEditar()" class="btn-fechar">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+
+        <!-- MODAL CONFIRMAÇÃO DE EXCLUSÃO CUSTOMIZADO -->
+        <div id="modalExcluirCurso" class="modal-overlay" style="display:none;">
+            <div class="modal-content modal-confirm-delete">
+                <div class="modal-delete-icon">
+                    <i class="fa fa-exclamation-triangle"></i>
+                </div>
+                <h2>Excluir Formação?</h2>
+                <p>Você tem certeza que deseja excluir a formação <strong id="nomeCursoExcluir"></strong>?</p>
+                <p style="font-size:12px; color:#888; margin-top:4px;">Esta ação é permanente e não poderá ser desfeita.</p>
+                
+                <form id="formExcluirCurso" action="php/admin/excluir_curso.php" method="POST">
+                    <input type="hidden" name="id" id="idCursoExcluir">
+                    <div class="modal-delete-buttons">
+                        <button type="button" onclick="fecharModalExcluir()" class="btn-cancelar-delete">Cancelar</button>
+                        <button type="submit" class="btn-confirmar-delete">Sim, Excluir</button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -299,7 +372,7 @@ while ($curso = $resultado->fetch_assoc()) {
         <!-- Scripts JS -->
         <script src="assets/js/jquery-1.12.4.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/js/modernizr-2.8.3.min.js"></script>                                                                                                                 
+        <script src="assets/js/modernizr-2.8.3.min.js"></script>                                                                                                                                                                                                                                           
         <script src="assets/owlcarousel/js/owl.carousel.min.js"></script>                   
         <script src="assets/js/jquery.magnific-popup.min.js"></script>          
         <script src="assets/js/jquery.mixitup.js"></script>         
@@ -309,10 +382,40 @@ while ($curso = $resultado->fetch_assoc()) {
         <script src="assets/js/jquery.stellar.min.js"></script>         
         <script src="assets/js/wow.min.js"></script>    
         <script src="assets/js/form-contact.js"></script>               
-        <script src="assets/js/menu.js"></script>                                                                                                                                           
-        <script src="assets/js/jquery.sticky.js"></script>                                                                                                                                              
-        <script src="assets/js/scrolltopcontrol.js"></script>                                                                                                                       
+        <script src="assets/js/menu.js"></script>                                                                                                                                                                                                                                                                                           
+        <script src="assets/js/jquery.sticky.js"></script>                                                                                                                                                                                                                                                                                                                                   
+        <script src="assets/js/scrolltopcontrol.js"></script>                                                                                                                                                                                                                                               
         <script src="assets/js/scripts.js"></script>    
-        <script src="assets/js/modal-actions.js"></script>      
+        <script src="assets/js/modal-actions.js"></script> 
+
+        <script>
+            // FUNÇÕES PARA O MODAL DE EXCLUIR
+            function abrirModalExcluir(id, nome) {
+                document.getElementById('idCursoExcluir').value = id;
+                document.getElementById('nomeCursoExcluir').textContent = nome;
+                document.getElementById('modalExcluirCurso').style.display = 'flex';
+            }
+
+            function fecharModalExcluir() {
+                document.getElementById('modalExcluirCurso').style.display = 'none';
+            }
+
+            // FUNÇÕES PARA O MODAL DE EDITAR
+            function abrirModalEditar(id, nome, area, carga, certificado, descricao, conteudo, url) {
+                document.getElementById('edit_id_curso').value = id;
+                document.getElementById('edit_nomeCurso').value = nome;
+                document.getElementById('edit_categoriaCurso').value = area;
+                document.getElementById('edit_cargaCurso').value = carga;
+                document.getElementById('edit_certificadoCurso').value = certificado;
+                document.getElementById('edit_descricaoCurso').value = descricao;
+                document.getElementById('edit_conteudoCurso').value = conteudo;
+                document.getElementById('edit_linkCurso').value = url;
+                document.getElementById('modalEditar').style.display = 'flex';
+            }
+
+            function fecharModalEditar() {
+                document.getElementById('modalEditar').style.display = 'none';
+            }
+        </script>
     </body>
 </html>

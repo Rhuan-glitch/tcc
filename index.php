@@ -67,7 +67,6 @@ require_once __DIR__ . '/php/config/config.php';
                 <div class="carousel-item active">
                     <img src="assets/img/bg/Fundo.png" alt="slider-image" />
                     <div class="kenburns_061_slide" data-animation="animated fadeInRight">
-                        <h2>Uma Iniciativa IFPR Campus Pinhais</h2>
                         <h1>Uma nova chance para recomeçar com dignidade</h1>
                         <h3>A Plataforma 3R conecta egressos do sistema prisional a oportunidades reais de emprego...</h3>
                         <div class="hero-buttons-container">
@@ -256,17 +255,17 @@ require_once __DIR__ . '/php/config/config.php';
                             <div class="item-barra-premium">
                                 <div class="info-barra-premium">
                                     <span class="label-barra">Homens</span>
-                                    <span class="porcentagem-barra p-amarela">94%</span>
+                                    <span class="porcentagem-barra p-amarela">90%</span>
                                 </div>
                                 <div class="track-barra-premium">
-                                    <div class="fill-barra-premium bg-amarelo" data-percent="94" style="width: 94%;"></div>
+                                    <div class="fill-barra-premium bg-amarelo" data-percent="90" style="width: 90%;"></div>
                                 </div>
                             </div>
 
                             <!-- Barra 2 -->
                             <div class="item-barra-premium">
                                 <div class="info-barra-premium">
-                                    <span class="label-barra">Pessoas negras e com baixa escolaridade</span>
+                                    <span class="label-barra">Pessoas negras </span>
                                     <span class="porcentagem-barra p-laranja">69%</span>
                                 </div>
                                 <div class="track-barra-premium">
@@ -277,11 +276,21 @@ require_once __DIR__ . '/php/config/config.php';
                             <!-- Barra 3 -->
                             <div class="item-barra-premium">
                                 <div class="info-barra-premium">
-                                    <span class="label-barra">Jovens até 34 anos</span>
-                                    <span class="porcentagem-barra p-azul">60%</span>
+                                    <span class="label-barra">Não concluíram o ensino fundamental</span>
+                                    <span class="porcentagem-barra p-azul">55%</span>
                                 </div>
                                 <div class="track-barra-premium">
-                                    <div class="fill-barra-premium bg-azul" data-percent="60" style="width: 60%;"></div>
+                                    <div class="fill-barra-premium bg-azul" data-percent="55" style="width: 55%;"></div>
+                                </div>
+                            </div>
+
+                             <div class="item-barra-premium">
+                                <div class="info-barra-premium">
+                                    <span class="label-barra"> Pessoas com baixo nível de alfabetização ou analfabetas </span>
+                                    <span class="porcentagem-barra p-vermelho">52%</span>
+                                </div>
+                                <div class="track-barra-premium">
+                                    <div class="fill-barra-premium bg-vermelho" data-percent="52" style="width: 52%;"></div>
                                 </div>
                             </div>
 
