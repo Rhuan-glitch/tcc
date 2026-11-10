@@ -2,12 +2,36 @@
 
 require_once __DIR__ . "/config/config.php";
 
-// Função para exibir erro amigável e voltar para o login
+// Função para exibir erro amigável (estilizado) e voltar para o login
 function falharLogin($mensagem = "Usuário ou senha inválidos.") {
-    echo "<script>
-            alert(" . json_encode($mensagem) . ");
-            window.location.href = '../login.php';
-          </script>";
+    echo "<!DOCTYPE html>
+    <html lang='pt-BR'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title>Erro de Login</title>
+        <!-- Carrega o visual bonitinho da caixinha (SweetAlert2) -->
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <style>
+            body { background-color: #f4f6f9; font-family: sans-serif; }
+        </style>
+    </head>
+    <body>
+        <script>
+            // Dispara o alerta na tela
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops!',
+                text: " . json_encode($mensagem) . ",
+                confirmButtonColor: '#e74c3c',
+                confirmButtonText: 'Tentar novamente'
+            }).then((result) => {
+                // Quando o usuário clica no botão, volta para o login
+                window.location.href = '../login.php';
+            });
+        </script>
+    </body>
+    </html>";
     exit();
 }
 
@@ -21,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
 $login = trim($_POST["email"] ?? '');
 $senha = $_POST["senha"] ?? '';
 
-// Verifica se os campos foram preenchidos
+// Verifica se os campos foram preenchidos (AQUI ESTAVA O ERRO CORRIGIDO)
 if (empty($login) || empty($senha)) {
     falharLogin("Preencha todos os campos.");
 }
@@ -38,7 +62,7 @@ $resultado = $stmt->get_result();
 if ($resultado->num_rows == 1) {
     $admin = $resultado->fetch_assoc();
 
-    // CORRIGIDO: Passando a variável $senha
+    // Passando a variável $senha
     if (password_verify($senha, $admin["senha"])) {
 
         $_SESSION["usuario"] = $admin["usuario"];
@@ -61,7 +85,7 @@ $resultado = $stmt->get_result();
 if ($resultado->num_rows == 1) {
     $empresa = $resultado->fetch_assoc();
 
-    // CORRIGIDO: Usando $senha (em vez de $senhaHash)
+    // Usando $senha (em vez de $senhaHash)
     if (password_verify($senha, $empresa["senha"])) {
 
         $_SESSION["usuario"] = $empresa["email"];
@@ -85,7 +109,7 @@ $resultado = $stmt->get_result();
 if ($resultado->num_rows == 1) {
     $egresso = $resultado->fetch_assoc();
 
-    // CORRIGIDO: Usando $senha (em vez de $senhaHas)
+    // Usando $senha 
     if (password_verify($senha, $egresso["senha"])) {
 
         $_SESSION["usuario"] = $egresso["email"];
