@@ -245,7 +245,7 @@ require_once __DIR__ . '/php/config/config.php';
                             <span class="badge-dados">Dados Nacionais</span>
                             
                             <h2>Perfil da população privada de liberdade no Brasil</h2>
-                            <p>De acordo com o levantamento do Sisdepen de 2024, a população carcerária é composta majoritariamente por homens jovens, com baixa escolaridade e de cor preta ou parda.</p>
+                            <p>De acordo com o levantamento do Sisdepen de 2024, o perfil da população privada de liberdade no Brasil é composto majoritariamente por homens e pessoas negras. Os dados também evidenciam a baixa escolaridade desse grupo, destacando-se as pessoas que não concluíram o ensino fundamental, bem como aquelas com baixo nível de alfabetização ou analfabetas.</p>
                         </div>
 
                         <!-- Painel das Barras Modernas -->
