@@ -11,7 +11,7 @@
                             <ul>
                                 <li><a href="#" class="f_facebook"><i class="fa fa-facebook" title="Facebook"></i></a></li>
                                 <li><a href="#" class="f_youtube"><i class="fa fa-youtube" title="YouTube"></i></a></li>
-                                <li><a href="#" class="f_instagram"><i class="fa fa-instagram" title="Instagram"></i></a></li>
+                                <li><a href="https://www.instagram.com/pro_jeto3r?obrf=eGV1bjRnYjh2d2d6" class="f_instagram"><i class="fa fa-instagram" title="Instagram"></i></a></li>
                                 <li><a href="#" class="f_linkedin"><i class="fa fa-linkedin" title="LinkedIn"></i></a></li>
                             </ul>
                         </div>                          
