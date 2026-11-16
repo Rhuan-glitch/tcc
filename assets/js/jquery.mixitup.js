@@ -493,15 +493,7 @@
 			if(!self._mixing || (self.animation.queue && self._queue.length < self.animation.queueLimit)){
 				self._clicking = true;
 
-				if(type === 'sort'){
-					var sort = $button.attr('data-sort');
-
-					if(!$button.hasClass(self.controls.activeClass) || sort.indexOf('random') > -1){
-						$(self.selectors.sort).removeClass(self.controls.activeClass);
-						trackClick($button, type);
-						self.sort(sort);
-					}
-				}
+				
 
 				if(type === 'filter') {
 					var filter = $button.attr('data-filter'),
