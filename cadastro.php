@@ -58,7 +58,7 @@
                     <li class="nav-link"> <a href="index.php" class="nav-link">Home</a></li>   
                     <li><a class="nav-link" href="trabalhista.php">Trabalhista</a></li>                
                     <li><a class="nav-link" href="formacao.php">Formação</a></li>                                
-                    <li><a href="login.html" class="nav-link">Login</a></li>
+                    <li><a href="login.php" class="nav-link">Login</a></li>
                   </ul>   
                 </nav>
               </div>

@@ -124,7 +124,7 @@ if ($tipo === "egresso") {
     );
 
     if ($stmt->execute()) {
-        header("Location: ../login.html");
+        header("Location: ../login.php");
         exit();
     } else {
         redirecionarErro("Erro ao cadastrar egresso.");
@@ -195,7 +195,7 @@ else if ($tipo === "empresa") {
     );
 
     if ($stmt->execute()) {
-        header("Location: ../login.html");
+        header("Location: ../login.php");
         exit();
     } else {
         redirecionarErro("Erro ao cadastrar empresa.");
