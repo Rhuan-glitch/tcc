@@ -283,7 +283,6 @@ $resultado = $conn->query($sql);
                         <textarea class="form-control" id="formBeneficios" name='beneficios' rows="2" required placeholder="Ex: Vale transporte, VR"></textarea>
                     </div>
                     <button type="submit" class="btn-candidatar" id="btnSalvarVaga"><i class="fa fa-check-circle"></i> Publicar Vaga</button>
-                    <a href="php/empresa/listar_vagas.php" class="btn btn-block text-center mt-2" style="font-size: 13px; font-weight: 600; color: #666;">Gerenciar vagas existentes</a>
                     <button type="button" onclick="fecharModalPublicar()" class="btn-fechar-dark">Cancelar</button>
                 </form>
             </div>
